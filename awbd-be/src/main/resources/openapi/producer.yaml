@@ -88,11 +88,11 @@ paths:
               summary: Exact match used for filtering by Address.
       responses:
         '200':
-          description: Page of Providers successfully fetched.
+          description: Page of Producers successfully fetched.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProvidersPage'
+                $ref: '#/components/schemas/ProducersPage'
         '400':
           description: Requests parameters are invalid.
           content:
@@ -107,29 +107,29 @@ paths:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
 components:
   schemas:
-    ProvidersPage:
+    ProducersPage:
       type: object
       properties:
         pagination:
           $ref: 'common.yaml#/components/schemas/Pagination'
         items:
           type: array
-          description: List of fetched Providers.
+          description: List of fetched Producers.
           items:
-            $ref: '#/components/schemas/ProviderPageElementDetails'
-    ProviderPageElementDetails:
+            $ref: '#/components/schemas/ProducerPageElementDetails'
+    ProducerPageElementDetails:
       type: object
       properties:
         id:
-          description: ID of the Provider.
+          description: ID of the Producer.
           type: integer
           format: int64
           example: 120
         name:
-          description: Name of the Provider.
+          description: Name of the Producer.
           type: string
           example: Good Farm
         address:
-          description: Address of the Provider.
+          description: Address of the Producer.
           type: string
           example: Str. Street Nr. 1
