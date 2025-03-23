@@ -1,0 +1,47 @@
+components:
+  schemas:
+    Pagination:
+      type: object
+      description: Pagination related information.
+      properties:
+        page:
+          description: Page number.
+          type: integer
+          format: int64
+          example: 3
+        pageSize:
+          description: Maximum items per page.
+          type: integer
+          format: int32
+          example: 20
+        itemsTotal:
+          description: Total number of items.
+          type: integer
+          format: int64
+          example: 200
+        sort:
+          description: |-
+            Specifies column by which result set is sorter. Value of the attribute is prefixed by "-"
+            for descending order or with "+" for ascending order.
+          type: string
+          example: +name
+        pagesTotal:
+          description: Total number of pages.
+          type: integer
+          format: int64
+          example: 10
+        hasNextPage:
+          description: Indicated whether next page of items exists.
+          type: boolean
+          example: true
+    GenericApplicationError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 400
+        detail:
+          type: string
+          description: Detailed description of error.
+          example: An example of details of an error.

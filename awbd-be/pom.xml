@@ -38,6 +38,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
@@ -71,6 +83,37 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.6.0</version>
+				<executions>
+					<execution>
+						<id>Producer's OpenAPI generation</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/openapi/producer.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<modelNameSuffix>Dto</modelNameSuffix>
+							<configOptions>
+								<useResponseEntity>false</useResponseEntity>
+								<interfaceOnly>true</interfaceOnly>
+								<java8>true</java8>
+								<dateLibrary>java8</dateLibrary>
+								<useTags>true</useTags>
+								<useOptional>false</useOptional>
+								<unhandledException>true</unhandledException>
+								<invokerPackage>ro.unibuc.fmi.awbd.controller</invokerPackage>
+								<apiPackage>ro.unibuc.fmi.awbd.controller.api</apiPackage>
+								<modelPackage>ro.unibuc.fmi.awbd.controller.models</modelPackage>
+								<useSpringBoot3>true</useSpringBoot3>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

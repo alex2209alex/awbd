@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Producer management
+  description: |-
+    API related to management of producers.
+paths:
+  /producers:
+    get:
+      tags:
+        - Producer
+      summary: Get page of Producers.
+      operationId: getProducersPage
+      description: |-
+        Returns a page of Producers according to filtering and sorting criteria.
+        Only Restaurant Administrator can search for Producers.
+      parameters:
+        # sorting
+        - name: sort
+          schema:
+            type: string
+            default: +name
+            maxLength: 50
+          required: false
+          in: query
+          description: |-
+            Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
+            or with "+" for ascending order. Possible values for parameter are:
+            name, address. Default is ascending order.
+          examples:
+            asc_name:
+              value: +name
+              summary: Sorts by name in ascending order.
+            desc_address:
+              value: -address
+              summary: Sorts by address in descending order.
+        # pagination
+        - name: limit
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+          required: false
+          example: 25
+          in: query
+          description: |-
+            Specifies maximum number of items returned - the size of page of producers. Maximum value is 50.
+            Values higher than 50 wil be automatically truncated to 50.
+        - name: offset
+          schema:
+            type: integer
+            format: int64
+            default: 1
+            minimum: 1
+          required: false
+          example: 3
+          in: query
+          description: Specifies a page number.
+        # filtering
+        - name: name
+          schema:
+            type: string
+            maxLength: 50
+          required: false
+          description: Provides case-insensitive fulltext search by Name.
+          in: query
+          examples:
+            partial_substring:
+              value: goo
+              summary: Substring used for filtering by Name.
+            full_string:
+              value: good farm
+              summary: Exact match used for filtering by Name.
+        - name: address
+          schema:
+            type: string
+            maxLength: 100
+          required: false
+          description: Provides case-insensitive fulltext search by Address.
+          in: query
+          examples:
+            partial_substring:
+              value: Str. St
+              summary: Substring used for filtering by Address.
+            full_string:
+              value: Str. Street Nr.1
+              summary: Exact match used for filtering by Address.
+      responses:
+        '200':
+          description: Page of Providers successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvidersPage'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+components:
+  schemas:
+    ProvidersPage:
+      type: object
+      properties:
+        pagination:
+          $ref: 'common.yaml#/components/schemas/Pagination'
+        items:
+          type: array
+          description: List of fetched Providers.
+          items:
+            $ref: '#/components/schemas/ProviderPageElementDetails'
+    ProviderPageElementDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Provider.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Provider.
+          type: string
+          example: Good Farm
+        address:
+          description: Address of the Provider.
+          type: string
+          example: Str. Street Nr. 1
