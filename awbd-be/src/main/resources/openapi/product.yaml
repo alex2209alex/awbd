@@ -1,0 +1,424 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Product management
+  description: |-
+    API related to management of Products.
+paths:
+  /products:
+    get:
+      tags:
+        - Product
+      summary: Get page of Products.
+      operationId: getProductsPage
+      description: |-
+        Returns a page of Products according to filtering and sorting criteria.
+        Only Restaurant Administrator and Clients can search for Products.
+      parameters:
+        # sorting
+        - name: sort
+          schema:
+            type: string
+            default: +name
+            maxLength: 50
+          required: false
+          in: query
+          description: |-
+            Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
+            or with "+" for ascending order. Possible values for parameter are:
+            name, price, description. Default is ascending order.
+          examples:
+            asc_name:
+              value: +name
+              summary: Sorts by name in ascending order.
+            desc_address:
+              value: -price
+              summary: Sorts by price in descending order.
+        # pagination
+        - name: limit
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+          required: false
+          example: 25
+          in: query
+          description: |-
+            Specifies maximum number of items returned - the size of page of Products. Maximum value is 50.
+            Values higher than 50 wil be automatically truncated to 50.
+        - name: offset
+          schema:
+            type: integer
+            format: int64
+            default: 1
+            minimum: 1
+          required: false
+          example: 3
+          in: query
+          description: Specifies a page number.
+        # filtering
+        - name: name
+          schema:
+            type: string
+            maxLength: 50
+          required: false
+          description: Provides case-insensitive fulltext search by Name.
+          in: query
+          examples:
+            partial_substring:
+              value: fre
+              summary: Substring used for filtering by Name.
+            full_string:
+              value: french fries
+              summary: Exact match used for filtering by Name.
+        - name: description
+          schema:
+            type: string
+            maxLength: 100
+          required: false
+          description: Provides case-insensitive fulltext search by description.
+          in: query
+          examples:
+            partial_substring:
+              value: fre
+              summary: Substring used for filtering by description.
+            full_string:
+              value: french fries with salt
+              summary: Exact match used for filtering by description.
+      responses:
+        '200':
+          description: Page of Products successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductsPage'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin or Client.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    post:
+      tags:
+        - Product
+      summary: Creates a Product.
+      operationId: createProduct
+      description: |-
+        Creates a Product.
+        Only Restaurant Administrator create a Product.
+      requestBody:
+        description: Request body contains information related to new Product.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreation'
+      responses:
+        '201':
+          description: Product successfully created.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /products/{productId}:
+    get:
+      tags:
+        - Product
+      summary: Get Product by Id.
+      operationId: getProduct
+      description: |-
+        Returns details of a Product.
+        Only Restaurant Administrator and Clients can get details of a Product.
+      parameters:
+        - name: productId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of searched Product.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Product details successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetails'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin or Client.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Product not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    put:
+      tags:
+        - Product
+      summary: Updates a Product.
+      operationId: updateProduct
+      description: |-
+        Updates a Product.
+        Only Restaurant Administrator can update a Product.
+      parameters:
+        - name: productId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of updated Product.
+          in: path
+          example: 100
+      requestBody:
+        description: Request body contains information related to updated Product.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdate'
+      responses:
+        '200':
+          description: Product successfully updated.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Product not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    delete:
+      tags:
+        - Product
+      summary: Deletes a Product.
+      operationId: deleteProduct
+      description: |-
+        Deletes an Product.
+        Only Restaurant Administrator can delete a Product.
+      parameters:
+        - name: productId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of deleted Product.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Product successfully deleted.
+        '403':
+          description: User is not Restaurant Admin or Product has dependencies.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Product not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+components:
+  schemas:
+    ProductsPage:
+      type: object
+      properties:
+        pagination:
+          $ref: 'common.yaml#/components/schemas/Pagination'
+        items:
+          type: array
+          description: List of fetched Products.
+          items:
+            $ref: '#/components/schemas/ProductPageElementDetails'
+    ProductPageElementDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Product.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Product.
+          type: string
+          example: Salmon
+        price:
+          description: Price of the Product.
+          type: number
+          format: double
+          example: 3.99
+        description:
+          description: Description of the Product.
+          type: string
+          example: French fries with salt
+        calories:
+          description: Calories of the Product.
+          type: number
+          format: double
+          example: 1000
+    ProductCreation:
+      type: object
+      required:
+        - name
+        - price
+        - description
+        - ingredients
+      properties:
+        name:
+          description: Name of the Product.
+          type: string
+          example: French fries
+        price:
+          description: Price of the Product.
+          type: number
+          format: double
+          example: 10
+        description:
+          description: Description of the Product.
+          type: string
+          example: French fries with salt
+        ingredients:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ProductIngredientCreation'
+    ProductIngredientCreation:
+      type: object
+      required:
+        - id
+        - quantity
+      properties:
+        id:
+          description: Id of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+        quantity:
+          description: Quantity of the Ingredient in grams.
+          type: number
+          format: double
+          example: 10
+    ProductDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Product.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Product.
+          type: string
+          example: French fries
+        price:
+          description: Price of the Product.
+          type: number
+          format: double
+          example: 10
+        description:
+          description: Description of the Product.
+          type: string
+          example: French fries with salt
+        calories:
+          description: Calories of the Product.
+          type: number
+          format: double
+          example: 1000
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductIngredientDetails'
+    ProductIngredientDetails:
+      type: object
+      properties:
+        id:
+          description: Id of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Ingredient.
+          type: string
+          example: Salmon
+        quantity:
+          description: Quantity of the Ingredient in grams.
+          type: number
+          format: double
+          example: 10
+    ProductUpdate:
+      type: object
+      required:
+        - name
+        - price
+        - description
+        - ingredients
+      properties:
+        name:
+          description: Name of the Product.
+          type: string
+          example: French fries
+        price:
+          description: Price of the Product.
+          type: number
+          format: double
+          example: 10
+        description:
+          description: Description of the Product.
+          type: string
+          example: French fries with salt
+        ingredients:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ProductIngredientUpdate'
+    ProductIngredientUpdate:
+      type: object
+      required:
+        - id
+        - quantity
+      properties:
+        id:
+          description: Id of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+        quantity:
+          description: Quantity of the Ingredient in grams.
+          type: number
+          format: double
+          example: 10
