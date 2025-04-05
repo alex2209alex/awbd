@@ -26,7 +26,7 @@ paths:
           description: |-
             Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
             or with "+" for ascending order. Possible values for parameter are:
-            name, price, calories, producer. Default is ascending order.
+            name, price, calories and producer. Default is ascending order.
           examples:
             asc_name:
               value: +name

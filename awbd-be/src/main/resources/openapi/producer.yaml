@@ -26,7 +26,7 @@ paths:
           description: |-
             Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
             or with "+" for ascending order. Possible values for parameter are:
-            name, address. Default is ascending order.
+            name and address. Default is ascending order.
           examples:
             asc_name:
               value: +name
