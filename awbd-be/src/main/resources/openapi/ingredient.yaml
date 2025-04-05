@@ -30,10 +30,10 @@ paths:
           examples:
             asc_name:
               value: +name
-              summary: Sorts by name in ascending order.
+              summary: Sorts by Name in ascending order.
             desc_address:
               value: -price
-              summary: Sorts by price in descending order.
+              summary: Sorts by Price in descending order.
         # pagination
         - name: limit
           schema:
@@ -134,6 +134,12 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Producer not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
   /ingredients/{ingredientId}:
     get:
       tags:
@@ -216,7 +222,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Ingredient not found.
+          description: Ingredient or Producer not found.
           content:
             application/json:
               schema:

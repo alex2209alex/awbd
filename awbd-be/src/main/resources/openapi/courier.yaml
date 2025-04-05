@@ -30,10 +30,10 @@ paths:
           examples:
             asc_name:
               value: +name
-              summary: Sorts by name in ascending order.
+              summary: Sorts by Name in ascending order.
             desc_address:
               value: -phone_number
-              summary: Sorts by phone number in descending order.
+              summary: Sorts by Phone Number in descending order.
         # pagination
         - name: limit
           schema:

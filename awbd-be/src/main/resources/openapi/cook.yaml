@@ -1,19 +1,19 @@
 openapi: 3.0.3
 info:
   version: 1.0.0
-  title: Producer management
+  title: Cook management
   description: |-
-    API related to management of Producers.
+    API related to management of Cooks.
 paths:
-  /producers:
+  /cooks:
     get:
       tags:
-        - Producer
-      summary: Get page of Producers.
-      operationId: getProducersPage
+        - Cook
+      summary: Get page of Cooks.
+      operationId: getCooksPage
       description: |-
-        Returns a page of Producers according to filtering and sorting criteria.
-        Only Restaurant Administrator can search for Producers.
+        Returns a page of Cooks according to filtering and sorting criteria.
+        Only Restaurant Administrator can search for Cooks.
       parameters:
         # sorting
         - name: sort
@@ -26,14 +26,14 @@ paths:
           description: |-
             Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
             or with "+" for ascending order. Possible values for parameter are:
-            name and address. Default is ascending order.
+            name and salary. Default is ascending order.
           examples:
             asc_name:
               value: +name
               summary: Sorts by Name in ascending order.
             desc_address:
-              value: -address
-              summary: Sorts by Address in descending order.
+              value: -salary
+              summary: Sorts by Salary in descending order.
         # pagination
         - name: limit
           schema:
@@ -45,7 +45,7 @@ paths:
           example: 25
           in: query
           description: |-
-            Specifies maximum number of items returned - the size of page of Producers. Maximum value is 50.
+            Specifies maximum number of items returned - the size of page of Cooks. Maximum value is 50.
             Values higher than 50 wil be automatically truncated to 50.
         - name: offset
           schema:
@@ -67,32 +67,18 @@ paths:
           in: query
           examples:
             partial_substring:
-              value: goo
+              value: jo
               summary: Substring used for filtering by Name.
             full_string:
-              value: good farm
+              value: John doe
               summary: Exact match used for filtering by Name.
-        - name: address
-          schema:
-            type: string
-            maxLength: 100
-          required: false
-          description: Provides case-insensitive fulltext search by Address.
-          in: query
-          examples:
-            partial_substring:
-              value: Str. St
-              summary: Substring used for filtering by Address.
-            full_string:
-              value: Str. Street Nr.1
-              summary: Exact match used for filtering by Address.
       responses:
         '200':
-          description: Page of Producers successfully fetched.
+          description: Page of Cooks successfully fetched.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProducersPage'
+                $ref: '#/components/schemas/CooksPage'
         '400':
           description: Requests parameters are invalid.
           content:
@@ -107,21 +93,21 @@ paths:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
     post:
       tags:
-        - Producer
-      summary: Creates a Producer.
-      operationId: createProducer
+        - Cook
+      summary: Creates a Cook.
+      operationId: createCook
       description: |-
-        Creates a Producer.
-        Only Restaurant Administrator can create a Producer.
+        Creates a Cook.
+        Only Restaurant Administrator can create a Cook.
       requestBody:
-        description: Request body contains information related to new Producer.
+        description: Request body contains information related to new Cook.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProducerCreation'
+              $ref: '#/components/schemas/CookCreation'
       responses:
         '201':
-          description: Producer successfully created.
+          description: Cook successfully created.
         '400':
           description: Requests body is invalid.
           content:
@@ -134,31 +120,37 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
-  /producers/{producerId}:
+        '404':
+          description: Product not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /cooks/{cookId}:
     get:
       tags:
-        - Producer
-      summary: Get Producer by Id.
-      operationId: getProducer
+        - Cook
+      summary: Get Cook by Id.
+      operationId: getCook
       description: |-
-        Returns details of a Producer.
-        Only Restaurant Administrator can get details of a Producer.
+        Returns details of a Cook.
+        Only Restaurant Administrator can get details of a Cook.
       parameters:
-        - name: producerId
+        - name: cookId
           schema:
             type: integer
             format: int64
           required: true
-          description: Id of searched Producer.
+          description: Id of searched Cook.
           in: path
           example: 100
       responses:
         '200':
-          description: Producer details successfully fetched.
+          description: Cook details successfully fetched.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProducerDetails'
+                $ref: '#/components/schemas/CookDetails'
         '400':
           description: Requests parameters are invalid.
           content:
@@ -172,37 +164,37 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Producer not found.
+          description: Cook not found.
           content:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
     put:
       tags:
-        - Producer
-      summary: Updates a Producer.
-      operationId: updateProducer
+        - Cook
+      summary: Updates a Cook.
+      operationId: updateCook
       description: |-
-        Updates a Producer.
-        Only Restaurant Administrator can update a Producer.
+        Updates a Cook.
+        Only Restaurant Administrator can update a Cook.
       parameters:
-        - name: producerId
+        - name: cookId
           schema:
             type: integer
             format: int64
           required: true
-          description: Id of updated Producer.
+          description: Id of updated Cook.
           in: path
           example: 100
       requestBody:
-        description: Request body contains information related to updated Producer.
+        description: Request body contains information related to updated Cook.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProducerUpdate'
+              $ref: '#/components/schemas/CookUpdate'
       responses:
         '200':
-          description: Producer successfully updated.
+          description: Cook successfully updated.
         '400':
           description: Requests body is invalid.
           content:
@@ -216,112 +208,162 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Producer not found.
+          description: Cook or Product not found.
           content:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
     delete:
       tags:
-        - Producer
-      summary: Deletes a Producer.
-      operationId: deleteProducer
+        - Cook
+      summary: Deletes a Cook.
+      operationId: deleteCook
       description: |-
-        Deletes a Producer.
-        Only Restaurant Administrator can delete a Producer.
+        Deletes a Cook.
+        Only Restaurant Administrator can delete a Cook.
       parameters:
-        - name: producerId
+        - name: cookId
           schema:
             type: integer
             format: int64
           required: true
-          description: Id of deleted Producer.
+          description: Id of deleted Cook.
           in: path
           example: 100
       responses:
         '200':
-          description: Producer successfully deleted.
+          description: Cook successfully deleted.
         '403':
-          description: User is not Restaurant Admin or Producer has dependencies.
+          description: User is not Restaurant Admin or Cook has dependencies.
           content:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Producer not found.
+          description: Cook not found.
           content:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
 components:
   schemas:
-    ProducersPage:
+    CooksPage:
       type: object
       properties:
         pagination:
           $ref: 'common.yaml#/components/schemas/Pagination'
         items:
           type: array
-          description: List of fetched Producers.
+          description: List of fetched Cooks.
           items:
-            $ref: '#/components/schemas/ProducerPageElementDetails'
-    ProducerPageElementDetails:
+            $ref: '#/components/schemas/CookPageElementDetails'
+    CookPageElementDetails:
       type: object
       properties:
         id:
-          description: ID of the Producer.
+          description: ID of the Cook.
           type: integer
           format: int64
           example: 120
         name:
-          description: Name of the Producer.
+          description: Name of the Cook.
           type: string
           example: Good Farm
-        address:
-          description: Address of the Producer.
-          type: string
-          example: Str. Street Nr. 1
-    ProducerCreation:
+        salary:
+          description: Salary of the Cook.
+          type: number
+          format: double
+          example: 2000
+    CookCreation:
       type: object
       required:
         - name
-        - address
+        - salary
+        - products
       properties:
         name:
-          description: Name of the Producer.
+          description: Name of the Cook.
           type: string
           example: Good Farm
-        address:
-          description: Address of the Producer.
-          type: string
-          example: Str. Street Nr. 1
-    ProducerDetails:
+        salary:
+          description: Salary of the Cook.
+          type: number
+          format: double
+          example: 2000
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CookProductCreation'
+    CookProductCreation:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Id of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+    CookDetails:
       type: object
       properties:
         id:
-          description: ID of the Producer.
+          description: ID of the Cook.
           type: integer
           format: int64
           example: 120
         name:
-          description: Name of the Producer.
+          description: Name of the Cook.
           type: string
           example: Good Farm
-        address:
-          description: Address of the Producer.
+        salary:
+          description: Salary of the Cook.
+          type: number
+          format: double
+          example: 2000
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CookProductDetails'
+    CookProductDetails:
+      type: object
+      properties:
+        id:
+          description: Id of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Product.
           type: string
-          example: Str. Street Nr. 1
-    ProducerUpdate:
+          example: French fries
+    CookUpdate:
       type: object
       required:
         - name
-        - address
+        - salary
+        - products
       properties:
         name:
-          description: Name of the Producer.
+          description: Name of the Cook.
           type: string
           example: Good Farm
-        address:
-          description: Address of the Producer.
-          type: string
-          example: Str. Street Nr. 1
+        salary:
+          description: Salary of the Cook.
+          type: number
+          format: double
+          example: 2000
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CookProductCreation'
+    CookProductUpdate:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Id of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
