@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Producer management
   description: |-
-    API related to management of producers.
+    API related to management of Producers.
 paths:
   /producers:
     get:
@@ -113,7 +113,7 @@ paths:
       description: |-
         Creates a Producer.
       requestBody:
-        description: Request bode contains information related to new Producer.
+        description: Request body contains information related to new Producer.
         content:
           application/json:
             schema:
@@ -192,7 +192,7 @@ paths:
           in: path
           example: 100
       requestBody:
-        description: Request bode contains information related to updated Producer.
+        description: Request body contains information related to updated Producer.
         content:
           application/json:
             schema:

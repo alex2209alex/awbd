@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Ingredient management
   description: |-
-    API related to management of ingredients.
+    API related to management of Ingredients.
 paths:
   /ingredients:
     get:
@@ -75,7 +75,7 @@ paths:
         - name: producer
           schema:
             type: string
-            maxLength: 100
+            maxLength: 50
           required: false
           description: Provides case-insensitive fulltext search by Producer.
           in: query
@@ -113,7 +113,7 @@ paths:
       description: |-
         Creates an Ingredient.
       requestBody:
-        description: Request bode contains information related to new Ingredient.
+        description: Request body contains information related to new Ingredient.
         content:
           application/json:
             schema:
@@ -192,7 +192,7 @@ paths:
           in: path
           example: 100
       requestBody:
-        description: Request bode contains information related to updated Ingredient.
+        description: Request body contains information related to updated Ingredient.
         content:
           application/json:
             schema:
