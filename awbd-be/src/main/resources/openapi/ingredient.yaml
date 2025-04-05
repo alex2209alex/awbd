@@ -112,6 +112,7 @@ paths:
       operationId: createIngredient
       description: |-
         Creates an Ingredient.
+        Only Restaurant Administrator can create an Ingredient.
       requestBody:
         description: Request body contains information related to new Ingredient.
         content:
@@ -141,6 +142,7 @@ paths:
       operationId: getIngredient
       description: |-
         Returns details of an Ingredient.
+        Only Restaurant Administrator can get details of an Ingredient.
       parameters:
         - name: ingredientId
           schema:
@@ -182,6 +184,7 @@ paths:
       operationId: updateIngredient
       description: |-
         Updates an Ingredient.
+        Only Restaurant Administrator can update an Ingredient.
       parameters:
         - name: ingredientId
           schema:
@@ -225,6 +228,7 @@ paths:
       operationId: deleteIngredient
       description: |-
         Deletes an Ingredient.
+        Only Restaurant Administrator can delete an Ingredient.
       parameters:
         - name: ingredientId
           schema:
