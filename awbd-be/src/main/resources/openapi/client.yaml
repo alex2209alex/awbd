@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Client management
+  description: |-
+    API related to management of Clients.
+paths:
+  /clients:
+    post:
+      tags:
+        - Client
+      summary: Creates a Client.
+      operationId: createClient
+      description: |-
+        Creates a Client.
+      requestBody:
+        description: Request body contains information related to new Client.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCreation'
+      responses:
+        '201':
+          description: Client successfully created.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /clients/{clientId}:
+    get:
+      tags:
+        - Client
+      summary: Get Client by Id.
+      operationId: getClient
+      description: |-
+        Returns details of a Client.
+        Only Restaurant Administrator and Client can get details of a Client.
+      parameters:
+        - name: clientId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of searched Client.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Client details successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDetails'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin or Client.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Client not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    put:
+      tags:
+        - Client
+      summary: Updates a Client.
+      operationId: updateClient
+      description: |-
+        Updates a Client.
+        Only Client can update a Client.
+      parameters:
+        - name: clientId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of updated Client.
+          in: path
+          example: 100
+      requestBody:
+        description: Request body contains information related to updated Client.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientUpdate'
+      responses:
+        '200':
+          description: Client successfully updated.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Client or Product not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+components:
+  schemas:
+    ClientCreation:
+      type: object
+      required:
+        - name
+        - phoneNumber
+      properties:
+        name:
+          description: Name of the Client.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Client.
+          type: string
+          example: 0730123456
+    ClientDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Client.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Client.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Client.
+          type: string
+          example: 0730123456
+    ClientUpdate:
+      type: object
+      required:
+        - name
+        - phoneNumber
+      properties:
+        name:
+          description: Name of the Client.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Client.
+          type: string
+          example: 0730123456
