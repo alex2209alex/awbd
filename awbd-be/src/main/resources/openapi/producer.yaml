@@ -235,7 +235,7 @@ paths:
             type: integer
             format: int64
           required: true
-          description: Id of updated Producer.
+          description: Id of deleted Producer.
           in: path
           example: 100
       responses:
