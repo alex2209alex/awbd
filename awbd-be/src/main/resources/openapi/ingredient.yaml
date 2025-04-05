@@ -235,7 +235,7 @@ paths:
             type: integer
             format: int64
           required: true
-          description: Id of deleted Ingredient.
+          description: Id of updated Ingredient.
           in: path
           example: 100
       responses:
