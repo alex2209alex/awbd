@@ -1,0 +1,349 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Courier management
+  description: |-
+    API related to management of Couriers.
+paths:
+  /curiers:
+    get:
+      tags:
+        - Courier
+      summary: Get page of Couriers.
+      operationId: getCouriersPage
+      description: |-
+        Returns a page of Couriers according to filtering and sorting criteria.
+        Only Restaurant Administrator can search for Couriers.
+      parameters:
+        # sorting
+        - name: sort
+          schema:
+            type: string
+            default: +name
+            maxLength: 50
+          required: false
+          in: query
+          description: |-
+            Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
+            or with "+" for ascending order. Possible values for parameter are:
+            name, phone_number and salary. Default is ascending order.
+          examples:
+            asc_name:
+              value: +name
+              summary: Sorts by name in ascending order.
+            desc_address:
+              value: -phone_number
+              summary: Sorts by phone number in descending order.
+        # pagination
+        - name: limit
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+          required: false
+          example: 25
+          in: query
+          description: |-
+            Specifies maximum number of items returned - the size of page of Couriers. Maximum value is 50.
+            Values higher than 50 wil be automatically truncated to 50.
+        - name: offset
+          schema:
+            type: integer
+            format: int64
+            default: 1
+            minimum: 1
+          required: false
+          example: 3
+          in: query
+          description: Specifies a page number.
+        # filtering
+        - name: name
+          schema:
+            type: string
+            maxLength: 50
+          required: false
+          description: Provides case-insensitive fulltext search by Name.
+          in: query
+          examples:
+            partial_substring:
+              value: jo
+              summary: Substring used for filtering by Name.
+            full_string:
+              value: John doe
+              summary: Exact match used for filtering by Name.
+        - name: phone_number
+          schema:
+            type: string
+            maxLength: 100
+          required: false
+          description: Provides case-insensitive fulltext search by Phone Number.
+          in: query
+          examples:
+            partial_substring:
+              value: 073
+              summary: Substring used for filtering by Phone Number.
+            full_string:
+              value: 0730123456
+              summary: Exact match used for filtering by Phone Number.
+      responses:
+        '200':
+          description: Page of Couriers successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouriersPage'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    post:
+      tags:
+        - Courier
+      summary: Creates a Courier.
+      operationId: createCourier
+      description: |-
+        Creates a Courier.
+        Only Restaurant Administrator can create a Courier.
+      requestBody:
+        description: Request body contains information related to new Courier.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourierCreation'
+      responses:
+        '201':
+          description: Courier successfully created.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /couriers/{courierId}:
+    get:
+      tags:
+        - Courier
+      summary: Get Courier by Id.
+      operationId: getCourier
+      description: |-
+        Returns details of a Courier.
+        Only Restaurant Administrator can get details of a Courier.
+      parameters:
+        - name: courierId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of searched Courier.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Courier details successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourierDetails'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Courier not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    put:
+      tags:
+        - Courier
+      summary: Updates a Courier.
+      operationId: updateCourier
+      description: |-
+        Updates a Courier.
+        Only Restaurant Administrator can update a Courier.
+      parameters:
+        - name: courierId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of updated Courier.
+          in: path
+          example: 100
+      requestBody:
+        description: Request body contains information related to updated Courier.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourierUpdate'
+      responses:
+        '200':
+          description: Courier successfully updated.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Courier not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    delete:
+      tags:
+        - Courier
+      summary: Deletes a Courier.
+      operationId: deleteCourier
+      description: |-
+        Deletes a Courier.
+        Only Restaurant Administrator can delete a Courier.
+      parameters:
+        - name: courierId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of deleted Courier.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Courier successfully deleted.
+        '403':
+          description: User is not Restaurant Admin or Courier has dependencies.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Courier not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+components:
+  schemas:
+    CouriersPage:
+      type: object
+      properties:
+        pagination:
+          $ref: 'common.yaml#/components/schemas/Pagination'
+        items:
+          type: array
+          description: List of fetched Couriers.
+          items:
+            $ref: '#/components/schemas/CourierPageElementDetails'
+    CourierPageElementDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Courier.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Courier.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Courier.
+          type: string
+          example: 0730123456
+        salary:
+          description: Salary of the Courier.
+          type: number
+          format: double
+          example: 2000
+    CourierCreation:
+      type: object
+      required:
+        - name
+        - phoneNumber
+        - salary
+      properties:
+        name:
+          description: Name of the Courier.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Courier.
+          type: string
+          example: 0730123456
+        salary:
+          description: Salary of the Courier.
+          type: number
+          format: double
+          example: 2000
+    CourierDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Courier.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Courier.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Courier.
+          type: string
+          example: 0730123456
+        salary:
+          description: Salary of the Courier.
+          type: number
+          format: double
+          example: 2000
+    CourierUpdate:
+      type: object
+      required:
+        - name
+        - phoneNumber
+        - salary
+      properties:
+        name:
+          description: Name of the Courier.
+          type: string
+          example: Good Farm
+        phoneNumber:
+          description: Phone Number of the Courier.
+          type: string
+          example: 0730123456
+        salary:
+          description: Salary of the Courier.
+          type: number
+          format: double
+          example: 2000
