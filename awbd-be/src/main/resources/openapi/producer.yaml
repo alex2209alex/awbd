@@ -105,6 +105,150 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    post:
+      tags:
+        - Producer
+      summary: Creates a Producer.
+      operationId: createProducer
+      description: |-
+        Creates a producer.
+      requestBody:
+        description: Request bode contains information related to new Producer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProducerCreation'
+      responses:
+        '201':
+          description: Producer successfully created.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /producers/{producerId}:
+    get:
+      tags:
+        - Producer
+      summary: Get Producer by Id.
+      operationId: getProducer
+      description: |-
+        Returns details of a Producer.
+      parameters:
+        - name: producerId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of searched Producer.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Producer details successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProducerDetails'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Producer not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    put:
+      tags:
+        - Producer
+      summary: Updates a Producer.
+      operationId: updateProducer
+      description: |-
+        Updates a producer.
+      parameters:
+        - name: producerId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of updated Producer.
+          in: path
+          example: 100
+      requestBody:
+        description: Request bode contains information related to updated Producer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProducerUpdate'
+      responses:
+        '200':
+          description: Producer successfully updated.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Producer not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    delete:
+      tags:
+        - Producer
+      summary: Deletes a Producer.
+      operationId: deleteProducer
+      description: |-
+        Deletes a producer.
+      parameters:
+        - name: producerId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of updated Producer.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Producer successfully deleted.
+        '403':
+          description: User is not Restaurant Admin or Producer has dependencies.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Producer not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
 components:
   schemas:
     ProducersPage:
@@ -125,6 +269,50 @@ components:
           type: integer
           format: int64
           example: 120
+        name:
+          description: Name of the Producer.
+          type: string
+          example: Good Farm
+        address:
+          description: Address of the Producer.
+          type: string
+          example: Str. Street Nr. 1
+    ProducerCreation:
+      type: object
+      required:
+        - name
+        - address
+      properties:
+        name:
+          description: Name of the Producer.
+          type: string
+          example: Good Farm
+        address:
+          description: Address of the Producer.
+          type: string
+          example: Str. Street Nr. 1
+    ProducerDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Producer.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Producer.
+          type: string
+          example: Good Farm
+        address:
+          description: Address of the Producer.
+          type: string
+          example: Str. Street Nr. 1
+    ProducerUpdate:
+      type: object
+      required:
+        - name
+        - address
+      properties:
         name:
           description: Name of the Producer.
           type: string
