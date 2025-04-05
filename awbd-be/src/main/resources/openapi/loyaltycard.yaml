@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Loyalty Card management
+  description: |-
+    API related to management of Loyalty Cards.
+paths:
+  /loyality-cards:
+    post:
+      tags:
+        - Loyalty Cards
+      summary: Creates a Loyalty Card.
+      operationId: createLoyaltyCard
+      description: |-
+        Creates a Loyalty Card.
+        Only a Client can create a Loyalty Card.
+      responses:
+        '201':
+          description: Loyalty Card successfully created.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Client or already has a Loyalty Card.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
