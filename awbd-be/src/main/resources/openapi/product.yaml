@@ -160,7 +160,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProductSearchDetails'
         '403':
-          description: User is not Restaurant Admin or Client.
+          description: User is not Restaurant Admin.
           content:
             application/json:
               schema:
