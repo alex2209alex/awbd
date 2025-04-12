@@ -16,7 +16,7 @@ import java.util.List;
 public interface ProducerMapper {
     ProducerFilter mapToProducerFilter(String name, String address);
 
-    @Mapping(target = "pagination", source = "page.paginationInformation")
+    @Mapping(target = "pagination", source = "paginationInformation")
     ProducersPageDto mapToProducersPageDto(Page<ProducerPageElementDetails> page);
 
     List<ProducerSearchDetailsDto> mapToProducerSearchDetailsDtos(List<Producer> producers);
