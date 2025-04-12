@@ -154,7 +154,7 @@ paths:
       tags:
         - Courier
       summary: Get Courier by Id.
-      operationId: getCourier
+      operationId: getCourierDetails
       description: |-
         Returns details of a Courier.
         Only Restaurant Administrator can get details of a Courier.

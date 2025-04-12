@@ -34,7 +34,7 @@ paths:
       tags:
         - Client
       summary: Get Client by Id.
-      operationId: getClient
+      operationId: getClientDetails
       description: |-
         Returns details of a Client.
         Only Restaurant Administrator and Client can get details of a Client.

@@ -170,7 +170,7 @@ paths:
       tags:
         - Product
       summary: Get Product by Id.
-      operationId: getProduct
+      operationId: getProductDetails
       description: |-
         Returns details of a Product.
         Only Restaurant Administrator and Clients can get details of a Product.

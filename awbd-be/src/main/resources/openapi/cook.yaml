@@ -146,7 +146,7 @@ paths:
       tags:
         - Cook
       summary: Get Cook by Id.
-      operationId: getCook
+      operationId: getCookDetails
       description: |-
         Returns details of a Cook.
         Only Restaurant Administrator can get details of a Cook.

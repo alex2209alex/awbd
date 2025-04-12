@@ -170,7 +170,7 @@ paths:
       tags:
         - Ingredient
       summary: Get Ingredient by Id.
-      operationId: getIngredient
+      operationId: getIngredientDetails
       description: |-
         Returns details of an Ingredient.
         Only Restaurant Administrator can get details of an Ingredient.
