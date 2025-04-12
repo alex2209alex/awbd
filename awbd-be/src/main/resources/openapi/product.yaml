@@ -352,6 +352,7 @@ components:
           description: Price of the Product.
           type: number
           format: double
+          minimum: 0
           example: 10
         description:
           description: Description of the Product.
@@ -379,6 +380,7 @@ components:
           description: Quantity of the Ingredient in grams.
           type: number
           format: double
+          minimum: 0
           example: 10
     ProductDetails:
       type: object
@@ -445,6 +447,7 @@ components:
           description: Price of the Product.
           type: number
           format: double
+          minimum: 0
           example: 10
         description:
           description: Description of the Product.
@@ -472,4 +475,5 @@ components:
           description: Quantity of the Ingredient in grams.
           type: number
           format: double
+          minimum: 0
           example: 10
