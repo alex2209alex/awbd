@@ -7,7 +7,7 @@ import lombok.val;
 @Data
 @Builder
 public class PaginationInformation {
-    private long page;
+    private int page;
     private int pageSize;
     private long pagesTotal;
     private boolean hasNextPage;

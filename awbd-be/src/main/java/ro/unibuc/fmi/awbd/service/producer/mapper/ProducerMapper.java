@@ -8,6 +8,7 @@ import ro.unibuc.fmi.awbd.common.model.Page;
 import ro.unibuc.fmi.awbd.controller.models.*;
 import ro.unibuc.fmi.awbd.domain.producer.model.Producer;
 import ro.unibuc.fmi.awbd.service.producer.model.ProducerFilter;
+import ro.unibuc.fmi.awbd.service.producer.model.ProducerPageElementDetails;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface ProducerMapper {
     ProducerFilter mapToProducerFilter(String name, String address);
 
     @Mapping(target = "pagination", source = "page.paginationInformation")
-    ProducersPageDto mapToProducersPageDto(Page<ProducerPageElementDetailsDto> page);
+    ProducersPageDto mapToProducersPageDto(Page<ProducerPageElementDetails> page);
 
     List<ProducerSearchDetailsDto> mapToProducerSearchDetailsDtos(List<Producer> producers);
 

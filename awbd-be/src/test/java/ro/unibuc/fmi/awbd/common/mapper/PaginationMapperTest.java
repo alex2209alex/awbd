@@ -1,12 +1,10 @@
-package ro.unibuc.fmi.awbd.common;
+package ro.unibuc.fmi.awbd.common.mapper;
 
 import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ro.unibuc.fmi.awbd.common.mapper.PaginationMapper;
-import ro.unibuc.fmi.awbd.common.mapper.PaginationMapperImpl;
 
 @SpringBootTest(classes = {PaginationMapperImpl.class})
 class PaginationMapperTest {

@@ -13,9 +13,9 @@ public enum ProducerSortableColumn {
 
     private final String columnName;
 
-    public static boolean isValidSortableColumn(String sort) {
+    public static boolean isValidSortableColumn(String sortableColumn) {
         for (val column : ProducerSortableColumn.values()) {
-            if (column.name().equalsIgnoreCase(sort)) {
+            if (column.name().equalsIgnoreCase(sortableColumn)) {
                 return true;
             }
         }

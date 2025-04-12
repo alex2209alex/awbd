@@ -28,7 +28,7 @@ class ProducerMapperTest {
 
     @Test
     void testMapToProducersPageDto() {
-        val page = ProducerFixtures.getPageOfProducerPageElementDetailsDtoFixture();
+        val page = ProducerFixtures.getPageOfProducerPageElementDetailsFixture();
 
         val producersPageDto = producerMapper.mapToProducersPageDto(page);
 

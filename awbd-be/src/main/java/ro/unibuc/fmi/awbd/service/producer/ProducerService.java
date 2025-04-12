@@ -14,6 +14,7 @@ import ro.unibuc.fmi.awbd.domain.producer.repository.ProducerRepository;
 import ro.unibuc.fmi.awbd.domain.producer.repository.ProducerSearchRepository;
 import ro.unibuc.fmi.awbd.service.producer.mapper.ProducerMapper;
 import ro.unibuc.fmi.awbd.service.producer.model.ProducerFilter;
+import ro.unibuc.fmi.awbd.service.producer.model.ProducerPageElementDetails;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ProducerService {
 
     @Transactional(readOnly = true)
     public ProducersPageDto getProducersPage(PageRequest<ProducerFilter> pageRequest) {
-        Page<ProducerPageElementDetailsDto> page = producerSearchRepository.getProducersPage(pageRequest);
+        Page<ProducerPageElementDetails> page = producerSearchRepository.getProducersPage(pageRequest);
         return producerMapper.mapToProducersPageDto(page);
     }
 

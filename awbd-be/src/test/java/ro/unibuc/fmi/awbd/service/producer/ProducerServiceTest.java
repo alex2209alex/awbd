@@ -40,7 +40,7 @@ class ProducerServiceTest {
     @Test
     void whenGetProducersPage_thenGetProducersPage() {
         val pageRequest = ProducerFixtures.getPageRequestFixture();
-        val page = ProducerFixtures.getPageOfProducerPageElementDetailsDtoFixture();
+        val page = ProducerFixtures.getPageOfProducerPageElementDetailsFixture();
         val producerPageDto = new ProducersPageDto();
 
         Mockito.when(producerSearchRepository.getProducersPage(pageRequest)).thenReturn(page);
