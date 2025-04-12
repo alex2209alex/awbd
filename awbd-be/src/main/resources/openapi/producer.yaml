@@ -134,6 +134,30 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /producers/search:
+    get:
+      tags:
+        - Producer
+      summary: Gets all Producers.
+      operationId: getProducers
+      description: |-
+        Gets all Producers.
+        Only Restaurant Administrator can get all Producers.
+      responses:
+        '200':
+          description: Producers successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProducerSearchDetails'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
   /producers/{producerId}:
     get:
       tags:
@@ -281,6 +305,18 @@ components:
           description: Address of the Producer.
           type: string
           example: Str. Street Nr. 1
+    ProducerSearchDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Producer.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Producer.
+          type: string
+          example: Good Farm
     ProducerCreation:
       type: object
       required:

@@ -140,6 +140,30 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /products/search:
+    get:
+      tags:
+        - Product
+      summary: Gets all Products.
+      operationId: getProducts
+      description: |-
+        Gets all Products.
+        Only Restaurant Administrator or Client can get all Products.
+      responses:
+        '200':
+          description: Products successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductSearchDetails'
+        '403':
+          description: User is not Restaurant Admin or Client.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
   /products/{productId}:
     get:
       tags:
@@ -297,6 +321,18 @@ components:
           type: number
           format: double
           example: 1000
+    ProductSearchDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Product.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Product.
+          type: string
+          example: French fries
     ProductCreation:
       type: object
       required:

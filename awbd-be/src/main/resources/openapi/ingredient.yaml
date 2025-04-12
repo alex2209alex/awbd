@@ -140,6 +140,30 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /ingredients/search:
+    get:
+      tags:
+        - Ingredient
+      summary: Gets all Ingredients.
+      operationId: getIngredients
+      description: |-
+        Gets all Ingredients.
+        Only Restaurant Administrator can get all Ingredients.
+      responses:
+        '200':
+          description: Ingredients successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IngredientSearchDetails'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
   /ingredients/{ingredientId}:
     get:
       tags:
@@ -297,6 +321,18 @@ components:
           description: Name of the Ingredient's Producer.
           type: string
           example: Good Farm
+    IngredientSearchDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Ingredient.
+          type: string
+          example: Salmon
     IngredientCreation:
       type: object
       required:
