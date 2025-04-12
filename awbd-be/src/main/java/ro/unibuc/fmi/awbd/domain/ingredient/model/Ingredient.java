@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ro.unibuc.fmi.awbd.domain.producer.model.Producer;
 
+import java.util.List;
+
 @Entity
 @Table(name = "ingredients")
 @Data
@@ -28,4 +30,7 @@ public class Ingredient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producer_id")
     private Producer producer;
+
+    @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
+    private List<IngredientProductAssociation> ingredientProductAssociations;
 }

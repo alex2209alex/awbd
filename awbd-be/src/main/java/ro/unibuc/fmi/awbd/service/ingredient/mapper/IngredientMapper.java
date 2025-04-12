@@ -27,10 +27,12 @@ public interface IngredientMapper {
     IngredientDetailsDto mapToIngredientDetailsDto(Ingredient ingredient);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredientProductAssociations", ignore = true)
     @Mapping(target = "name", source = "ingredientCreationDto.name")
     Ingredient mapToIngredient(IngredientCreationDto ingredientCreationDto, Producer producer);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredientProductAssociations", ignore = true)
     @Mapping(target = "name", source = "ingredientUpdateDto.name")
     void mergeToIngredient(@MappingTarget Ingredient ingredient, IngredientUpdateDto ingredientUpdateDto, Producer producer);
 }
