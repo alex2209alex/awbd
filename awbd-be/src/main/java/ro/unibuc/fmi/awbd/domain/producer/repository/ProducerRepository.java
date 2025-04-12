@@ -6,5 +6,5 @@ import ro.unibuc.fmi.awbd.domain.producer.model.Producer;
 import java.util.List;
 
 public interface ProducerRepository extends JpaRepository<Producer, Long> {
-    List<Producer> findAllOrderByName();
+    List<Producer> findAllByOrderByName();
 }
