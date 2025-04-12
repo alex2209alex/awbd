@@ -318,6 +318,7 @@ components:
         email:
           description: Email of the Courier.
           type: string
+          maxLength: 50
           example: example@example.com
         password:
           description: Password of the Courier.
@@ -327,15 +328,18 @@ components:
         name:
           description: Name of the Courier.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Courier.
           type: string
+          maxLength: 10
           example: 0730123456
         salary:
           description: Salary of the Courier.
           type: number
           format: double
+          minimum: 0
           example: 2000
     CourierDetails:
       type: object
@@ -378,13 +382,16 @@ components:
         name:
           description: Name of the Courier.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Courier.
           type: string
+          maxLength: 10
           example: 0730123456
         salary:
           description: Salary of the Courier.
           type: number
           format: double
+          minimum: 0
           example: 2000

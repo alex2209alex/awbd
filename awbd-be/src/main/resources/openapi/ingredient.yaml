@@ -346,6 +346,7 @@ components:
         name:
           description: Name of the Ingredient.
           type: string
+          maxLength: 50
           example: Salmon
         price:
           description: Price of the Ingredient per 100 grams.
@@ -406,6 +407,7 @@ components:
         name:
           description: Name of the Ingredient.
           type: string
+          maxLength: 100
           example: Salmon
         price:
           description: Price of the Ingredient per 100 grams.

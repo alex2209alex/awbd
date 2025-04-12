@@ -130,6 +130,7 @@ components:
         email:
           description: Email of the Client.
           type: string
+          maxLength: 50
           example: example@example.com
         password:
           description: Password of the Client.
@@ -139,10 +140,12 @@ components:
         name:
           description: Name of the Client.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Client.
           type: string
+          maxLength: 10
           example: 0730123456
     ClientDetails:
       type: object
@@ -179,8 +182,10 @@ components:
         name:
           description: Name of the Client.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Client.
           type: string
+          maxLength: 10
           example: 0730123456

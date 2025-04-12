@@ -306,6 +306,7 @@ components:
         email:
           description: Email of the Cook.
           type: string
+          maxLength: 50
           example: example@example.com
         password:
           description: Password of the Cook.
@@ -315,11 +316,13 @@ components:
         name:
           description: Name of the Cook.
           type: string
+          maxLength: 50
           example: Good Farm
         salary:
           description: Salary of the Cook.
           type: number
           format: double
+          minimum: 0
           example: 2000
         products:
           type: array
@@ -388,11 +391,13 @@ components:
         name:
           description: Name of the Cook.
           type: string
+          maxLength: 50
           example: Good Farm
         salary:
           description: Salary of the Cook.
           type: number
           format: double
+          minimum: 0
           example: 2000
         products:
           type: array

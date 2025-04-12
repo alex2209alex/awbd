@@ -328,10 +328,12 @@ components:
         name:
           description: Name of the Producer.
           type: string
+          maxLength: 50
           example: Good Farm
         address:
           description: Address of the Producer.
           type: string
+          maxLength: 100
           example: Str. Street Nr. 1
     ProducerDetails:
       type: object
@@ -358,8 +360,10 @@ components:
         name:
           description: Name of the Producer.
           type: string
+          maxLength: 50
           example: Good Farm
         address:
           description: Address of the Producer.
           type: string
+          maxLength: 100
           example: Str. Street Nr. 1

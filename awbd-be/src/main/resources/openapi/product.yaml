@@ -346,6 +346,7 @@ components:
         name:
           description: Name of the Product.
           type: string
+          maxLength: 50
           example: French fries
         price:
           description: Price of the Product.
@@ -355,6 +356,7 @@ components:
         description:
           description: Description of the Product.
           type: string
+          maxLength: 100
           example: French fries with salt
         ingredients:
           type: array
@@ -437,6 +439,7 @@ components:
         name:
           description: Name of the Product.
           type: string
+          maxLength: 50
           example: French fries
         price:
           description: Price of the Product.
@@ -446,6 +449,7 @@ components:
         description:
           description: Description of the Product.
           type: string
+          maxLength: 100
           example: French fries with salt
         ingredients:
           type: array
