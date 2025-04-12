@@ -3,6 +3,9 @@ package ro.unibuc.fmi.awbd.domain.producer.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ro.unibuc.fmi.awbd.domain.ingredient.model.Ingredient;
+
+import java.util.List;
 
 @Entity
 @Table(name = "producers")
@@ -20,4 +23,7 @@ public class Producer {
 
     @Column(name = "address")
     private String address;
+
+    @OneToMany(mappedBy = "producer", fetch = FetchType.LAZY)
+    private List<Ingredient> ingredients;
 }

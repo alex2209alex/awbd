@@ -23,8 +23,10 @@ public interface ProducerMapper {
     ProducerDetailsDto mapToProducerDetailsDto(Producer producer);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredients", ignore = true)
     Producer mapToProducer(ProducerCreationDto producerCreationDto);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredients", ignore = true)
     void mergeToProducer(@MappingTarget Producer producer, ProducerUpdateDto producerUpdateDto);
 }
