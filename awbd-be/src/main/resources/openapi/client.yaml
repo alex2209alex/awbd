@@ -120,9 +120,20 @@ components:
     ClientCreation:
       type: object
       required:
+        - email
+        - password
         - name
         - phoneNumber
       properties:
+        email:
+          description: Email of the Client.
+          type: string
+          example: example@example.com
+        password:
+          description: Password of the Client.
+          type: string
+          minLength: 6
+          example: Example password
         name:
           description: Name of the Client.
           type: string
@@ -139,6 +150,10 @@ components:
           type: integer
           format: int64
           example: 120
+        email:
+          description: Email of the Client.
+          type: string
+          example: example@example.com
         name:
           description: Name of the Client.
           type: string
@@ -150,9 +165,15 @@ components:
     ClientUpdate:
       type: object
       required:
+        - password
         - name
         - phoneNumber
       properties:
+        password:
+          description: Password of the Client.
+          type: string
+          minLength: 6
+          example: Example password
         name:
           description: Name of the Client.
           type: string
