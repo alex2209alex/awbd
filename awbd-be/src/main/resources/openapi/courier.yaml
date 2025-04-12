@@ -129,6 +129,7 @@ paths:
         Only Restaurant Administrator can create a Courier.
       requestBody:
         description: Request body contains information related to new Courier.
+        required: true
         content:
           application/json:
             schema:
@@ -210,6 +211,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Courier.
+        required: true
         content:
           application/json:
             schema:

@@ -15,6 +15,7 @@ paths:
         Creates a Client.
       requestBody:
         description: Request body contains information related to new Client.
+        required: true
         content:
           application/json:
             schema:
@@ -90,6 +91,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Client.
+        required: true
         content:
           application/json:
             schema:

@@ -115,6 +115,7 @@ paths:
         Only Restaurant Administrator can create an Ingredient.
       requestBody:
         description: Request body contains information related to new Ingredient.
+        required: true
         content:
           application/json:
             schema:
@@ -226,6 +227,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Ingredient.
+        required: true
         content:
           application/json:
             schema:

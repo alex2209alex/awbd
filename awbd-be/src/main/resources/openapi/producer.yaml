@@ -115,6 +115,7 @@ paths:
         Only Restaurant Administrator can create a Producer.
       requestBody:
         description: Request body contains information related to new Producer.
+        required: true
         content:
           application/json:
             schema:
@@ -163,7 +164,7 @@ paths:
       tags:
         - Producer
       summary: Get Producer by Id.
-      operationId: getProducer
+      operationId: getProducerDetails
       description: |-
         Returns details of a Producer.
         Only Restaurant Administrator can get details of a Producer.
@@ -220,6 +221,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Producer.
+        required: true
         content:
           application/json:
             schema:

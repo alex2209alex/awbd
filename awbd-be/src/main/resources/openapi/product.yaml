@@ -115,6 +115,7 @@ paths:
         Only Restaurant Administrator create a Product.
       requestBody:
         description: Request body contains information related to new Product.
+        required: true
         content:
           application/json:
             schema:
@@ -226,6 +227,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Product.
+        required: true
         content:
           application/json:
             schema:
