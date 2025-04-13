@@ -136,7 +136,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Product not found.
+          description: Products not found.
           content:
             application/json:
               schema:
@@ -224,7 +224,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Cook or Product not found.
+          description: Cook or Products not found.
           content:
             application/json:
               schema:
@@ -404,7 +404,7 @@ components:
         products:
           type: array
           items:
-            $ref: '#/components/schemas/CookProductCreation'
+            $ref: '#/components/schemas/CookProductUpdate'
     CookProductUpdate:
       type: object
       required:

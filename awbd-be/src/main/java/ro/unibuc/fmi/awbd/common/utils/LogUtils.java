@@ -24,4 +24,20 @@ public class LogUtils {
     public static final String CREATE_PRODUCT_REQUEST = "createProduct operation was invoked";
     public static final String UPDATE_PRODUCT_REQUEST = "updateProduct operation was invoked";
     public static final String DELETE_PRODUCT_REQUEST = "deleteProduct operation was invoked";
+
+    public static final String GET_COOKS_PAGE_REQUEST = "getCooksPage operation was invoked";
+    public static final String GET_COOK_DETAILS_REQUEST = "getCookDetails operation was invoked";
+    public static final String CREATE_COOK_REQUEST = "createCook operation was invoked";
+    public static final String UPDATE_COOK_REQUEST = "updateCook operation was invoked";
+    public static final String DELETE_COOK_REQUEST = "deleteCook operation was invoked";
+
+    public static final String GET_COURIERS_PAGE_REQUEST = "getCouriersPage operation was invoked";
+    public static final String GET_COURIER_DETAILS_REQUEST = "getCourierDetails operation was invoked";
+    public static final String CREATE_COURIER_REQUEST = "createCourier operation was invoked";
+    public static final String UPDATE_COURIER_REQUEST = "updateCourier operation was invoked";
+    public static final String DELETE_COURIER_REQUEST = "deleteCourier operation was invoked";
+
+    public static final String GET_CLIENT_DETAILS_REQUEST = "getClientDetails operation was invoked";
+    public static final String CREATE_CLIENT_REQUEST = "createClient operation was invoked";
+    public static final String UPDATE_CLIENT_REQUEST = "updateClient operation was invoked";
 }

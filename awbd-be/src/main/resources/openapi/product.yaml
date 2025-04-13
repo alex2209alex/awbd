@@ -136,7 +136,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Ingredient not found.
+          description: Ingredients not found.
           content:
             application/json:
               schema:
@@ -248,7 +248,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Product or Ingredient not found.
+          description: Product or Ingredients not found.
           content:
             application/json:
               schema:

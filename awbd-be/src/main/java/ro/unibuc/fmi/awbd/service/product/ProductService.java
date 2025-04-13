@@ -116,7 +116,6 @@ public class ProductService {
             if (oldIngredientProductAssociationsMap.containsKey(ingredientProductAssociationId)) {
                 ingredientProductAssociation = oldIngredientProductAssociationsMap.get(ingredientProductAssociationId);
                 ingredientProductAssociation.setQuantity(productIngredientUpdateDto.getQuantity());
-                product.getIngredientProductAssociations().add(ingredientProductAssociation);
                 oldIngredientProductAssociationsMap.remove(ingredientProductAssociationId);
             }
             else {
