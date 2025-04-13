@@ -136,6 +136,7 @@ components:
           description: Password of the Client.
           type: string
           minLength: 6
+          maxLength: 100
           example: Example password
         name:
           description: Name of the Client.
@@ -178,6 +179,7 @@ components:
           description: Password of the Client.
           type: string
           minLength: 6
+          maxLength: 100
           example: Example password
         name:
           description: Name of the Client.

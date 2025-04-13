@@ -324,6 +324,7 @@ components:
           description: Password of the Courier.
           type: string
           minLength: 6
+          maxLength: 100
           example: Example password
         name:
           description: Name of the Courier.
@@ -378,6 +379,7 @@ components:
           description: Password of the Courier.
           type: string
           minLength: 6
+          maxLength: 100
           example: Example password
         name:
           description: Name of the Courier.

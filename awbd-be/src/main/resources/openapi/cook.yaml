@@ -312,6 +312,7 @@ components:
           description: Password of the Cook.
           type: string
           minLength: 6
+          maxLength: 100
           example: Example password
         name:
           description: Name of the Cook.
@@ -387,6 +388,7 @@ components:
           description: Password of the Cook.
           type: string
           minLength: 6
+          maxLength: 100
           example: Example password
         name:
           description: Name of the Cook.
