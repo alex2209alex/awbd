@@ -11,10 +11,10 @@ CREATE SEQUENCE users_seq INCREMENT BY 20 START WITH 100;
 CREATE TABLE users
 (
     id              BIGINT PRIMARY KEY,
-    email           VARCHAR(50)  NOT NULL UNIQUE,
-    password        VARCHAR(100) NOT NULL,
-    name            VARCHAR(50)  NOT NULL,
-    role            VARCHAR(50)  NOT NULL,
+    email           VARCHAR(50) NOT NULL UNIQUE,
+    password        TEXT        NOT NULL,
+    name            VARCHAR(50) NOT NULL,
+    role            VARCHAR(50) NOT NULL,
     phone_number    VARCHAR(10),
     salary          NUMERIC(5, 2),
     loyalty_card_id BIGINT REFERENCES loyalty_cards (id)

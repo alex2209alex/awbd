@@ -9,9 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ro.unibuc.fmi.awbd.common.exception.ForbiddenException;
-import ro.unibuc.fmi.awbd.common.exception.GenericApplicationError;
-import ro.unibuc.fmi.awbd.common.exception.NotFoundException;
+import ro.unibuc.fmi.awbd.common.exception.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -19,7 +17,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             MissingServletRequestParameterException.class,
             ConstraintViolationException.class,
-            MethodArgumentNotValidException.class
+            MethodArgumentNotValidException.class,
+            BadRequestException.class
     })
     public ResponseEntity<GenericApplicationError> handleBadRequestException(Exception exc) {
         return getGenericApplicationErrorResponseEntity(exc, HttpStatus.BAD_REQUEST);
@@ -35,7 +34,10 @@ public class GlobalExceptionHandler {
         return getGenericApplicationErrorResponseEntity(exc, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            InternalServerErrorException.class
+    })
     public ResponseEntity<GenericApplicationError> handleInternalServerErrorException(Exception exc) {
         return getGenericApplicationErrorResponseEntity(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
