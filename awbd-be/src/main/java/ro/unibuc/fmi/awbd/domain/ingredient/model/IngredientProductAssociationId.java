@@ -12,9 +12,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IngredientProductAssociationId {
-    @Column(name = "ingredient_id")
+    @Column(name = "ingredient_id", nullable = false)
     private Long ingredientId;
 
-    @Column(name = "product_id")
+    @Column(name = "product_id", nullable = false)
     private Long productId;
 }

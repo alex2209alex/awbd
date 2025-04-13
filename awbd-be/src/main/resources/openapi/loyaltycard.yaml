@@ -5,7 +5,7 @@ info:
   description: |-
     API related to management of Loyalty Cards.
 paths:
-  /loyality-cards:
+  /loyalty-cards:
     post:
       tags:
         - Loyalty Cards

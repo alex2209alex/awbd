@@ -18,17 +18,17 @@ public class Ingredient {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "calories")
+    @Column(name = "calories", nullable = false)
     private Double calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "producer_id")
+    @JoinColumn(name = "producer_id", nullable = false)
     private Producer producer;
 
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)

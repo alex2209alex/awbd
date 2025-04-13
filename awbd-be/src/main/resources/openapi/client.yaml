@@ -37,7 +37,7 @@ paths:
       operationId: getClientDetails
       description: |-
         Returns details of a Client.
-        Only Restaurant Administrator and Client can get details of a Client.
+        Only the Client searching can get his details.
       parameters:
         - name: clientId
           schema:
@@ -61,7 +61,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '403':
-          description: User is not Restaurant Admin or Client.
+          description: User is not Client or searched details do not belong to him.
           content:
             application/json:
               schema:
@@ -79,7 +79,7 @@ paths:
       operationId: updateClient
       description: |-
         Updates a Client.
-        Only Client can update a Client.
+        Only the Client can update himself.
       parameters:
         - name: clientId
           schema:
@@ -106,13 +106,13 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '403':
-          description: User is not Restaurant Admin.
+          description: User is not Client or isn't updating himself.
           content:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Client or Product not found.
+          description: Client not found.
           content:
             application/json:
               schema:

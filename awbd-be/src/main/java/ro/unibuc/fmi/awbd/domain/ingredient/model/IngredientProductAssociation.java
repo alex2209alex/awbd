@@ -14,7 +14,7 @@ public class IngredientProductAssociation {
     @EmbeddedId
     private IngredientProductAssociationId id;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Double quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
