@@ -149,7 +149,7 @@ paths:
       operationId: getProducts
       description: |-
         Gets all Products.
-        Only Restaurant Administrator or Client can get all Products.
+        Only Restaurant Administrator can get all Products.
       responses:
         '200':
           description: Products successfully fetched.

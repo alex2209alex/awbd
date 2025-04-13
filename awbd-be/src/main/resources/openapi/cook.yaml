@@ -250,7 +250,7 @@ paths:
         '200':
           description: Cook successfully deleted.
         '403':
-          description: User is not Restaurant Admin or Cook has dependencies.
+          description: User is not Restaurant Admin.
           content:
             application/json:
               schema:
