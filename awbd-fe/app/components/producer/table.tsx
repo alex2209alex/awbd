@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProducer,
+  addProducerAsync,
+  getProducersAsync,
   Producer,
   removeProducer,
+  removeProducerAsync,
   selectProducers,
   selectStatus,
   updateProducer,
@@ -21,7 +24,10 @@ export const ProducersTable = () => {
       removeItem={removeProducer}
       updateItem={updateProducer}
       addItem={addProducer}
-      apiEndpoint="api/producers"
+      addItemAsync={addProducerAsync}
+      removeItemAsync={removeProducerAsync}
+      fetchItems={getProducersAsync}
+      apiEndpoint="http://localhost:8080/producers"
       title="Producers List"
       headers={["Name", "Address"]}
       fields={[

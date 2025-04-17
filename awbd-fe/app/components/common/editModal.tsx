@@ -6,7 +6,7 @@ import { SearchableDropdown } from "./searchableDropdown";
 interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (state: any) => void;
+  onSave: (state: any) => Promise<void>;
   initialState?: any;
   title: string;
   labels: any[];
@@ -24,14 +24,14 @@ export const EditModal: React.FC<EditModalProps> = ({
 }) => {
   const [state, setState] = useState(initialState);
 
-  const handleSave = () => {
-    onSave(state);
+  const handleSave = async () => {
+    await onSave(state);
     setState({});
     onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} onSave={handleSave} title={title}>
+    <Modal isOpen={isOpen} onClose={onClose} onSave={async () => await handleSave()} title={title}>
       {properties.map(
         (
           {

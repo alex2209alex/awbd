@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { EditModal } from "../common/editModal";
-import axios from "axios";
 import { Pagination } from "./pagination";
 import { Filter } from "./filter";
 
 export const Table = ({
   items,
+  fetchItems,
   removeItem,
+  removeItemAsync,
   updateItem,
   addItem,
-  apiEndpoint,
+  addItemAsync,
   title,
   headers,
   fields,
@@ -27,30 +28,35 @@ export const Table = ({
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [pageItems, setPageItems] = useState<any[]>(items);
 
-  const [fetchItemsFlag, setFetchItemsFlag] = useState<boolean>(false);
+  const [fetchItemsFlag, setFetchItemsFlag] = useState(false); // Simple boolean toggle
 
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const [filter, setFilter] = useState<{ [key: string]: string }>({});
-  // const [totalItems, setTotalItems] = useState(0);
 
-  const fetchItems = async (page: number) => {
+  const itemsArray = pageItems?.items || [];
+  console.log(">>>fetchItemsFlag: ", fetchItemsFlag);
+
+  const getItems = (page: number) => {
     try {
       const params: any = {
         offset: page,
         limit: itemsPerPage,
-        ...(sortColumn
-          ? { sort: `${sortOrder === "asc" ? "+" : "-"}${sortColumn}` }
-          : {}),
+        ...(sortColumn ? { sort: `${sortOrder === "asc" ? "+" : "-"}${sortColumn}` } : {}),
       };
       Object.keys(filter).forEach((attr: string) => {
         params[attr] = filter[attr];
       });
       console.log(">>>params: ", params);
-      const response = await axios.get(apiEndpoint, { params });
-      setPageItems(response.data);
-      // setTotalItems(response.data.total); // Assuming the backend returns the total number of items
+      dispatch(fetchItems(params))
+        .then((response: any) => {
+          console.log(">>>response: ", response);
+          if (response.payload) setPageItems(response.payload);
+        })
+        .catch((error: any) => {
+          console.error("Error fetching items:", error);
+        });
     } catch (error) {
       console.error("Error fetching items:", error);
     }
@@ -61,13 +67,14 @@ export const Table = ({
     setShowEditModal(true);
   };
 
-  const handleDelete = (id: number) => {
-    dispatch(removeItem(id));
-    setFetchItemsFlag(true);
+  const handleDelete = async (id: number) => {
+    await dispatch(removeItem(id));
+    await dispatch(removeItemAsync(id));
+    setFetchItemsFlag((prev) => !prev); // Toggle boolean
   };
 
-  const handleSaveEdit = (updatedState: any) => {
-    dispatch(updateItem(updatedState));
+  const handleSaveEdit = async (updatedState: any) => {
+    await dispatch(updateItem(updatedState));
   };
 
   const handleAddProducer = () => {
@@ -76,10 +83,10 @@ export const Table = ({
   };
 
   const handleSaveAdd = async (newState: any) => {
-    // const { data: newProducer } = await axios.post(apiEndpoint, newState);
-    dispatch(addItem(newState));
+    await dispatch(addItem(newState));
+    await dispatch(addItemAsync(newState));
     setShowAddModal(false);
-    setFetchItemsFlag(true);
+    setFetchItemsFlag((prev) => !prev); // Toggle boolean
   };
 
   const handleSort = (column: string) => {
@@ -89,24 +96,24 @@ export const Table = ({
       setSortColumn(column);
       setSortOrder("asc");
     }
-    setFetchItemsFlag(true);
+    setFetchItemsFlag((prev) => !prev); // Toggle boolean
   };
 
   const handlePaginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-    setFetchItemsFlag(true);
+    setFetchItemsFlag((prev) => !prev); // Toggle boolean
   };
 
   const handleFilterChange = (field: string, value: string) => {
     setFilter((prev) => ({ ...prev, [field]: value || "" }));
-    setFetchItemsFlag(true);
+    setFetchItemsFlag((prev) => !prev); // Toggle boolean
   };
 
   useEffect(() => {
-    if (!fetchItemsFlag) return;
-    fetchItems(currentPage);
-    setFetchItemsFlag(false);
-  }, [fetchItemsFlag]);
+    getItems(currentPage);
+  }, [fetchItemsFlag, currentPage, itemsPerPage, sortColumn, sortOrder, filter]);
+
+  console.log(">>pageItems: ", pageItems);
 
   return (
     <div className="container mt-5">
@@ -136,15 +143,14 @@ export const Table = ({
                 onClick={() => handleSort(fields[index].name)}
               >
                 {header}
-                {sortColumn === fields[index].name &&
-                  (sortOrder === "asc" ? " 🔼" : " 🔽")}
+                {sortColumn === fields[index].name && (sortOrder === "asc" ? " 🔼" : " 🔽")}
               </th>
             ))}
             <th className="fs-4 p-3">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {pageItems.map((item: any) => (
+          {itemsArray.map((item: any) => (
             <tr key={item.id}>
               {fields.map(({ name }: { name: string }) => (
                 <td key={name} className="fs-4 p-3">
@@ -152,16 +158,10 @@ export const Table = ({
                 </td>
               ))}
               <td className="fs-4 p-3">
-                <button
-                  className="btn btn-warning me-2"
-                  onClick={() => handleEdit(item)}
-                >
+                <button className="btn btn-warning me-2" onClick={async () => await handleEdit(item)}>
                   Edit
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(item.id)}
-                >
+                <button className="btn btn-danger" onClick={async () => await handleDelete(item.id)}>
                   Delete
                 </button>
               </td>
@@ -176,11 +176,7 @@ export const Table = ({
         </button>
       </div>
 
-      <Pagination
-        handlePaginate={handlePaginate}
-        currentPage={currentPage}
-        totalPages={2}
-      />
+      <Pagination handlePaginate={handlePaginate} currentPage={currentPage} totalPages={2} />
 
       <EditModal
         isOpen={showEditModal || showAddModal}
