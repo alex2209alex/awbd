@@ -19,14 +19,14 @@ paths:
         - name: sort
           schema:
             type: string
-            default: +name
+            default: +email
             maxLength: 50
           required: false
           in: query
           description: |-
             Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
             or with "+" for ascending order. Possible values for parameter are:
-            name and salary. Default is ascending order.
+            email, name and salary. Default is ascending order.
           examples:
             asc_name:
               value: +name
@@ -58,6 +58,20 @@ paths:
           in: query
           description: Specifies a page number.
         # filtering
+        - name: email
+          schema:
+            type: string
+            maxLength: 50
+          required: false
+          description: Provides case-insensitive fulltext search by Email.
+          in: query
+          examples:
+            partial_substring:
+              value: ex
+              summary: Substring used for filtering by Name.
+            full_string:
+              value: example@example.com
+              summary: Exact match used for filtering by Name.
         - name: name
           schema:
             type: string
@@ -101,6 +115,7 @@ paths:
         Only Restaurant Administrator can create a Cook.
       requestBody:
         description: Request body contains information related to new Cook.
+        required: true
         content:
           application/json:
             schema:
@@ -121,7 +136,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Product not found.
+          description: Products not found.
           content:
             application/json:
               schema:
@@ -131,7 +146,7 @@ paths:
       tags:
         - Cook
       summary: Get Cook by Id.
-      operationId: getCook
+      operationId: getCookDetails
       description: |-
         Returns details of a Cook.
         Only Restaurant Administrator can get details of a Cook.
@@ -188,6 +203,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Cook.
+        required: true
         content:
           application/json:
             schema:
@@ -208,7 +224,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Cook or Product not found.
+          description: Cook or Products not found.
           content:
             application/json:
               schema:
@@ -234,7 +250,7 @@ paths:
         '200':
           description: Cook successfully deleted.
         '403':
-          description: User is not Restaurant Admin or Cook has dependencies.
+          description: User is not Restaurant Admin.
           content:
             application/json:
               schema:
@@ -265,6 +281,10 @@ components:
           type: integer
           format: int64
           example: 120
+        email:
+          description: Email of the Cook.
+          type: string
+          example: example@example.com
         name:
           description: Name of the Cook.
           type: string
@@ -277,18 +297,33 @@ components:
     CookCreation:
       type: object
       required:
+        - email
+        - password
         - name
         - salary
         - products
       properties:
+        email:
+          description: Email of the Cook.
+          type: string
+          maxLength: 50
+          example: example@example.com
+        password:
+          description: Password of the Cook.
+          type: string
+          minLength: 6
+          maxLength: 100
+          example: Example password
         name:
           description: Name of the Cook.
           type: string
+          maxLength: 50
           example: Good Farm
         salary:
           description: Salary of the Cook.
           type: number
           format: double
+          minimum: 0
           example: 2000
         products:
           type: array
@@ -312,6 +347,10 @@ components:
           type: integer
           format: int64
           example: 120
+        email:
+          description: Email of the Cook.
+          type: string
+          example: example@example.com
         name:
           description: Name of the Cook.
           type: string
@@ -340,23 +379,32 @@ components:
     CookUpdate:
       type: object
       required:
+        - password
         - name
         - salary
         - products
       properties:
+        password:
+          description: Password of the Cook.
+          type: string
+          minLength: 6
+          maxLength: 100
+          example: Example password
         name:
           description: Name of the Cook.
           type: string
+          maxLength: 50
           example: Good Farm
         salary:
           description: Salary of the Cook.
           type: number
           format: double
+          minimum: 0
           example: 2000
         products:
           type: array
           items:
-            $ref: '#/components/schemas/CookProductCreation'
+            $ref: '#/components/schemas/CookProductUpdate'
     CookProductUpdate:
       type: object
       required:

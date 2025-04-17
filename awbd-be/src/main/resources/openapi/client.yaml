@@ -15,6 +15,7 @@ paths:
         Creates a Client.
       requestBody:
         description: Request body contains information related to new Client.
+        required: true
         content:
           application/json:
             schema:
@@ -33,10 +34,10 @@ paths:
       tags:
         - Client
       summary: Get Client by Id.
-      operationId: getClient
+      operationId: getClientDetails
       description: |-
         Returns details of a Client.
-        Only Restaurant Administrator and Client can get details of a Client.
+        Only the Client searching can get his details.
       parameters:
         - name: clientId
           schema:
@@ -60,7 +61,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '403':
-          description: User is not Restaurant Admin or Client.
+          description: User is not Client or searched details do not belong to him.
           content:
             application/json:
               schema:
@@ -78,7 +79,7 @@ paths:
       operationId: updateClient
       description: |-
         Updates a Client.
-        Only Client can update a Client.
+        Only the Client can update himself.
       parameters:
         - name: clientId
           schema:
@@ -90,6 +91,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Client.
+        required: true
         content:
           application/json:
             schema:
@@ -104,13 +106,13 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '403':
-          description: User is not Restaurant Admin.
+          description: User is not Client or isn't updating himself.
           content:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Client or Product not found.
+          description: Client not found.
           content:
             application/json:
               schema:
@@ -120,16 +122,31 @@ components:
     ClientCreation:
       type: object
       required:
+        - email
+        - password
         - name
         - phoneNumber
       properties:
+        email:
+          description: Email of the Client.
+          type: string
+          maxLength: 50
+          example: example@example.com
+        password:
+          description: Password of the Client.
+          type: string
+          minLength: 6
+          maxLength: 100
+          example: Example password
         name:
           description: Name of the Client.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Client.
           type: string
+          maxLength: 10
           example: 0730123456
     ClientDetails:
       type: object
@@ -139,6 +156,10 @@ components:
           type: integer
           format: int64
           example: 120
+        email:
+          description: Email of the Client.
+          type: string
+          example: example@example.com
         name:
           description: Name of the Client.
           type: string
@@ -150,14 +171,23 @@ components:
     ClientUpdate:
       type: object
       required:
+        - password
         - name
         - phoneNumber
       properties:
+        password:
+          description: Password of the Client.
+          type: string
+          minLength: 6
+          maxLength: 100
+          example: Example password
         name:
           description: Name of the Client.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Client.
           type: string
+          maxLength: 10
           example: 0730123456

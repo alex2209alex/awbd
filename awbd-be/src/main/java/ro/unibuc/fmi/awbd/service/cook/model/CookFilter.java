@@ -1,0 +1,15 @@
+package ro.unibuc.fmi.awbd.service.cook.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CookFilter {
+    private String email;
+    private String name;
+}

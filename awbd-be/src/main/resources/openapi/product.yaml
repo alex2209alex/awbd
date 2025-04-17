@@ -115,6 +115,7 @@ paths:
         Only Restaurant Administrator create a Product.
       requestBody:
         description: Request body contains information related to new Product.
+        required: true
         content:
           application/json:
             schema:
@@ -135,7 +136,31 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Ingredient not found.
+          description: Ingredients not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /products/search:
+    get:
+      tags:
+        - Product
+      summary: Gets all Products.
+      operationId: getProducts
+      description: |-
+        Gets all Products.
+        Only Restaurant Administrator can get all Products.
+      responses:
+        '200':
+          description: Products successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductSearchDetails'
+        '403':
+          description: User is not Restaurant Admin.
           content:
             application/json:
               schema:
@@ -145,7 +170,7 @@ paths:
       tags:
         - Product
       summary: Get Product by Id.
-      operationId: getProduct
+      operationId: getProductDetails
       description: |-
         Returns details of a Product.
         Only Restaurant Administrator and Clients can get details of a Product.
@@ -202,6 +227,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Product.
+        required: true
         content:
           application/json:
             schema:
@@ -222,7 +248,7 @@ paths:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
         '404':
-          description: Product or Ingredient not found.
+          description: Product or Ingredients not found.
           content:
             application/json:
               schema:
@@ -297,6 +323,18 @@ components:
           type: number
           format: double
           example: 1000
+    ProductSearchDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Product.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Product.
+          type: string
+          example: French fries
     ProductCreation:
       type: object
       required:
@@ -308,15 +346,18 @@ components:
         name:
           description: Name of the Product.
           type: string
+          maxLength: 50
           example: French fries
         price:
           description: Price of the Product.
           type: number
           format: double
+          minimum: 0
           example: 10
         description:
           description: Description of the Product.
           type: string
+          maxLength: 100
           example: French fries with salt
         ingredients:
           type: array
@@ -339,6 +380,7 @@ components:
           description: Quantity of the Ingredient in grams.
           type: number
           format: double
+          minimum: 0
           example: 10
     ProductDetails:
       type: object
@@ -399,15 +441,18 @@ components:
         name:
           description: Name of the Product.
           type: string
+          maxLength: 50
           example: French fries
         price:
           description: Price of the Product.
           type: number
           format: double
+          minimum: 0
           example: 10
         description:
           description: Description of the Product.
           type: string
+          maxLength: 100
           example: French fries with salt
         ingredients:
           type: array
@@ -430,4 +475,5 @@ components:
           description: Quantity of the Ingredient in grams.
           type: number
           format: double
+          minimum: 0
           example: 10

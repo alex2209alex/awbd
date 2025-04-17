@@ -115,6 +115,7 @@ paths:
         Only Restaurant Administrator can create an Ingredient.
       requestBody:
         description: Request body contains information related to new Ingredient.
+        required: true
         content:
           application/json:
             schema:
@@ -140,12 +141,36 @@ paths:
             application/json:
               schema:
                 $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /ingredients/search:
+    get:
+      tags:
+        - Ingredient
+      summary: Gets all Ingredients.
+      operationId: getIngredients
+      description: |-
+        Gets all Ingredients.
+        Only Restaurant Administrator can get all Ingredients.
+      responses:
+        '200':
+          description: Ingredients successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IngredientSearchDetails'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
   /ingredients/{ingredientId}:
     get:
       tags:
         - Ingredient
       summary: Get Ingredient by Id.
-      operationId: getIngredient
+      operationId: getIngredientDetails
       description: |-
         Returns details of an Ingredient.
         Only Restaurant Administrator can get details of an Ingredient.
@@ -202,6 +227,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Ingredient.
+        required: true
         content:
           application/json:
             schema:
@@ -297,6 +323,18 @@ components:
           description: Name of the Ingredient's Producer.
           type: string
           example: Good Farm
+    IngredientSearchDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Ingredient.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Ingredient.
+          type: string
+          example: Salmon
     IngredientCreation:
       type: object
       required:
@@ -308,16 +346,19 @@ components:
         name:
           description: Name of the Ingredient.
           type: string
+          maxLength: 50
           example: Salmon
         price:
           description: Price of the Ingredient per 100 grams.
           type: number
           format: double
+          minimum: 0
           example: 3.99
         calories:
           description: Calories of the Ingredient per 100 grams.
           type: number
           format: double
+          minimum: 0
           example: 300
         producerId:
           description: Id of the Ingredient's Producer.
@@ -366,16 +407,19 @@ components:
         name:
           description: Name of the Ingredient.
           type: string
+          maxLength: 100
           example: Salmon
         price:
           description: Price of the Ingredient per 100 grams.
           type: number
           format: double
+          minimum: 0
           example: 3.99
         calories:
           description: Calories of the Ingredient per 100 grams.
           type: number
           format: double
+          minimum: 0
           example: 300
         producerId:
           description: Id of the Ingredient's Producer.

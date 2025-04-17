@@ -19,14 +19,14 @@ paths:
         - name: sort
           schema:
             type: string
-            default: +name
+            default: +email
             maxLength: 50
           required: false
           in: query
           description: |-
             Specifies single attribute used for sorting. Value of the attribute is prefixed by "-" for descending order
             or with "+" for ascending order. Possible values for parameter are:
-            name, phone_number and salary. Default is ascending order.
+            email, name, phone_number and salary. Default is ascending order.
           examples:
             asc_name:
               value: +name
@@ -58,6 +58,20 @@ paths:
           in: query
           description: Specifies a page number.
         # filtering
+        - name: email
+          schema:
+            type: string
+            maxLength: 50
+          required: false
+          description: Provides case-insensitive fulltext search by Email.
+          in: query
+          examples:
+            partial_substring:
+              value: ex
+              summary: Substring used for filtering by Name.
+            full_string:
+              value: example@example.com
+              summary: Exact match used for filtering by Name.
         - name: name
           schema:
             type: string
@@ -115,6 +129,7 @@ paths:
         Only Restaurant Administrator can create a Courier.
       requestBody:
         description: Request body contains information related to new Courier.
+        required: true
         content:
           application/json:
             schema:
@@ -139,7 +154,7 @@ paths:
       tags:
         - Courier
       summary: Get Courier by Id.
-      operationId: getCourier
+      operationId: getCourierDetails
       description: |-
         Returns details of a Courier.
         Only Restaurant Administrator can get details of a Courier.
@@ -196,6 +211,7 @@ paths:
           example: 100
       requestBody:
         description: Request body contains information related to updated Courier.
+        required: true
         content:
           application/json:
             schema:
@@ -273,6 +289,10 @@ components:
           type: integer
           format: int64
           example: 120
+        email:
+          description: Email of the Courier.
+          type: string
+          example: example@example.com
         name:
           description: Name of the Courier.
           type: string
@@ -289,22 +309,38 @@ components:
     CourierCreation:
       type: object
       required:
+        - email
+        - password
         - name
         - phoneNumber
         - salary
       properties:
+        email:
+          description: Email of the Courier.
+          type: string
+          maxLength: 50
+          example: example@example.com
+        password:
+          description: Password of the Courier.
+          type: string
+          minLength: 6
+          maxLength: 100
+          example: Example password
         name:
           description: Name of the Courier.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Courier.
           type: string
+          maxLength: 10
           example: 0730123456
         salary:
           description: Salary of the Courier.
           type: number
           format: double
+          minimum: 0
           example: 2000
     CourierDetails:
       type: object
@@ -314,6 +350,10 @@ components:
           type: integer
           format: int64
           example: 120
+        email:
+          description: Email of the Courier.
+          type: string
+          example: example@example.com
         name:
           description: Name of the Courier.
           type: string
@@ -330,20 +370,30 @@ components:
     CourierUpdate:
       type: object
       required:
+        - password
         - name
         - phoneNumber
         - salary
       properties:
+        password:
+          description: Password of the Courier.
+          type: string
+          minLength: 6
+          maxLength: 100
+          example: Example password
         name:
           description: Name of the Courier.
           type: string
+          maxLength: 50
           example: Good Farm
         phoneNumber:
           description: Phone Number of the Courier.
           type: string
+          maxLength: 10
           example: 0730123456
         salary:
           description: Salary of the Courier.
           type: number
           format: double
+          minimum: 0
           example: 2000
