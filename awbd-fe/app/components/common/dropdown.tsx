@@ -26,6 +26,8 @@ export const Dropdown = ({
     const [options, setOptions] = useState<any[]>([]);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
+    console.log(">>>options: ", options)
+
     useEffect(() => {
         const fetchOptions = async () => {
             try {
@@ -39,20 +41,20 @@ export const Dropdown = ({
         fetchOptions();
     }, [apiEndpoint]);
 
-    useEffect(() => {
-        if (selectedItem && updateEndpoint) {
-            const updateSelectedItem = async () => {
-                try {
-                    await axios.put(updateEndpoint, selectedItem);
-                    console.log("Updated item:", selectedItem);
-                } catch (error) {
-                    console.error("Error updating selected item:", error);
-                }
-            };
+    // useEffect(() => {
+    //     if (selectedItem && apiEndpoint) {
+    //         const updateSelectedItem = async () => {
+    //             try {
+    //                 await axios.put(apiEndpoint, selectedItem);
+    //                 console.log("Updated item:", selectedItem);
+    //             } catch (error) {
+    //                 console.error("Error updating selected item:", error);
+    //             }
+    //         };
 
-            updateSelectedItem();
-        }
-    }, [selectedItem, updateEndpoint]);
+    //         updateSelectedItem();
+    //     }
+    // }, [selectedItem, apiEndpoint]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

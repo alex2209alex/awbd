@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { EditModal } from "../common/editModal";
 import { Pagination } from "./pagination";
 import { Filter } from "./filter";
+import { updateProducerAsync } from "@/lib/features/producer/slice";
 
 export const Table = ({
   items,
@@ -12,6 +13,7 @@ export const Table = ({
   updateItem,
   addItem,
   addItemAsync,
+  updateItemAsync,
   title,
   headers,
   fields,
@@ -74,7 +76,11 @@ export const Table = ({
   };
 
   const handleSaveEdit = async (updatedState: any) => {
+    console.log(">>>updatedState: ", updatedState)
     await dispatch(updateItem(updatedState));
+    await dispatch(updateItemAsync(updatedState));
+    setShowEditModal(false);
+    setFetchItemsFlag((prev) => !prev);
   };
 
   const handleAddProducer = () => {
@@ -83,6 +89,7 @@ export const Table = ({
   };
 
   const handleSaveAdd = async (newState: any) => {
+    console.log(">>>newState ADD: ", newState)
     await dispatch(addItem(newState));
     await dispatch(addItemAsync(newState));
     setShowAddModal(false);

@@ -38,3 +38,13 @@ export const getProducersApi = async (params: any) => {
 		throw error.response?.data || error;
 	}
 };
+
+export const putProducersApi = async (producerId: number, producer: any) => {
+	try {
+		const response = await axios.put(
+			`http://localhost:8080/producers/${producerId}`, producer);
+		return response.data;
+	} catch (error: any) {
+		throw error.response?.data || error;
+	}
+};

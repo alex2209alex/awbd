@@ -10,6 +10,7 @@ import {
   selectProducers,
   selectStatus,
   updateProducer,
+  updateProducerAsync,
 } from "@/lib/features/producer/slice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { EditModal } from "../common/editModal";
@@ -27,6 +28,7 @@ export const ProducersTable = () => {
       addItemAsync={addProducerAsync}
       removeItemAsync={removeProducerAsync}
       fetchItems={getProducersAsync}
+      updateItemAsync={updateProducerAsync}
       apiEndpoint="http://localhost:8080/producers"
       title="Producers List"
       headers={["Name", "Address"]}

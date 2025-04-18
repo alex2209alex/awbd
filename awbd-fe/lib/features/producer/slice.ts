@@ -1,7 +1,12 @@
 import { createAppSlice } from "@/lib/createAppSlice";
 import type { AppThunk } from "@/lib/store";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { addProducerApi, deleteProducerApi, getProducersApi } from "./api";
+import {
+	addProducerApi,
+	deleteProducerApi,
+	getProducersApi,
+	putProducersApi,
+} from "./api";
 // import { fetchCount } from "./counterAPI";
 
 // Define the shape of a Producer
@@ -56,6 +61,7 @@ export const producerSlice = createAppSlice({
 				);
 		}),
 		updateProducer: create.reducer((state, action: PayloadAction<Producer>) => {
+			console.log(">>>action payloadi n upadate: ", action.payload)
 			state.producers.items = state.producers.items.map(
 				(producer: Producer) => {
 					if (producer.id === action.payload.id) return action.payload;
@@ -68,6 +74,10 @@ export const producerSlice = createAppSlice({
 		}),
 		removeProducerAsync: create.asyncThunk(async (producerId: number) => {
 			return await deleteProducerApi(producerId);
+		}),
+		updateProducerAsync: create.asyncThunk(async (producer: any) => {
+			console.log(">>>producer in slice: ", producer);
+			return await putProducersApi(producer.id, producer);
 		}),
 	}),
 	selectors: {
@@ -84,6 +94,7 @@ export const {
 	addProducerAsync,
 	removeProducerAsync,
 	getProducersAsync,
+	updateProducerAsync,
 } = producerSlice.actions;
 
 // Export selectors

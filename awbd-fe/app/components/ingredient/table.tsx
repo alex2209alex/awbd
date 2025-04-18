@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addIngredient,
+  addIngredientAsync,
+  getIngredientsAsync,
   Ingredient,
   removeIngredient,
+  removeIngredientAsync,
   selectIngredients,
   selectStatus,
   updateIngredient,
+  updateIngredientAsync,
 } from "@/lib/features/ingredient/slice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { EditModal } from "../common/editModal";
@@ -19,18 +23,22 @@ export const IngredientsTable = () => {
   return (
     <Table
       items={ingredients}
-      // items={[]}
       removeItem={removeIngredient}
       updateItem={updateIngredient}
       addItem={addIngredient}
-      apiEndpoint="api/ingredients"
+      addItemAsync={addIngredientAsync}
+      removeItemAsync={removeIngredientAsync}
+      fetchItems={getIngredientsAsync}
+      updateItemAsync={updateIngredientAsync}
+      apiEndpoint="http://localhost:8080/ingredients"
+
       title="Ingredients List"
       headers={["Name", "Price", "Calories", "Producer"]}
       fields={[
         { name: "name", type: "input" },
         { name: "price", type: "input" },
         { name: "calories", type: "input" },
-        { name: "producer", type: "dropdown" },
+        { name: "producer", type: "dropdown", endpoint: "http://localhost:8080/producers/search" },
       ]}
       fieldLabels={["Name", "Price", "Calories", "Producer"]}
       editModalTitle="Edit Ingredient"
