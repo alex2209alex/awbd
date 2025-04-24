@@ -9,7 +9,8 @@ import styles from "../styles/layout.module.css";
 
 export const Nav = () => {
   const pathname = usePathname();
-  const loggedIn = useSelector(selectLoggedIn);
+  // const loggedIn = useSelector(selectLoggedIn);
+  const loggedIn = true;
 
   return (
     <nav className={styles.nav}>

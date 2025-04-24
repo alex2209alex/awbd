@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addCourier,
+  addCourierAsync,
   Courier,
+  getCouriersAsync,
   removeCourier,
+  removeCourierAsync,
   selectCouriers,
   selectStatus,
   updateCourier,
+  updateCourierAsync,
 } from "@/lib/features/courier/slice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { EditModal } from "../common/editModal";
@@ -21,15 +25,21 @@ export const CouriersTable = () => {
       removeItem={removeCourier}
       updateItem={updateCourier}
       addItem={addCourier}
-      apiEndpoint="api/couriers"
+      addItemAsync={addCourierAsync}
+      removeItemAsync={removeCourierAsync}
+      fetchItems={getCouriersAsync}
+      updateItemAsync={updateCourierAsync}
+      apiEndpoint="http://localhost:8080/curiers"
       title="Couriers List"
-      headers={["Name", "Phone Number", "Salary"]}
+      headers={["Email", "Password", "Name", "Phone Number", "Salary"]}
       fields={[
+        { name: "email", type: "input" },
+        { name: "password", type: "input", inputType: "password" },
         { name: "name", type: "input" },
         { name: "phoneNumber", type: "input" },
         { name: "salary", type: "input" },
       ]}
-      fieldLabels={["Name", "Phone Number", "Salary"]}
+      fieldLabels={["Email", "Password", "Name", "Phone Number", "Salary"]}
       editModalTitle="Edit Courier"
       addModalTitle="Add Courier"
     />

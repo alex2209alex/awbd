@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProducer,
+  addProducerAsync,
+  getProducersAsync,
   Producer,
   removeProducer,
+  removeProducerAsync,
   selectProducers,
   selectStatus,
   updateProducer,
+  updateProducerAsync,
 } from "@/lib/features/producer/slice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { EditModal } from "../common/editModal";
@@ -21,7 +25,11 @@ export const ProducersTable = () => {
       removeItem={removeProducer}
       updateItem={updateProducer}
       addItem={addProducer}
-      apiEndpoint="api/producers"
+      addItemAsync={addProducerAsync}
+      removeItemAsync={removeProducerAsync}
+      fetchItems={getProducersAsync}
+      updateItemAsync={updateProducerAsync}
+      apiEndpoint="http://localhost:8080/producers"
       title="Producers List"
       headers={["Name", "Address"]}
       fields={[
