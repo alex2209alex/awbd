@@ -1,0 +1,284 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Online Order management
+  description: |-
+    API related to management of Online Orders.
+paths:
+  /online-orders:
+    get:
+      tags:
+        - Online Order
+      summary: Get page of Online Orders.
+      operationId: getOnlineOrdersPage
+      description: |-
+        Returns a page of OnlineOrders according to user permissions ordered by creation date.
+        Clients can see only his Online Orders. Cooks can only see Online Orders in preparation and the Online Orders 
+        they are delivering. Couriers can only see Online Orders that are ready. Restaurant Administrator can see all 
+        Online Orders.
+      parameters:        
+        # pagination
+        - name: limit
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+          required: false
+          example: 25
+          in: query
+          description: |-
+            Specifies maximum number of items returned - the size of page of Online Orders. Maximum value is 50.
+            Values higher than 50 wil be automatically truncated to 50.
+        - name: offset
+          schema:
+            type: integer
+            format: int64
+            default: 1
+            minimum: 1
+          required: false
+          example: 3
+          in: query
+          description: Specifies a page number.
+      responses:
+        '200':
+          description: Page of Online Orders successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnlineOrdersPage'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Restaurant Admin.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    post:
+      tags:
+        - Online Order
+      summary: Creates an Online Order.
+      operationId: createOnlineOrder
+      description: |-
+        Creates an Online Order.
+        Only Client can create an Online Order.
+      requestBody:
+        description: Request body contains information related to new Online Order.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnlineOrderCreation'
+      responses:
+        '201':
+          description: Online Order successfully created.
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not Client.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+  /online-orders/{onlineOrderId}:
+    get:
+      tags:
+        - Online Order
+      summary: Get Online Order by Id.
+      operationId: getOnlineOrderDetails
+      description: |-
+        Returns details of an Online Order.
+      parameters:
+        - name: onlineOrderId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of searched Online Order.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Online Order details successfully fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnlineOrderDetails'
+        '400':
+          description: Requests parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '403':
+          description: User is not allowed to get details of the Online Order.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Online Order not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+    put:
+      tags:
+        - Online Order
+      summary: Updates status of an Online Order.
+      operationId: updateOnlineOrderStatus
+      description: |-
+        Updates the status of an Online Order.
+        Users can update an Online Order's status based on their permissions.
+        Cooks can change Online Order's status from in preparation to ready.
+        Couriers can change Online Order's status from ready to on delivery and from on delivery
+        to delivered. Only the Courier delivering the Online Order can change it's status to delivered.
+      parameters:
+        - name: onlineOrderId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Id of updated Online Order.
+          in: path
+          example: 100
+      responses:
+        '200':
+          description: Online Order successfully updated.
+        '403':
+          description: User is not allowed to update Online Order's status.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '404':
+          description: Online Order not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+components:
+  schemas:
+    OnlineOrdersPage:
+      type: object
+      properties:
+        pagination:
+          $ref: 'common.yaml#/components/schemas/Pagination'
+        items:
+          type: array
+          description: List of fetched Online Orders.
+          items:
+            $ref: '#/components/schemas/OnlineOrderPageElementDetails'
+    OnlineOrderPageElementDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Online Order.
+          type: integer
+          format: int64
+          example: 120
+        client:
+          description: Email of Client of the Online Order.
+          type: string
+          example: example@example.com
+        courier:
+          description: Email of Courier of the Online Order.
+          type: string
+          example: example@example.com
+        status:
+          description: Status of the Online Order.
+          type: string
+          example: In preparation
+    OnlineOrderCreation:
+      type: object
+      required:
+        - address
+        - products
+      properties:
+        address:
+          description: Address of the Producer.
+          type: string
+          maxLength: 100
+          example: Str. Street Nr. 1
+        products:
+          type: array
+          description: Products of the Online Order.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/OnlineOrderProductCreation'
+    OnlineOrderProductCreation:
+      type: object
+      required:
+        - id
+        - quantity
+      properties:
+        id:
+          description: Id of the Product.
+          type: integer
+          format: int64
+          example: 120
+        quantity:
+          description: Quantity of the Product.
+          type: number
+          format: double
+          minimum: 0
+          example: 10
+    OnlineOrderDetails:
+      type: object
+      properties:
+        id:
+          description: ID of the Online Order.
+          type: integer
+          format: int64
+          example: 120
+        clientEmail:
+          description: Email of Client of the Online Order.
+          type: string
+          example: example@example.com
+        clientPhoneNumber:
+          description: Phone number of Client of the Online Order.
+          type: string
+          example: 0730123456
+        courierEmail:
+          description: Email of Courier of the Online Order.
+          type: string
+          example: example@example.com
+        courierPhoneNumber:
+          description: Phone number of Courier of the Online Order.
+          type: string
+          example: 0730123456
+        address:
+          description: Address of the Client.
+          type: string
+          example: Str. Street Nr. 1
+        products:
+          type: array
+          description: Products of the Online Order.
+          items:
+            $ref: '#/components/schemas/OnlineOrderProductDetails'
+    OnlineOrderProductDetails:
+      type: object
+      properties:
+        id:
+          description: Id of the Product.
+          type: integer
+          format: int64
+          example: 120
+        name:
+          description: Name of the Product.
+          type: string
+          example: French fries
+        quantity:
+          description: Quantity of the Product.
+          type: number
+          format: double
+          example: 10
