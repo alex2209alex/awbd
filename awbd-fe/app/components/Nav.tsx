@@ -5,76 +5,104 @@ import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectLoggedIn } from "../../lib/features/user/slice"; // Adjust the path
 
-import styles from "../styles/layout.module.css";
-
 export const Nav = () => {
   const pathname = usePathname();
   // const loggedIn = useSelector(selectLoggedIn);
   const loggedIn = true;
 
   return (
-    <nav className={styles.nav}>
-      {!loggedIn ? (
-        <>
-          <Link
-            className={`${styles.link} ${pathname === "/signup" ? styles.active : ""}`}
-            href="/signup"
-          >
-            Sign Up
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/login" ? styles.active : ""}`}
-            href="/login"
-          >
-            Log In
-          </Link>
-        </>
-      ) : (
-        <>
-          <Link
-            className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
-            href="/"
-          >
-            Home
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/verify" ? styles.active : ""}`}
-            href="/verify"
-          >
-            Verify
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/producers" ? styles.active : ""}`}
-            href="/producers"
-          >
-            Producers
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/ingredients" ? styles.active : ""}`}
-            href="/ingredients"
-          >
-            Ingredients
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/products" ? styles.active : ""}`}
-            href="/products"
-          >
-            Products
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/couriers" ? styles.active : ""}`}
-            href="/couriers"
-          >
-            Couriers
-          </Link>
-          <Link
-            className={`${styles.link} ${pathname === "/cookers" ? styles.active : ""}`}
-            href="/cookers"
-          >
-            Cookers
-          </Link>
-        </>
-      )}
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container-fluid">
+        <ul className="navbar-nav d-flex flex-row gap-5">
+          {!loggedIn ? (
+            <>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/signup" ? "active" : ""}`}
+                  href="/signup"
+                >
+                  Sign Up
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/login" ? "active" : ""}`}
+                  href="/login"
+                >
+                  Log In
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/" ? "active" : ""}`}
+                  href="/"
+                >
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/verify" ? "active" : ""}`}
+                  href="/verify"
+                >
+                  Verify
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/producers" ? "active" : ""}`}
+                  href="/producers"
+                >
+                  Producers
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/ingredients" ? "active" : ""}`}
+                  href="/ingredients"
+                >
+                  Ingredients
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/products" ? "active" : ""}`}
+                  href="/products"
+                >
+                  Products
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/couriers" ? "active" : ""}`}
+                  href="/couriers"
+                >
+                  Couriers
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/cookers" ? "active" : ""}`}
+                  href="/cookers"
+                >
+                  Cookers
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/clients" ? "active" : ""}`}
+                  href="/clients"
+                >
+                  Clients
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
     </nav>
   );
 };

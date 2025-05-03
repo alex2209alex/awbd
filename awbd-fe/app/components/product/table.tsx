@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
+  addProductAsync,
+  getProductsAsync,
   Product,
   removeProduct,
+  removeProductAsync,
   selectProducts,
   selectStatus,
   updateProduct,
+  updateProductAsync,
 } from "@/lib/features/product/slice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { EditModal } from "../common/editModal";
@@ -21,15 +25,29 @@ export const ProductsTable = () => {
       removeItem={removeProduct}
       updateItem={updateProduct}
       addItem={addProduct}
-      apiEndpoint="api/producets"
+      addItemAsync={addProductAsync}
+      removeItemAsync={removeProductAsync}
+      fetchItems={getProductsAsync}
+      updateItemAsync={updateProductAsync}
+      apiEndpoint="http://localhost:8080/products"
       title="Products List"
-      headers={["Name", "Price", "Description"]}
+      headers={["Name", "Price", "Description", "Ingredients"]}
       fields={[
         { name: "name", type: "input" },
         { name: "price", type: "input" },
         { name: "description", type: "input" },
+        {
+          name: "ingredients",
+          type: "array",
+          fields: [
+            {
+              name: "id", type: "dropdown", endpoint: "http://localhost:8080/ingredients/search"
+            },
+            { name: "quantity", type: "input" }
+          ]
+        },
       ]}
-      fieldLabels={["Name", "Price", "Description"]}
+      fieldLabels={["Name", "Price", "Description", "Ingredients"]}
       editModalTitle="Edit Product"
       addModalTitle="Add Product"
     />

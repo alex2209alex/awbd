@@ -98,13 +98,14 @@ export const ingredientSlice = createAppSlice({
 			},
 		),
 		addIngredientAsync: create.asyncThunk(async (ingredient: Ingredient) => {
-      // console.log(">>>>INGREDIENT in add async: ", ingredient)
-			if (ingredient?.producer?.id) ingredient.producer = ingredient?.producer?.id;
-      
-      console.log(">>>AFTER IF ingredient in add async: ", ingredient)
-      const newIngredient = {...ingredient, producerId: ingredient.producer}
-      delete newIngredient.producer;
-      console.log(">>>ingredient in add async: ", newIngredient)
+			// console.log(">>>>INGREDIENT in add async: ", ingredient)
+			if (ingredient?.producer?.id)
+				ingredient.producer = ingredient?.producer?.id;
+
+			console.log(">>>AFTER IF ingredient in add async: ", ingredient);
+			const newIngredient = { ...ingredient, producerId: ingredient.producer };
+			delete newIngredient.producer;
+			console.log(">>>ingredient in add async: ", newIngredient);
 
 			return await addIngredientApi(newIngredient);
 		}),
@@ -113,7 +114,7 @@ export const ingredientSlice = createAppSlice({
 		}),
 		updateIngredientAsync: create.asyncThunk(async (ingredient: any) => {
 			if (ingredient.producer?.id) ingredient.producer = ingredient.producer.id;
-      ingredient.producerId = ingredient.producer;
+			ingredient.producerId = ingredient.producer;
 			return await putIngredientsApi(ingredient.id, ingredient);
 		}),
 	}),

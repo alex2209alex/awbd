@@ -1,9 +1,12 @@
 // components/EditModal.tsx
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "./Modal"; // Import the generic Modal component
 import { SearchableDropdown } from "./searchableDropdown";
 import { Dropdown } from "./dropdown";
+import { ModalArray } from "./modalArray";
+import { denormalizeArrayField, normalizeArrayField } from "@/app/utils/formNormalizer";
+import { NumericFormat } from 'react-number-format';
 
 interface EditModalProps {
   isOpen: boolean;
@@ -29,13 +32,37 @@ export const EditModal: React.FC<EditModalProps> = ({
   if (!isOpen) return null;
   const [state, setState] = useState(initialState);
 
+  useEffect(() => {
+    (async () => {
+      const copy = { ...initialState };
+      for (let i = 0; i < properties.length; i++) {
+        const prop = properties[i];
+        if (prop.type === "array" && Array.isArray(initialState[prop.name])) {
+          copy[prop.name] = await normalizeArrayField(
+            initialState[prop.name],
+            prop.fields
+          );
+        }
+      }
+      setState(copy);
+    })();
+  }, [initialState, properties]);
+
+  // ➋ On save: denormalize each array before sending
   const handleSave = async () => {
-    await onSave(state);
+    const payload = { ...state };
+    for (const prop of properties) {
+      if (prop.type === "array" && Array.isArray(payload[prop.name])) {
+        payload[prop.name] = denormalizeArrayField(
+          payload[prop.name],
+          prop.fields
+        );
+      }
+    }
+    await onSave(payload);
     setState({});
     onClose();
   };
-
-  console.log(">>>state in edit modal: ", state)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} onSave={async () => await handleSave()} title={title}>
@@ -45,27 +72,44 @@ export const EditModal: React.FC<EditModalProps> = ({
             name: propertyName,
             type: propertyType,
             inputType,
+            dataType,
             endpoint: propertyEndpoint,
-          }: { name: string; type: string; endpoint: string, inputType: string },
+            fields: propertyFields,
+          }: { name: string; type: string; endpoint: string, inputType: string, dataType: string, fields: any },
           index: number
         ) => {
-          console.log(">>>inputType", inputType)
+          const renderInput = () => {
+            if (dataType === "number")
+              return (
+                <NumericFormat
+                  className="form-control"
+                  value={state?.[propertyName] ?? ''}
+                  thousandSeparator={true}
+                  decimalScale={2}
+                  allowNegative={false}
+                  onValueChange={({ floatValue }) =>
+                    setState({ ...state, [propertyName]: floatValue ?? 0 })
+                  }
+                />
+              )
+            return (
+              <input
+                type={inputType || "text"}
+                className="form-control"
+                id="producerName"
+                value={state?.[propertyName] || ""}
+                onChange={(e) =>
+                  setState({ ...state, [propertyName]: e.target.value })
+                }
+              />
+            )
+          }
           return (
             <div className="mb-3">
               <label htmlFor={propertyName} className="form-label">
                 {labels[index]}
               </label>
-              {propertyType === "input" && (
-                <input
-                  type={inputType || "text"}
-                  className="form-control"
-                  id="producerName"
-                  value={state?.[propertyName] || ""}
-                  onChange={(e) =>
-                    setState({ ...state, [propertyName]: e.target.value })
-                  }
-                />
-              )}
+              {propertyType === "input" && renderInput()}
               {propertyType === "searchDropdown" && (
                 <SearchableDropdown
                   onSelect={(selectedOption: any) =>
@@ -89,6 +133,13 @@ export const EditModal: React.FC<EditModalProps> = ({
                   valueKey="id"
                   apiEndpoint={propertyEndpoint}
                   placeholder={`Search ${propertyName}`}
+                />
+              )}
+              {propertyType === "array" && (
+                <ModalArray
+                  array={state?.[propertyName] || ""}
+                  fields={propertyFields}
+                  onChange={(propertyNewState: any) => setState({ ...state, [propertyName]: propertyNewState })}
                 />
               )}
             </div>

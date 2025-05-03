@@ -38,7 +38,7 @@ export const Table = ({
   const [filter, setFilter] = useState<{ [key: string]: string }>({});
 
   const itemsArray = pageItems?.items || [];
-  console.log(">>>fetchItemsFlag: ", fetchItemsFlag);
+  const pagination = pageItems?.pagination;
 
   const getItems = (page: number) => {
     try {
@@ -108,6 +108,11 @@ export const Table = ({
 
   const handlePaginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
+    setFetchItemsFlag((prev) => !prev); // Toggle boolean
+  };
+
+  const handleItemsPerPageChange = (itemsPerPage: number) => {
+    setItemsPerPage(itemsPerPage);
     setFetchItemsFlag((prev) => !prev); // Toggle boolean
   };
 
@@ -183,7 +188,7 @@ export const Table = ({
         </button>
       </div>
 
-      <Pagination handlePaginate={handlePaginate} currentPage={currentPage} totalPages={2} />
+      <Pagination handlePaginate={handlePaginate} handleItemsPerPageChange={handleItemsPerPageChange} pagination={pagination} />
 
       <EditModal
         isOpen={showEditModal || showAddModal}
