@@ -40,4 +40,6 @@ public class LogUtils {
     public static final String GET_CLIENT_DETAILS_REQUEST = "getClientDetails operation was invoked";
     public static final String CREATE_CLIENT_REQUEST = "createClient operation was invoked";
     public static final String UPDATE_CLIENT_REQUEST = "updateClient operation was invoked";
+
+    public static final String AUTHENTICATE_USER = "authenticateUser operation was invoked";
 }

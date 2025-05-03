@@ -28,4 +28,6 @@ public class ErrorMessageUtils {
     public static final String INVALID_SORTABLE_COLUMN = "Invalid %s: %s";
 
     public static final String ERROR_HASHING_ALGORITHM = "Error with hashing algorithm";
+
+    public static final String AUTHORIZATION_FAILED = "Authorization failed";
 }
