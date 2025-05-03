@@ -17,7 +17,7 @@ import ro.unibuc.fmi.awbd.service.client.ClientService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class ClientController implements ClientApi {
+public class ClientController implements ClientApi  {
     private final ClientService clientService;
 
     @Override
