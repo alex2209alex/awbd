@@ -58,6 +58,7 @@ public class ProductSearchRepository {
         query.orderBy(pageRequest.getPagination().getSort().startsWith("+") ? cb.asc(sortingColumn) : cb.desc(sortingColumn));
 
         query.where(getSearchPredicates(pageRequest, cb, root));
+        query.groupBy(root.get(Product_.ID));
 
         return entityManager.createQuery(query)
                 .setFirstResult((pageRequest.getPagination().getPage() - 1) * pageRequest.getPagination().getPageSize())
