@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"  # or 3000 if using Next.js
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # prevent node_modules conflict with host
+    command: npm run dev
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
