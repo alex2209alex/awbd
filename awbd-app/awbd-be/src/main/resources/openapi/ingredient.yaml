@@ -353,12 +353,14 @@ components:
           type: number
           format: double
           minimum: 0
+          maximum: 10000
           example: 3.99
         calories:
           description: Calories of the Ingredient per 100 grams.
           type: number
           format: double
           minimum: 0
+          maximum: 10000
           example: 300
         producerId:
           description: Id of the Ingredient's Producer.
@@ -414,12 +416,14 @@ components:
           type: number
           format: double
           minimum: 0
+          maximum: 10000
           example: 3.99
         calories:
           description: Calories of the Ingredient per 100 grams.
           type: number
           format: double
           minimum: 0
+          maximum: 10000
           example: 300
         producerId:
           description: Id of the Ingredient's Producer.

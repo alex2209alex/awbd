@@ -16,7 +16,7 @@ CREATE TABLE users
     name            VARCHAR(50) NOT NULL,
     role            VARCHAR(50) NOT NULL,
     phone_number    VARCHAR(10),
-    salary          NUMERIC(5, 2),
+    salary          NUMERIC(10, 2),
     loyalty_card_id BIGINT REFERENCES loyalty_cards (id)
 );
 
