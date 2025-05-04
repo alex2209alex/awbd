@@ -17,6 +17,7 @@ import ro.unibuc.fmi.awbd.domain.user.repository.cook.CookSearchRepository;
 import ro.unibuc.fmi.awbd.service.cook.mapper.CookMapper;
 import ro.unibuc.fmi.awbd.service.cook.model.CookFilter;
 import ro.unibuc.fmi.awbd.service.cook.model.CookPageElementDetails;
+import ro.unibuc.fmi.awbd.service.user.UserInformationService;
 
 import java.util.stream.Collectors;
 
@@ -28,17 +29,18 @@ public class CookService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final CookMapper cookMapper;
-
-    // TODO validate user is restaurant admin for all functions
+    private final UserInformationService userInformationService;
 
     @Transactional(readOnly = true)
     public CooksPageDto getCooksPage(PageRequest<CookFilter> pageRequest) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         Page<CookPageElementDetails> page = cookSearchRepository.getCooksPage(pageRequest);
         return cookMapper.mapToCookPageDto(page);
     }
 
     @Transactional(readOnly = true)
     public CookDetailsDto getCookDetails(Long cookId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val cook = cookRepository.findById(cookId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.COOK_NOT_FOUND, cookId))
         );
@@ -47,6 +49,7 @@ public class CookService {
 
     @Transactional
     public void createCook(CookCreationDto cookCreationDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val productIds = cookCreationDto.getProducts()
                 .stream()
                 .map(CookProductCreationDto::getId)
@@ -68,6 +71,7 @@ public class CookService {
 
     @Transactional
     public void updateCook(Long cookId, CookUpdateDto cookUpdateDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val productIds = cookUpdateDto.getProducts()
                 .stream()
                 .map(CookProductUpdateDto::getId)
@@ -89,6 +93,7 @@ public class CookService {
 
     @Transactional
     public void deleteCook(Long cookId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val cook = cookRepository.findById(cookId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.COOK_NOT_FOUND, cookId))
         );

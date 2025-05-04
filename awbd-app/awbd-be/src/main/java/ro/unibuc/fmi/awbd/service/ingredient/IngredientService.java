@@ -1,6 +1,7 @@
 package ro.unibuc.fmi.awbd.service.ingredient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,11 @@ import ro.unibuc.fmi.awbd.domain.producer.repository.ProducerRepository;
 import ro.unibuc.fmi.awbd.service.ingredient.mapper.IngredientMapper;
 import ro.unibuc.fmi.awbd.service.ingredient.model.IngredientFilter;
 import ro.unibuc.fmi.awbd.service.ingredient.model.IngredientPageElementDetails;
+import ro.unibuc.fmi.awbd.service.user.UserInformationService;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class IngredientService {
@@ -26,23 +29,25 @@ public class IngredientService {
     private final IngredientRepository ingredientRepository;
     private final ProducerRepository producerRepository;
     private final IngredientMapper ingredientMapper;
-
-    // TODO validate user is restaurant admin for all functions
+    private final UserInformationService userInformationService;
 
     @Transactional(readOnly = true)
     public IngredientsPageDto getIngredientsPage(PageRequest<IngredientFilter> pageRequest) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         Page<IngredientPageElementDetails> page = ingredientSearchRepository.getIngredientsPage(pageRequest);
         return ingredientMapper.mapToIngredientsPageDto(page);
     }
 
     @Transactional(readOnly = true)
     public List<IngredientSearchDetailsDto> getIngredients() {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val ingredients = ingredientRepository.findAllByOrderByName();
         return ingredientMapper.mapToIngredientSearchDetailsDtos(ingredients);
     }
 
     @Transactional(readOnly = true)
     public IngredientDetailsDto getIngredientDetails(Long ingredientId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val ingredient = ingredientRepository.findById(ingredientId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.INGREDIENT_NOT_FOUND, ingredientId))
         );
@@ -51,6 +56,7 @@ public class IngredientService {
 
     @Transactional
     public void createIngredient(IngredientCreationDto ingredientCreationDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producer = producerRepository.findById(ingredientCreationDto.getProducerId()).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, ingredientCreationDto.getProducerId()))
         );
@@ -60,6 +66,7 @@ public class IngredientService {
 
     @Transactional
     public void updateIngredient(Long ingredientId, IngredientUpdateDto ingredientUpdateDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producer = producerRepository.findById(ingredientUpdateDto.getProducerId()).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, ingredientUpdateDto.getProducerId()))
         );
@@ -71,6 +78,7 @@ public class IngredientService {
 
     @Transactional
     public void deleteIngredient(Long ingredientId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val ingredient = ingredientRepository.findById(ingredientId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.INGREDIENT_NOT_FOUND, ingredientId))
         );

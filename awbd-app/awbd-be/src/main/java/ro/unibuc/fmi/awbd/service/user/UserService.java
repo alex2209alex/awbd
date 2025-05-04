@@ -24,8 +24,8 @@ public class UserService {
 
     @Transactional
     public TokenResponseDto loginUser(UserLoginDto userLoginDto) {
-        String password = userMapper.hashPassword(userLoginDto.getPassword());
-        val user = userRepository.findByEmailAndPassword(userLoginDto.getEmail(), password)
+        String hashedPassword = userMapper.hashPassword(userLoginDto.getPassword());
+        val user = userRepository.findByEmailAndPassword(userLoginDto.getEmail(), hashedPassword)
                 .orElseThrow(() -> new UnauthorizedException(String.format(ErrorMessageUtils.AUTHORIZATION_FAILED)));
 
         val token = JwtUtils.generateToken(user.getId(), user.getEmail(), user.getName(), user.getRole(), secret);
