@@ -23,9 +23,18 @@ public class ErrorMessageUtils {
     public static final String DUPLICATE_PRODUCTS_PRESENT = "Duplicate products present";
     public static final String PRODUCTS_NOT_FOUND = "Products not found";
 
-    public static final String CLIENT_NOT_FOUND = "Client with ID %s not found";
+    public static final String CLIENT_NOT_ALLOWED_TO_VIEW_DETAILS_OF_OTHER_USERS = "Client not allowed to view details of other users";
+    public static final String CLIENT_NOT_ALLOWED_TO_UPDATE_OTHER_USERS = "Client not allowed to update other users";
 
     public static final String INVALID_SORTABLE_COLUMN = "Invalid %s: %s";
 
     public static final String ERROR_HASHING_ALGORITHM = "Error with hashing algorithm";
+
+    public static final String AUTHORIZATION_FAILED = "Authorization failed";
+    public static final String AUTHENTICATION_TOKEN_IS_INVALID = "Authentication token is invalid";
+    public static final String USER_NOT_RESTAURANT_ADMIN = "User is not restaurant admin";
+    public static final String USER_NOT_RESTAURANT_ADMIN_OR_CLIENT = "User is not restaurant admin or client";
+    public static final String USER_NOT_CLIENT = "User is not client";
+
+    public static final String USER_HAS_LOYALTY_CARD = "User has loyalty card";
 }

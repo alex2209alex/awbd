@@ -19,6 +19,7 @@ import ro.unibuc.fmi.awbd.domain.user.repository.courier.CourierSearchRepository
 import ro.unibuc.fmi.awbd.service.courier.mapper.CourierMapper;
 import ro.unibuc.fmi.awbd.service.courier.model.CourierFilter;
 import ro.unibuc.fmi.awbd.service.courier.model.CourierPageElementDetails;
+import ro.unibuc.fmi.awbd.service.user.UserInformationService;
 
 @Service
 @RequiredArgsConstructor
@@ -27,17 +28,18 @@ public class CourierService {
     private final CourierRepository courierRepository;
     private final UserRepository userRepository;
     private final CourierMapper courierMapper;
-
-    // TODO validate user is restaurant admin for all functions
+    private final UserInformationService userInformationService;
 
     @Transactional(readOnly = true)
     public CouriersPageDto getCouriersPage(PageRequest<CourierFilter> pageRequest) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         Page<CourierPageElementDetails> page = courierSearchRepository.getCouriersPage(pageRequest);
         return courierMapper.mapToCourierPageDto(page);
     }
 
     @Transactional(readOnly = true)
     public CourierDetailsDto getCourierDetails(Long courierId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val courier = courierRepository.findById(courierId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.COURIER_NOT_FOUND, courierId))
         );
@@ -46,6 +48,7 @@ public class CourierService {
 
     @Transactional
     public void createCourier(CourierCreationDto courierCreationDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         if (userRepository.existsByEmail(courierCreationDto.getEmail())) {
             throw new BadRequestException(String.format(ErrorMessageUtils.USER_WITH_EMAIL_ALREADY_EXISTS, courierCreationDto.getEmail()));
         }
@@ -55,6 +58,7 @@ public class CourierService {
 
     @Transactional
     public void updateCourier(Long courierId, CourierUpdateDto courierUpdateDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val courier = courierRepository.findById(courierId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.COURIER_NOT_FOUND, courierId))
         );
@@ -64,6 +68,7 @@ public class CourierService {
     // TODO fix dependency checks
     @Transactional
     public void deleteCourier(Long courierId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val courier = courierRepository.findById(courierId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.COURIER_NOT_FOUND, courierId))
         );

@@ -18,7 +18,7 @@ public class Client extends User {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "loyalty_card_id", referencedColumnName = "id")
     private LoyaltyCard loyaltyCard;
 }

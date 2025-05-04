@@ -8,7 +8,7 @@ paths:
   /loyalty-cards:
     post:
       tags:
-        - Loyalty Cards
+        - Loyalty Card
       summary: Creates a Loyalty Card.
       operationId: createLoyaltyCard
       description: |-

@@ -24,6 +24,11 @@ public class GlobalExceptionHandler {
         return getGenericApplicationErrorResponseEntity(exc, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<GenericApplicationError> handleUnauthorizedException(Exception exc) {
+        return getGenericApplicationErrorResponseEntity(exc, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<GenericApplicationError> handleForbiddenException(Exception exc) {
         return getGenericApplicationErrorResponseEntity(exc, HttpStatus.FORBIDDEN);

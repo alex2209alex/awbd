@@ -18,6 +18,7 @@ import ro.unibuc.fmi.awbd.domain.product.repository.ProductSearchRepository;
 import ro.unibuc.fmi.awbd.service.product.mapper.ProductMapper;
 import ro.unibuc.fmi.awbd.service.product.model.ProductFilter;
 import ro.unibuc.fmi.awbd.service.product.model.ProductPageElementDetails;
+import ro.unibuc.fmi.awbd.service.user.UserInformationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,25 +32,25 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final IngredientRepository ingredientRepository;
+    private final UserInformationService userInformationService;
 
-    // TODO validate user is restaurant admin for all other functions
-
-    // TODO validate user is restaurant admin or client
     @Transactional(readOnly = true)
     public ProductsPageDto getProductsPage(PageRequest<ProductFilter> pageRequest) {
+        userInformationService.ensureCurrentUserIsRestaurantAdminOrClient();
         Page<ProductPageElementDetails> page = productSearchRepository.getProductPage(pageRequest);
         return productMapper.mapToProductsPageDto(page);
     }
 
     @Transactional(readOnly = true)
     public List<ProductSearchDetailsDto> getProducts() {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val products = productRepository.findAllByOrderByName();
         return productMapper.mapToProductSearchDetailsDtos(products);
     }
 
-    // TODO validate user is restaurant admin or client
     @Transactional(readOnly = true)
     public ProductDetailsDto getProductDetails(Long productId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdminOrClient();
         val product = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCT_NOT_FOUND, productId))
         );
@@ -58,6 +59,7 @@ public class ProductService {
 
     @Transactional
     public void createProduct(ProductCreationDto productCreationDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val ingredientIds = productCreationDto.getIngredients()
                 .stream()
                 .map(ProductIngredientCreationDto::getId)
@@ -88,6 +90,7 @@ public class ProductService {
 
     @Transactional
     public void updateProduct(Long productId, ProductUpdateDto productUpdateDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val ingredientIds = productUpdateDto.getIngredients()
                 .stream()
                 .map(ProductIngredientUpdateDto::getId)
@@ -131,6 +134,7 @@ public class ProductService {
     // TODO fix dependency checks
     @Transactional
     public void deleteProduct(Long productId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val product = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, productId))
         );

@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: User management
+  description: |-
+    API related to management of Users.
+paths:
+  /users/login:
+    post:
+      tags:
+        - User
+      summary: Authenticates a User
+      operationId: authenticateUser
+      requestBody:
+        description: Credentials needed for user authentication
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      responses:
+        '200':
+          description: User successfully authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Requests body is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+        '401':
+          description: Authentication failed due to invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
+components:
+  schemas:
+    UserLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email
+          example: example@example.com
+        password:
+          type: string
+          description: User's password
+          example: Example password
+    TokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JSON Web Token

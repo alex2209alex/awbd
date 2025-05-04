@@ -19,6 +19,7 @@ import ro.unibuc.fmi.awbd.domain.producer.repository.ProducerRepository;
 import ro.unibuc.fmi.awbd.domain.producer.repository.ProducerSearchRepository;
 import ro.unibuc.fmi.awbd.fixtures.ProducerFixtures;
 import ro.unibuc.fmi.awbd.service.producer.mapper.ProducerMapper;
+import ro.unibuc.fmi.awbd.service.user.UserInformationService;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,9 @@ class ProducerServiceTest {
 
     @Mock
     ProducerMapper producerMapper;
+
+    @Mock
+    UserInformationService userInformationService;
 
     @InjectMocks
     ProducerService producerService;

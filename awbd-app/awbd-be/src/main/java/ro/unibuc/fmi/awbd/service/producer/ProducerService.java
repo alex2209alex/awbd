@@ -15,6 +15,7 @@ import ro.unibuc.fmi.awbd.domain.producer.repository.ProducerSearchRepository;
 import ro.unibuc.fmi.awbd.service.producer.mapper.ProducerMapper;
 import ro.unibuc.fmi.awbd.service.producer.model.ProducerFilter;
 import ro.unibuc.fmi.awbd.service.producer.model.ProducerPageElementDetails;
+import ro.unibuc.fmi.awbd.service.user.UserInformationService;
 
 import java.util.List;
 
@@ -24,23 +25,25 @@ public class ProducerService {
     private final ProducerSearchRepository producerSearchRepository;
     private final ProducerRepository producerRepository;
     private final ProducerMapper producerMapper;
-
-    // TODO validate user is restaurant admin for all functions
+    private final UserInformationService userInformationService;
 
     @Transactional(readOnly = true)
     public ProducersPageDto getProducersPage(PageRequest<ProducerFilter> pageRequest) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         Page<ProducerPageElementDetails> page = producerSearchRepository.getProducersPage(pageRequest);
         return producerMapper.mapToProducersPageDto(page);
     }
 
     @Transactional(readOnly = true)
     public List<ProducerSearchDetailsDto> getProducers() {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producers = producerRepository.findAllByOrderByName();
         return producerMapper.mapToProducerSearchDetailsDtos(producers);
     }
 
     @Transactional(readOnly = true)
     public ProducerDetailsDto getProducerDetails(Long producerId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producer = producerRepository.findById(producerId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, producerId))
         );
@@ -49,12 +52,14 @@ public class ProducerService {
 
     @Transactional
     public void createProducer(ProducerCreationDto producerCreationDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producer = producerMapper.mapToProducer(producerCreationDto);
         producerRepository.save(producer);
     }
 
     @Transactional
     public void updateProducer(Long producerId, ProducerUpdateDto producerUpdateDto) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producer = producerRepository.findById(producerId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, producerId))
         );
@@ -63,6 +68,7 @@ public class ProducerService {
 
     @Transactional
     public void deleteProducer(Long producerId) {
+        userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val producer = producerRepository.findById(producerId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, producerId))
         );
