@@ -35,4 +35,6 @@ public class ErrorMessageUtils {
     public static final String USER_NOT_RESTAURANT_ADMIN = "User is not restaurant admin";
     public static final String USER_NOT_RESTAURANT_ADMIN_OR_CLIENT = "User is not restaurant admin or client";
     public static final String USER_NOT_CLIENT = "User is not client";
+
+    public static final String USER_HAS_LOYALTY_CARD = "User has loyalty card";
 }
