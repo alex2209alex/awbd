@@ -13,7 +13,7 @@ export interface Courier {
 }
 
 export const getCouriers = async () => {
-	const response = await fetch("http://localhost:8080/curiers", {
+	const response = await fetch("http://localhost:8080/couriers", {
 		method: "GET",
 		headers: { "Content-Type": "application/json" },
 	});
@@ -24,7 +24,7 @@ export const getCouriers = async () => {
 
 export const addCourierApi = async (courier: Courier) => {
 	try {
-		await axios.post("http://localhost:8080/curiers", courier);
+		await axios.post("http://localhost:8080/couriers", courier);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -32,7 +32,7 @@ export const addCourierApi = async (courier: Courier) => {
 
 export const deleteCourierApi = async (courierId: number) => {
 	try {
-		await axios.delete(`http://localhost:8080/curiers/${courierId}`);
+		await axios.delete(`http://localhost:8080/couriers/${courierId}`);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -40,7 +40,7 @@ export const deleteCourierApi = async (courierId: number) => {
 
 export const getCouriersApi = async (params: any) => {
 	try {
-		const response = await axios.get("http://localhost:8080/curiers", {
+		const response = await axios.get("http://localhost:8080/couriers", {
 			params,
 		});
 		return response.data as Courier[];
@@ -52,7 +52,7 @@ export const getCouriersApi = async (params: any) => {
 export const putCouriersApi = async (courierId: number, courier: any) => {
 	try {
 		const response = await axios.put(
-			`http://localhost:8080/curiers/${courierId}`,
+			`http://localhost:8080/couriers/${courierId}`,
 			courier,
 		);
 		return response.data as Courier;

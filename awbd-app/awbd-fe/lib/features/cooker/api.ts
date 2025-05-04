@@ -16,7 +16,7 @@ export interface Cooker {
 }
 
 export const getCookers = async () => {
-	const response = await fetch("http://localhost:8080/cookers", {
+	const response = await fetch("http://localhost:8080/cooks", {
 		method: "GET",
 		headers: { "Content-Type": "application/json" },
 	});

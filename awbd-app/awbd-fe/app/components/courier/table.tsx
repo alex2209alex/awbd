@@ -29,7 +29,7 @@ export const CouriersTable = () => {
       removeItemAsync={removeCourierAsync}
       fetchItems={getCouriersAsync}
       updateItemAsync={updateCourierAsync}
-      apiEndpoint="http://localhost:8080/curiers"
+      apiEndpoint="http://localhost:8080/couriers"
       title="Couriers List"
       headers={["Email", "Password", "Name", "Phone Number", "Salary"]}
       fields={[
