@@ -37,4 +37,8 @@ public class ErrorMessageUtils {
     public static final String USER_NOT_CLIENT = "User is not client";
 
     public static final String USER_HAS_LOYALTY_CARD = "User has loyalty card";
+
+    public static final String USER_CANNOT_VIEW_DETAILS_OF_ONLINE_ORDER = "User cannot view details of online order with ID %s";
+    public static final String ONLINE_ORDER_NOT_FOUND = "Online Order with ID %s not found";
+    public static final String USER_CANNOT_UPDATE_ONLINE_ORDER_STATUS = "User cannot update status of Online Order with ID %s";
 }

@@ -44,4 +44,9 @@ public class LogUtils {
     public static final String AUTHENTICATE_USER = "authenticateUser operation was invoked";
 
     public static final String CREATE_LOYALTY_CARD_REQUEST = "createLoyaltyCard operation was invoked";
+
+    public static final String GET_ONLINE_ORDERS_PAGE_REQUEST = "getOnlineOrdersPage operation was invoked";
+    public static final String GET_ONLINE_ORDER_DETAILS_REQUEST = "getOnlineOrderDetails operation was invoked";
+    public static final String CREATE_ONLINE_ORDER_REQUEST = "createOnlineOrder operation was invoked";
+    public static final String UPDATE_ONLINE_ORDER_STATUS_REQUEST = "updateOnlineOrderStatus operation was invoked";
 }

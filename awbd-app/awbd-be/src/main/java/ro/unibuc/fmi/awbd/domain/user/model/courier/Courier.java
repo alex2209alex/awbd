@@ -1,13 +1,14 @@
 package ro.unibuc.fmi.awbd.domain.user.model.courier;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ro.unibuc.fmi.awbd.domain.onlineorder.model.OnlineOrder;
 import ro.unibuc.fmi.awbd.domain.user.model.User;
+
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("COURIER")
@@ -21,4 +22,7 @@ public class Courier extends User {
 
     @Column(name = "salary", nullable = false)
     private Double salary;
+
+    @OneToMany(mappedBy = "courier", fetch = FetchType.LAZY)
+    private List<OnlineOrder> onlineOrders;
 }

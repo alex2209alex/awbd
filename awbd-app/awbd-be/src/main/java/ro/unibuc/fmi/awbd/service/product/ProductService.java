@@ -5,6 +5,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.unibuc.fmi.awbd.common.exception.BadRequestException;
+import ro.unibuc.fmi.awbd.common.exception.ForbiddenException;
 import ro.unibuc.fmi.awbd.common.exception.NotFoundException;
 import ro.unibuc.fmi.awbd.common.model.Page;
 import ro.unibuc.fmi.awbd.common.model.PageRequest;
@@ -131,16 +132,15 @@ public class ProductService {
         });
     }
 
-    // TODO fix dependency checks
     @Transactional
     public void deleteProduct(Long productId) {
         userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val product = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, productId))
         );
-//        if (!product.getProductOnlineOrderAssociations().isEmpty()) {
-//            throw new ForbiddenException(String.format(ErrorMessageUtils.PRODUCT_HAS_DEPENDENCIES_AND_CANNOT_BE_DELETED, productId));
-//        }
+        if (!product.getProductOnlineOrderAssociations().isEmpty()) {
+            throw new ForbiddenException(String.format(ErrorMessageUtils.PRODUCT_HAS_DEPENDENCIES_AND_CANNOT_BE_DELETED, productId));
+        }
         productRepository.delete(product);
     }
 }
