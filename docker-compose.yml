@@ -1,17 +1,113 @@
-version: '3.9'
 services:
-  frontend:
-    build: ./frontend
+  config-server:
+    build: ./config-server
     ports:
-      - "3000:3000"  # or 3000 if using Next.js
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules  # prevent node_modules conflict with host
-    command: npm run dev
+      - "8070:8070"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://config-server:8070/actuator/health"]
+      interval: 10s
+      retries: 5
+    networks:
+      - awbd-network
+
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      config-server:
+        condition: service_healthy
+#    depends_on:
+#     - config-server
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://eureka-server:8761/actuator/health"]
+      interval: 10s
+      retries: 5
+    networks:
+      - awbd-network
+
+  gateway:
+    build: ./gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+#    ports:
+#      - "3003:8080"
+#    depends_on:
+#      backend:
+#        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+#      eureka-server:
+#        condition: service_healthy
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://gateway:8092/actuator/health" ]
+#      interval: 10s
+#      retries: 5
     depends_on:
       - backend
+#      - config-server
+#      - eureka-server
+    networks:
+      - awbd-network
+#
+##
+#  frontend:
+#    build: ./awbd-app/awbd-fe
+#    ports:
+#      - "3000:3000"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=prod
+#    depends_on:
+#      - backend
+#    networks:
+#      - awbd-network
 
-  backend:
-    build: ./backend
+  postgres-docker:
+    container_name: postgres-docker  # Use the name of your existing PostgreSQL container
+    image: postgres:latest
+    env_file:
+      - "./.env.prod"
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
-      - "8080:8080"
+      - "5433:5432"
+    networks:
+      - awbd-network
+    volumes:
+      - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
+  backend:
+    build: ./awbd-app/awbd-be
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://backend:8082/actuator/health" ]
+#      interval: 10s
+#      retries: 5
+#    ports:
+#      - "8080:8080"
+    #    depends_on:
+    #      gateway:
+    #        condition: service_healthy
+    depends_on:
+      - postgres-docker
+#      - gateway
+    networks:
+      - awbd-network
+
+networks:
+  awbd-network:
+    driver: bridge
+
+volumes:
+  a481bcd2e1b88c845a18d01941b67ea252f80eccb9eb4d5a99d530c99b09065f: {}
+  52091b3a3ce82fd40571c479fdc267c598050243a948410060fb70255d849d00: {}
