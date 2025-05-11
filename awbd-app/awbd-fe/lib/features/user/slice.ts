@@ -1,27 +1,35 @@
 import { createAppSlice } from "@/lib/createAppSlice";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { signupAPI, loginAPI, createUserAPI } from "./api"; // Import loginAPI
+import { loginAPI } from "./api"; // Import loginAPI
+import { jwtDecode } from "jwt-decode";
+import { decode } from "punycode";
 
 export interface UserSliceState {
+	token: string
 	id: string | undefined;
+	jti: string | undefined;
 	name: string;
-	phoneNumber: string;
-	address: string;
 	email: string;
+	isClient: boolean;
+	isCooker: boolean;
+	isCourier: boolean;
+	isAdmin: boolean;
+	exp: number;
 	status: "idle" | "loading" | "failed" | "success";
-	error: string | null;
-	loggedIn: boolean;
 }
 
 const initialState: UserSliceState = {
+	token: "",
 	id: "",
+	jti: "",
 	name: "",
-	phoneNumber: "",
-	address: "",
 	email: "",
+	isClient: false,
+	isCooker: false,
+	isCourier: false,
+	isAdmin: false,
+	exp: 0,
 	status: "idle",
-	error: null,
-	loggedIn: false,
 };
 
 export const userSlice = createAppSlice({
@@ -32,55 +40,43 @@ export const userSlice = createAppSlice({
 			Object.assign(state, action.payload);
 		}),
 		clearUser: create.reducer((state) => {
-			Object.assign(state, { ...initialState, loggedIn: false }); // Reset to initialState, keep loggedIn false
+			console.log(">>>HEREEEEEEEEEE")
+			Object.assign(state, { ...initialState });
+			localStorage.removeItem("token_awbd");
 		}),
-		setLoggedIn: create.reducer((state, action: PayloadAction<boolean>) => {
-			state.loggedIn = action.payload;
-		}),
-		signup: create.asyncThunk(
-			async (
-				userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
-			) => {
-				const response = await signupAPI(userData);
-				return response;
-			},
-			{
-				pending: (state) => {
-					state.status = "loading";
-					state.error = null;
-				},
-				fulfilled: (state, action) => {
-					state.status = "success";
-					Object.assign(state, action.payload);
-				},
-				rejected: (state, action) => {
-					state.status = "failed";
-					state.error = action.error.message || "Signup failed";
-				},
-			},
-		),
-		createUser: create.asyncThunk(
-			async (
-				userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
-			) => {
-				const response = await createUserAPI(userData);
-				return response;
-			},
-			{
-				pending: (state) => {
-					state.status = "loading";
-					state.error = null;
-				},
-				fulfilled: (state, action) => {
-					state.status = "success";
-					Object.assign(state, action.payload);
-				},
-				rejected: (state, action) => {
-					state.status = "failed";
-					state.error = action.error.message || "Signup failed";
-				},
-			},
-		),
+		// setLoggedIn: create.reducer((state, action: PayloadAction<boolean>) => {
+		// 	state.loggedIn = action.payload;
+		// }),
+		// signup: create.asyncThunk(
+		// 	async (
+		// 		userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
+		// 	) => {
+		// 		const response = await signupAPI(userData);
+		// 		return response;
+		// 	},
+		// 	// {
+		// 	// 	pending: (state) => {
+		// 	// 		state.status = "loading";
+		// 	// 		state.error = null;
+		// 	// 	},
+		// 	// 	fulfilled: (state, action) => {
+		// 	// 		state.status = "success";
+		// 	// 		Object.assign(state, action.payload);
+		// 	// 	},
+		// 	// 	rejected: (state, action) => {
+		// 	// 		state.status = "failed";
+		// 	// 		state.error = action.error.message || "Signup failed";
+		// 	// 	},
+		// 	// },
+		// ),
+		// createUser: create.asyncThunk(
+		// 	async (
+		// 		userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
+		// 	) => {
+		// 		const response = await createUserAPI(userData);
+		// 		return response;
+		// 	},
+		// ),
 		login: create.asyncThunk(
 			async (credentials: { email: string; password: string }) => {
 				const response = await loginAPI(credentials);
@@ -88,31 +84,45 @@ export const userSlice = createAppSlice({
 			},
 			{
 				pending: (state) => {
-					state.status = "loading";
-					state.error = null;
+					// You can add a loading status here if needed
+					// state.status = "loading";
 				},
 				fulfilled: (state, action) => {
-					state.status = "success";
-					Object.assign(state, action.payload);
-					state.loggedIn = true;
+					// Set the user token (and optionally other fields from API)
+					const token = action.payload.token;
+					state.token = token;
+
+					// Decode the token
+					const decoded: any = jwtDecode(token);
+					if (decoded?.email) state.email = decoded.email;
+					if (decoded?.jti) state.jti = decoded.jti;
+					if (decoded?.name) state.name = decoded.name;
+					if (decoded?.sub) {
+						if (decoded.sub === "CLIENT") state.isClient = true;
+						else if (decoded.sub === "COURIER") state.isCourier = true;
+						else if (decoded.sub === "COOKER") state.isCooker = true;
+						else if (decoded.sub === "RESTAURANT_ADMIN") state.isAdmin = true;
+					}
+					if (decoded?.exp) state.exp = decoded.exp;
+					// Example if API returns user info:
+					// Object.assign(state, action.payload);
+					// state.loggedIn = true;
 				},
 				rejected: (state, action) => {
-					state.status = "failed";
-					state.error = action.error.message || "Login failed";
-					state.loggedIn = false;
+					// Handle login failure
+					// state.status = "failed";
+					// state.error = action.error.message ?? "Login failed";
 				},
-			},
+			}
 		),
 	}),
 	selectors: {
 		selectUser: (user) => user,
-		selectUserStatus: (user) => user.status,
-		selectUserError: (user) => user.error,
-		selectLoggedIn: (user) => user.loggedIn,
+		selectToken: (user) => user?.token,
 	},
 });
 
-export const { setUser, clearUser, signup, createUser, login, setLoggedIn } =
+export const { setUser, clearUser, login } =
 	userSlice.actions;
-export const { selectUser, selectUserStatus, selectUserError, selectLoggedIn } =
+export const { selectUser, selectToken } =
 	userSlice.selectors;

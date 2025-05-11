@@ -1,61 +1,55 @@
 // api.ts
-
+import apiClient from "@/lib/apiClient";
 import type { UserSliceState } from "./slice";
 
-export async function signupAPI(
-	userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
-) {
-	const response = await fetch("/api/signup", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(userData),
-	});
+// export async function signupAPI(
+// 	userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
+// ) {
+// 	const response = await fetch("/api/signup", {
+// 		method: "POST",
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		},
+// 		body: JSON.stringify(userData),
+// 	});
 
-	if (!response.ok) {
-		const errorData = await response.json();
-		throw new Error(errorData.message || "Signup failed");
-	}
+// 	if (!response.ok) {
+// 		const errorData = await response.json();
+// 		throw new Error(errorData.message || "Signup failed");
+// 	}
 
-	return response.json();
-}
+// 	return response.json();
+// }
 
 export async function loginAPI(credentials: {
 	email: string;
 	password: string;
 }) {
-	const response = await fetch("/api/login", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(credentials),
-	});
+	const { data } = await apiClient.post("/users/login", credentials);
 
-	if (!response.ok) {
-		const errorData = await response.json();
+	if (!data) {
+		const errorData = data;
 		throw new Error(errorData.message || "Login failed");
 	}
 
-	return response.json();
+	return data;
 }
 
-export async function createUserAPI(
-	userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
-) {
-	const response = await fetch("/api/createUser", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(userData),
-	});
+// export async function createUserAPI(
+// 	userData: Omit<UserSliceState, "status" | "error" | "loggedIn">,
+// ) {
+// 	const response = await fetch("/api/createUser", {
+// 		method: "POST",
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		},
+// 		body: JSON.stringify(userData),
+// 	});
 
-	if (!response.ok) {
-		const errorData = await response.json();
-		throw new Error(errorData.message || "Create User failed");
-	}
+// 	if (!response.ok) {
+// 		const errorData = await response.json();
+// 		throw new Error(errorData.message || "Create User failed");
+// 	}
 
-	return response.json();
-}
+// 	return response.json();
+// }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
   addProductAsync,
+  getProductByIdAsync,
   getProductsAsync,
   Product,
   removeProduct,
@@ -28,10 +29,11 @@ export const ProductsTable = () => {
       addItemAsync={addProductAsync}
       removeItemAsync={removeProductAsync}
       fetchItems={getProductsAsync}
+      fetchItemById={getProductByIdAsync}
       updateItemAsync={updateProductAsync}
       apiEndpoint="http://localhost:8080/products"
       title="Products List"
-      headers={["Name", "Price", "Description", "Ingredients"]}
+      headers={["Name", "Price", "Description"]}
       fields={[
         { name: "name", type: "input" },
         { name: "price", type: "input" },

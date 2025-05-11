@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addIngredient,
   addIngredientAsync,
+  getIngredientByIdAsync,
   getIngredientsAsync,
   Ingredient,
   removeIngredient,
@@ -29,6 +30,7 @@ export const IngredientsTable = () => {
       addItemAsync={addIngredientAsync}
       removeItemAsync={removeIngredientAsync}
       fetchItems={getIngredientsAsync}
+      fetchItemById={getIngredientByIdAsync}
       updateItemAsync={updateIngredientAsync}
       apiEndpoint="http://localhost:8080/ingredients"
 
@@ -38,7 +40,7 @@ export const IngredientsTable = () => {
         { name: "name", type: "input" },
         { name: "price", type: "input" },
         { name: "calories", type: "input" },
-        { name: "producer", type: "dropdown", endpoint: "http://localhost:8080/producers/search" },
+        { name: "producer", type: "dropdown", endpoint: "/producers/search" },
       ]}
       fieldLabels={["Name", "Price", "Calories", "Producer"]}
       editModalTitle="Edit Ingredient"

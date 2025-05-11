@@ -1,86 +1,84 @@
 import { createAppSlice } from "@/lib/createAppSlice";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
-	addCookerApi,
-	deleteCookerApi,
-	getCookersApi,
-	putCookersApi,
+	addOrderApi,
+	deleteOrderApi,
+	getOrderByIdApi,
+	getOrdersApi,
+	putOrderApi,
 } from "./api";
 
-// Define the shape of a Cooker
-export interface Cooker {
+// Define the shape of an Order
+export interface Order {
 	id?: number;
-	email: string;
-	password: string;
-	name: string;
-	salary: number;
-	products: [
-		{
-			id: number;
-		},
-	];
+	address: string;
+	products: {
+		id: number;
+		quantity: number;
+	}[];
 }
 
 // Define the state structure
-export interface CookerSliceState {
-	cookers: Cooker[];
+export interface OrderSliceState {
+	orders: Order[];
 	status: "idle" | "loading" | "failed";
 }
 
-const initialState: CookerSliceState = {
-	cookers: [],
+const initialState: OrderSliceState = {
+	orders: [],
 	status: "idle",
 };
 
 // Create the Redux slice
-export const cookerSlice = createAppSlice({
-	name: "cookers",
+export const orderSlice = createAppSlice({
+	name: "orders",
 	initialState,
 	reducers: (create) => ({
-		getCookersAsync: create.asyncThunk(async (params: any) => {
-			return await getCookersApi(params);
+		getOrdersAsync: create.asyncThunk(async (params: any) => {
+			return await getOrdersApi(params);
 		}),
-		addCooker: create.reducer((state, action: PayloadAction<Cooker>) => {
-			state.cookers.push(action.payload);
+		getOrderByIdAsync: create.asyncThunk(async (id: number) => {
+			return await getOrderByIdApi(id);
 		}),
-		removeCooker: create.reducer((state, action: PayloadAction<number>) => {
-			state.cookers = state.cookers.filter(
-				(cooker) => cooker.id !== action.payload,
+		addOrder: create.reducer((state, action: PayloadAction<Order>) => {
+			state.orders.push(action.payload);
+		}),
+		removeOrder: create.reducer((state, action: PayloadAction<number>) => {
+			state.orders = state.orders.filter((order) => order.id !== action.payload);
+		}),
+		updateOrder: create.reducer((state, action: PayloadAction<Order>) => {
+			state.orders = state.orders.map((order) =>
+				order.id === action.payload.id ? action.payload : order,
 			);
 		}),
-		updateCooker: create.reducer((state, action: PayloadAction<Cooker>) => {
-			state.cookers = state.cookers.map((cooker) =>
-				cooker.id === action.payload.id ? action.payload : cooker,
-			);
+		addOrderAsync: create.asyncThunk(async (order: Order) => {
+			return await addOrderApi(order);
 		}),
-		addCookerAsync: create.asyncThunk(async (cooker: Cooker) => {
-			return await addCookerApi(cooker);
+		removeOrderAsync: create.asyncThunk(async (orderId: number) => {
+			return await deleteOrderApi(orderId);
 		}),
-		removeCookerAsync: create.asyncThunk(async (cookerId: number) => {
-			return await deleteCookerApi(cookerId);
-		}),
-		updateCookerAsync: create.asyncThunk(async (cooker: any) => {
-			console.log(">>>>COOKER in update async: ", cooker);
-
-			return await putCookersApi(cooker.id, cooker);
+		updateOrderAsync: create.asyncThunk(async (order: Order) => {
+			console.log(">>>>ORDER in update async: ", order);
+			return await putOrderApi(order.id!, order);
 		}),
 	}),
 	selectors: {
-		selectCookers: (state) => state.cookers,
+		selectOrders: (state) => state.orders,
 		selectStatus: (state) => state.status,
 	},
 });
 
 // Export actions
 export const {
-	addCooker,
-	removeCooker,
-	updateCooker,
-	getCookersAsync,
-	addCookerAsync,
-	removeCookerAsync,
-	updateCookerAsync,
-} = cookerSlice.actions;
+	getOrderByIdAsync,
+	addOrder,
+	removeOrder,
+	updateOrder,
+	getOrdersAsync,
+	addOrderAsync,
+	removeOrderAsync,
+	updateOrderAsync,
+} = orderSlice.actions;
 
 // Export selectors
-export const { selectCookers, selectStatus } = cookerSlice.selectors;
+export const { selectOrders, selectStatus } = orderSlice.selectors;

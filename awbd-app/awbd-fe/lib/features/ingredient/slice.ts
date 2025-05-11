@@ -5,6 +5,7 @@ import { Producer } from "../producer/slice";
 import {
 	addIngredientApi,
 	deleteIngredientApi,
+	getIngredientByIdApi,
 	getIngredientsApi,
 	putIngredientsApi,
 } from "./api";
@@ -73,6 +74,10 @@ export const ingredientSlice = createAppSlice({
 			return await getIngredientsApi(params);
 		}),
 
+		getIngredientByIdAsync: create.asyncThunk(async (id: number) => {
+			return await getIngredientByIdApi(id);
+		}),
+
 		addIngredient: create.reducer(
 			(state, action: PayloadAction<Ingredient>) => {
 				if (action.payload.producer?.id)
@@ -126,6 +131,7 @@ export const ingredientSlice = createAppSlice({
 
 export const {
 	getIngredientsAsync,
+	getIngredientByIdAsync,
 	addIngredient,
 	removeIngredient,
 	updateIngredient,

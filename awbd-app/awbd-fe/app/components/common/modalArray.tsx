@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "./dropdown"; // Assuming you have this
 
-export const ModalArray = ({ array, fields, onChange }: any) => {
+export const ModalArray = ({ array, fields, onChange, readOnly = false }: any) => {
   const [currentArray, setCurrentArray] = useState<any[]>(array || []);
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -50,6 +50,7 @@ export const ModalArray = ({ array, fields, onChange }: any) => {
           valueKey="id"
           labelKey="name"
           placeholder={`Select ${field.name}`}
+          readOnly={readOnly}
           onSelect={(selectedOption: any) =>
             handleFieldChange(field.name, selectedOption)
           }
@@ -60,6 +61,7 @@ export const ModalArray = ({ array, fields, onChange }: any) => {
       <input
         type="text"
         className="form-control mb-2"
+        disabled={readOnly}
         value={value}
         onChange={(e) => handleFieldChange(field.name, e.target.value)}
       />
@@ -74,7 +76,7 @@ export const ModalArray = ({ array, fields, onChange }: any) => {
             {fields.map((field: any) => (
               <th key={field.name}>{field.name}</th>
             ))}
-            <th>Actions</th>
+            {!readOnly && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -85,7 +87,7 @@ export const ModalArray = ({ array, fields, onChange }: any) => {
                   {item[field.name]?.name || item[field.name]}
                 </td>
               ))}
-              <td>
+              {!readOnly && <td>
                 <button
                   type="button"
                   className="btn btn-warning btn-sm me-2"
@@ -104,12 +106,13 @@ export const ModalArray = ({ array, fields, onChange }: any) => {
                   Delete
                 </button>
               </td>
+              }
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className="text-center">
+      {!readOnly && <div className="text-center">
         <button
           type="button"
           onClick={() => {
@@ -121,8 +124,9 @@ export const ModalArray = ({ array, fields, onChange }: any) => {
           + Add
         </button>
       </div>
+      }
 
-      {showForm && (
+      {!readOnly && showForm && (
         <div className="card mt-3 p-3">
           <h5>{editingItem?._tempKey ? "Edit Item" : "Add Item"}</h5>
           {fields.map((field: any) => (

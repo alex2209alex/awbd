@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { EditModal } from "../common/editModal";
 import { Pagination } from "./pagination";
 import { Filter } from "./filter";
 import { updateProducerAsync } from "@/lib/features/producer/slice";
+import { selectUser } from "@/lib/features/user/slice";
 
 export const Table = ({
   items,
   fetchItems,
+  fetchItemById,
   removeItem,
   removeItemAsync,
   updateItem,
@@ -25,6 +27,7 @@ export const Table = ({
   const dispatch = useDispatch();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -39,6 +42,8 @@ export const Table = ({
 
   const itemsArray = pageItems?.items || [];
   const pagination = pageItems?.pagination;
+
+  const user = useSelector(selectUser);
 
   const getItems = (page: number) => {
     try {
@@ -64,9 +69,11 @@ export const Table = ({
     }
   };
 
-  const handleEdit = (producer: any) => {
-    setCurrentItem(producer);
-    setShowEditModal(true);
+  const handleEdit = async (item: any, readOnly = false) => {
+    const { payload } = await dispatch(fetchItemById(item?.id))
+    console.log(">>>fetchedItem: ", payload)
+    setCurrentItem(payload);
+    !readOnly ? setShowEditModal(true) : setShowDetailsModal(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -164,17 +171,23 @@ export const Table = ({
         <tbody>
           {itemsArray.map((item: any) => (
             <tr key={item.id}>
-              {fields.map(({ name }: { name: string }) => (
-                <td key={name} className="fs-4 p-3">
+              {fields.map(({ name, type }: { name: string, type: string }) => {
+                if (type === "array") return null;
+                return (<td key={name} className="fs-4 p-3">
                   {item[name] && item[name].name ? item[name].name : item[name]}
                 </td>
-              ))}
+                )
+              }
+              )}
               <td className="fs-4 p-3">
                 <button className="btn btn-warning me-2" onClick={async () => await handleEdit(item)}>
                   Edit
                 </button>
                 <button className="btn btn-danger" onClick={async () => await handleDelete(item.id)}>
                   Delete
+                </button>
+                <button className="btn btn-danger" onClick={async () => await handleEdit(item, true)}>
+                  Details
                 </button>
               </td>
             </tr>
@@ -195,9 +208,10 @@ export const Table = ({
         onClose={() => {
           setShowEditModal(false);
           setShowAddModal(false);
+          setShowDetailsModal(false);
         }}
         onSave={showEditModal ? handleSaveEdit : handleSaveAdd}
-        title={showEditModal ? editModalTitle : addModalTitle}
+        title={showEditModal ? editModalTitle : (showAddModal ? addModalTitle : "Details")}
         initialState={currentItem}
         labels={fieldLabels}
         properties={fields}

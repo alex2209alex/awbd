@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import {
 	addCookerApi,
 	deleteCookerApi,
+	getCookerByIdApi,
 	getCookersApi,
 	putCookersApi,
 } from "./api";
@@ -40,6 +41,9 @@ export const cookerSlice = createAppSlice({
 		getCookersAsync: create.asyncThunk(async (params: any) => {
 			return await getCookersApi(params);
 		}),
+		getCookerByIdAsync: create.asyncThunk(async (id: number) => {
+			return await getCookerByIdApi(id);
+		}),
 		addCooker: create.reducer((state, action: PayloadAction<Cooker>) => {
 			state.cookers.push(action.payload);
 		}),
@@ -73,6 +77,7 @@ export const cookerSlice = createAppSlice({
 
 // Export actions
 export const {
+	getCookerByIdAsync,
 	addCooker,
 	removeCooker,
 	updateCooker,

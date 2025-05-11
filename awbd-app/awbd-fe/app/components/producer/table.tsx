@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addProducer,
   addProducerAsync,
+  getProducerByIdAsync,
   getProducersAsync,
   Producer,
   removeProducer,
@@ -28,6 +29,7 @@ export const ProducersTable = () => {
       addItemAsync={addProducerAsync}
       removeItemAsync={removeProducerAsync}
       fetchItems={getProducersAsync}
+      fetchItemById={getProducerByIdAsync}
       updateItemAsync={updateProducerAsync}
       apiEndpoint="http://backend:8080/producers"
       title="Producers List"
@@ -42,3 +44,5 @@ export const ProducersTable = () => {
     />
   );
 };
+
+// գ㜔齂㌪館䦄ޙ莀ᯤ�䖏嶊ㆡ킗ﺒ鹬볹朐鑊磘擑髛ᣛ⁞퍙偨�䰃

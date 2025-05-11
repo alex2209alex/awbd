@@ -1,25 +1,27 @@
 // components/SignupForm.js
-
+"use client"
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup, selectUserStatus, selectUserError } from '../../../lib/features/user/slice'; // Adjust the path to your userSlice
+import { signup } from '../../../lib/features/user/slice'; // Adjust the path to your userSlice
+import { addClientAsync } from '@/lib/features/client/slice';
+import { useRouter } from 'next/navigation';
 
-const SignupForm = () => {
+const SignUpForm = () => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
+  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const dispatch = useDispatch();
-  const status = useSelector(selectUserStatus);
-  const error = useSelector(selectUserError);
+  const router = useRouter();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    dispatch(signup({ name, phoneNumber, address, email }));
+    await dispatch(addClientAsync({ email, password, name, phoneNumber }));
+    router.push("/login")
   };
 
   return (
-    <form onSubmit={handleSubmit} className="container">
+    <form onSubmit={async (e) => await handleSubmit(e)} className="container">
       <div className="mb-3">
         <label htmlFor="name" className="form-label">Name:</label>
         <input
@@ -43,11 +45,11 @@ const SignupForm = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="address" className="form-label">Address:</label>
+        <label htmlFor="password" className="form-label">Password:</label>
         <textarea
-          id="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
           className="form-control"
         />
@@ -64,11 +66,11 @@ const SignupForm = () => {
         />
       </div>
       <button type="submit" className="btn btn-primary" disabled={status === "loading"}>
-        {status === "loading" ? "Signing Up..." : "Sign Up"}
+        {/* {status === "loading" ? "Signing Up..." : "Sign Up"} */}
+        Sign Up
       </button>
-      {error && <p className="text-danger mt-2">{error}</p>}
     </form>
   );
 };
 
-export default SignupForm;
+export default SignUpForm;

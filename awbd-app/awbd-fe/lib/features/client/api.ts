@@ -1,9 +1,9 @@
-import axios from "axios";
+import apiClient from "@/lib/apiClient";
 
 export interface Client {
 	id?: number;
 	email: string;
-	password: string;
+	password?: string;
 	name: string;
 	phoneNumber: string;
 	// Add other client properties as needed
@@ -11,18 +11,14 @@ export interface Client {
 
 // Fetch all clients (GET)
 export const getClients = async (): Promise<Client[]> => {
-	const response = await fetch("http://localhost:8080/clients", {
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
-	});
-	const result: { data: Client[] } = await response.json();
-	return result.data;
+	const { data } = await apiClient.get("/clients");
+	return data;
 };
 
 // Add a new client (POST)
 export const addClientApi = async (client: Client): Promise<void> => {
 	try {
-		await axios.post("http://localhost:8080/clients", client, {
+		await apiClient.post("/clients", client, {
 			headers: { "Content-Type": "application/json" },
 		});
 	} catch (error: any) {
@@ -33,7 +29,7 @@ export const addClientApi = async (client: Client): Promise<void> => {
 // Delete a client by ID (DELETE)
 export const deleteClientApi = async (clientId: number): Promise<void> => {
 	try {
-		await axios.delete(`http://localhost:8080/clients/${clientId}`);
+		await apiClient.delete(`/clients/${clientId}`);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -42,10 +38,19 @@ export const deleteClientApi = async (clientId: number): Promise<void> => {
 // Fetch clients with query params (GET with params)
 export const getClientsApi = async (params: any): Promise<Client[]> => {
 	try {
-		const response = await axios.get("http://localhost:8080/clients", {
+		const response = await apiClient.get("/clients", {
 			params,
 		});
 		return response.data as Client[];
+	} catch (error: any) {
+		throw error.response?.data || error;
+	}
+};
+
+export const getClientByIdApi = async (id: number): Promise<Client> => {
+	try {
+		const response = await apiClient.get(`/clients/${id}`)
+		return response.data as Client;
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -57,8 +62,8 @@ export const putClientApi = async (
 	client: Partial<Client>,
 ): Promise<Client> => {
 	try {
-		const response = await axios.put(
-			`http://localhost:8080/clients/${clientId}`,
+		const response = await apiClient.put(
+			`/clients/${clientId}`,
 			client,
 			{ headers: { "Content-Type": "application/json" } },
 		);

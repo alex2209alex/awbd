@@ -5,6 +5,7 @@ import {
   addClientAsync,
   Client,
   getClientsAsync,
+  getClientByIdAsync,
   removeClient,
   removeClientAsync,
   selectClients,
@@ -27,6 +28,7 @@ export const ClientsTable = () => {
       addItemAsync={addClientAsync}
       removeItemAsync={removeClientAsync}
       fetchItems={getClientsAsync}
+      fetchItemById={getClientByIdAsync}
       updateItemAsync={updateClientAsync}
       apiEndpoint="http://localhost:8080/clients"
       title="Clients List"

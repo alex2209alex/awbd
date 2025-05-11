@@ -1,5 +1,5 @@
 // A mock function to mimic making an async request for data
-import axios from "axios";
+import apiClient from "@/lib/apiClient";
 
 // Define the Courier type
 export interface Courier {
@@ -13,18 +13,22 @@ export interface Courier {
 }
 
 export const getCouriers = async () => {
-	const response = await fetch("http://localhost:8080/couriers", {
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
-	});
-	const result: { data: Courier[] } = await response.json();
+	const { data } = await apiClient.get("/couriers");
+	return data;
+};
 
-	return result;
+export const getCourierByIdApi = async (id: number): Promise<Courier> => {
+	try {
+		const response = await apiClient.get(`/couriers/${id}`)
+		return response.data as Courier;
+	} catch (error: any) {
+		throw error.response?.data || error;
+	}
 };
 
 export const addCourierApi = async (courier: Courier) => {
 	try {
-		await axios.post("http://localhost:8080/couriers", courier);
+		await apiClient.post("/couriers", courier);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -32,7 +36,7 @@ export const addCourierApi = async (courier: Courier) => {
 
 export const deleteCourierApi = async (courierId: number) => {
 	try {
-		await axios.delete(`http://localhost:8080/couriers/${courierId}`);
+		await apiClient.delete(`/couriers/${courierId}`);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -40,7 +44,7 @@ export const deleteCourierApi = async (courierId: number) => {
 
 export const getCouriersApi = async (params: any) => {
 	try {
-		const response = await axios.get("http://localhost:8080/couriers", {
+		const response = await apiClient.get("/couriers", {
 			params,
 		});
 		return response.data as Courier[];
@@ -51,8 +55,8 @@ export const getCouriersApi = async (params: any) => {
 
 export const putCouriersApi = async (courierId: number, courier: any) => {
 	try {
-		const response = await axios.put(
-			`http://localhost:8080/couriers/${courierId}`,
+		const response = await apiClient.put(
+			`/couriers/${courierId}`,
 			courier,
 		);
 		return response.data as Courier;

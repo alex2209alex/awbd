@@ -4,6 +4,7 @@ import {
   addCooker,
   addCookerAsync,
   Cooker,
+  getCookerByIdAsync,
   getCookersAsync,
   removeCooker,
   removeCookerAsync,
@@ -28,6 +29,7 @@ export const CookersTable = () => {
       addItemAsync={addCookerAsync}
       removeItemAsync={removeCookerAsync}
       fetchItems={getCookersAsync}
+      fetchItemById={getCookerByIdAsync}
       updateItemAsync={updateCookerAsync}
       apiEndpoint="http://localhost:8080/cooks"
 

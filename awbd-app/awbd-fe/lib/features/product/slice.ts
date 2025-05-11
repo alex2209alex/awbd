@@ -4,6 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import {
 	addProductApi,
 	deleteProductApi,
+	getProductByIdApi,
 	getProductsApi,
 	putProductsApi,
 } from "./api";
@@ -42,6 +43,9 @@ export const productSlice = createAppSlice({
 		getProductsAsync: create.asyncThunk(async (params: any) => {
 			return await getProductsApi(params);
 		}),
+		getProductByIdAsync: create.asyncThunk(async (id: number) => {
+			return await getProductByIdApi(id);
+		}),
 		addProduct: create.reducer((state, action: PayloadAction<Product>) => {
 			state.products.push(action.payload);
 		}),
@@ -78,6 +82,7 @@ export const productSlice = createAppSlice({
 
 // Export actions
 export const {
+	getProductByIdAsync,
 	addProduct,
 	removeProduct,
 	updateProduct,

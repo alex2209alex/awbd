@@ -4,6 +4,7 @@ import {
   addCourier,
   addCourierAsync,
   Courier,
+  getCourierByIdAsync,
   getCouriersAsync,
   removeCourier,
   removeCourierAsync,
@@ -28,6 +29,7 @@ export const CouriersTable = () => {
       addItemAsync={addCourierAsync}
       removeItemAsync={removeCourierAsync}
       fetchItems={getCouriersAsync}
+      fetchItemById={getCourierByIdAsync}
       updateItemAsync={updateCourierAsync}
       apiEndpoint="http://localhost:8080/couriers"
       title="Couriers List"

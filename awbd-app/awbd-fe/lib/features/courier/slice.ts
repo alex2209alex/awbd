@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import {
 	addCourierApi,
 	deleteCourierApi,
+	getCourierByIdApi,
 	getCouriersApi,
 	putCouriersApi,
 } from "./api";
@@ -68,6 +69,9 @@ export const courierSlice = createAppSlice({
 		getCouriersAsync: create.asyncThunk(async (params: any) => {
 			return await getCouriersApi(params);
 		}),
+		getCourierByIdAsync: create.asyncThunk(async (id: number) => {
+			return await getCourierByIdApi(id);
+		}),
 		addCourier: create.reducer((state, action: PayloadAction<Courier>) => {
 			state.couriers.items.push(action.payload);
 		}),
@@ -102,6 +106,7 @@ export const courierSlice = createAppSlice({
 // Export actions
 export const {
 	getCouriersAsync,
+	getCourierByIdAsync,
 	addCourier,
 	removeCourier,
 	updateCourier,

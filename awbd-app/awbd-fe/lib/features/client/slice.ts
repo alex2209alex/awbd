@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import {
 	addClientApi,
 	deleteClientApi,
+	getClientByIdApi,
 	getClientsApi,
 	putClientApi,
 } from "./api";
@@ -46,6 +47,9 @@ export const clientSlice = createAppSlice({
 		getClientsAsync: create.asyncThunk(async (params: any) => {
 			return await getClientsApi(params);
 		}),
+		getClientByIdAsync: create.asyncThunk(async (id: number) => {
+			return await getClientByIdApi(id);
+		}),
 		// Synchronous reducers to manipulate local state
 		addClient: create.reducer((state, action: PayloadAction<Client>) => {
 			state.clients.items.push(action.payload);
@@ -80,6 +84,7 @@ export const clientSlice = createAppSlice({
 // Export actions
 export const {
 	getClientsAsync,
+	getClientByIdAsync,
 	addClient,
 	removeClient,
 	updateClient,

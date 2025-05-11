@@ -28,6 +28,7 @@ export const EditModal: React.FC<EditModalProps> = ({
   title,
   labels,
   properties,
+  readOnly = false,
 }) => {
   if (!isOpen) return null;
   const [state, setState] = useState(initialState);
@@ -87,6 +88,7 @@ export const EditModal: React.FC<EditModalProps> = ({
                   thousandSeparator={true}
                   decimalScale={2}
                   allowNegative={false}
+                  disabled={readOnly}
                   onValueChange={({ floatValue }) =>
                     setState({ ...state, [propertyName]: floatValue ?? 0 })
                   }
@@ -98,6 +100,7 @@ export const EditModal: React.FC<EditModalProps> = ({
                 className="form-control"
                 id="producerName"
                 value={state?.[propertyName] || ""}
+                disabled={readOnly}
                 onChange={(e) =>
                   setState({ ...state, [propertyName]: e.target.value })
                 }
@@ -131,6 +134,7 @@ export const EditModal: React.FC<EditModalProps> = ({
                   }
                   labelKey="name"
                   valueKey="id"
+                  readOnly={readOnly}
                   apiEndpoint={propertyEndpoint}
                   placeholder={`Search ${propertyName}`}
                 />
@@ -139,6 +143,7 @@ export const EditModal: React.FC<EditModalProps> = ({
                 <ModalArray
                   array={state?.[propertyName] || ""}
                   fields={propertyFields}
+                  readOnly={readOnly}
                   onChange={(propertyNewState: any) => setState({ ...state, [propertyName]: propertyNewState })}
                 />
               )}

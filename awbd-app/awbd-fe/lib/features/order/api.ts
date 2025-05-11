@@ -1,8 +1,8 @@
-// A mock module to handle CRUD operations for online orders
-import axios from "axios";
+// A mock module to handle CRUD operations for  orders
+import apiClient from "@/lib/apiClient";
 
-// Define the OnlineOrder type
-export interface OnlineOrder {
+// Define the Order type
+export interface Order {
 	id?: number;
 	customerName: string;
 	address: string;
@@ -15,19 +15,15 @@ export interface OnlineOrder {
 }
 
 // Fetch all orders (GET)
-export const getOnlineOrders = async (): Promise<OnlineOrder[]> => {
-	const response = await fetch("http://localhost:8080/orders", {
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
-	});
-	const result: { data: OnlineOrder[] } = await response.json();
-	return result.data;
+export const getOrders = async (): Promise<Order[]> => {
+	const { data } = await apiClient.get("/orders");
+	return data
 };
 
 // Add a new order (POST)
-export const addOnlineOrderApi = async (order: OnlineOrder): Promise<void> => {
+export const addOrderApi = async (order: Order): Promise<void> => {
 	try {
-		await axios.post("http://localhost:8080/orders", order, {
+		await apiClient.post("/orders", order, {
 			headers: { "Content-Type": "application/json" },
 		});
 	} catch (error: any) {
@@ -36,40 +32,49 @@ export const addOnlineOrderApi = async (order: OnlineOrder): Promise<void> => {
 };
 
 // Delete an order by ID (DELETE)
-export const deleteOnlineOrderApi = async (orderId: number): Promise<void> => {
+export const deleteOrderApi = async (orderId: number): Promise<void> => {
 	try {
-		await axios.delete(`http://localhost:8080/orders/${orderId}`);
+		await apiClient.delete(`/orders/${orderId}`);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
 };
 
 // Fetch orders with query params (GET with params)
-export const getOnlineOrdersApi = async (
+export const getOrdersApi = async (
 	params: any,
-): Promise<OnlineOrder[]> => {
+): Promise<Order[]> => {
 	try {
-		const response = await axios.get("http://localhost:8080/orders", {
+		const response = await apiClient.get("/orders", {
 			params,
 		});
-		return response.data as OnlineOrder[];
+		return response.data as Order[];
+	} catch (error: any) {
+		throw error.response?.data || error;
+	}
+};
+
+export const getOrderByIdApi = async (id: number): Promise<Order> => {
+	try {
+		const response = await apiClient.get(`/orders/${id}`)
+		return response.data as Order;
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
 };
 
 // Update an existing order (PUT)
-export const putOnlineOrderApi = async (
+export const putOrderApi = async (
 	orderId: number,
-	order: Partial<OnlineOrder>,
-): Promise<OnlineOrder> => {
+	order: Partial<Order>,
+): Promise<Order> => {
 	try {
-		const response = await axios.put(
-			`http://localhost:8080/orders/${orderId}`,
+		const response = await apiClient.put(
+			`/orders/${orderId}`,
 			order,
 			{ headers: { "Content-Type": "application/json" } },
 		);
-		return response.data as OnlineOrder;
+		return response.data as Order;
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}

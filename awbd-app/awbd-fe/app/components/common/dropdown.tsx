@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "@/lib/apiClient";
 import React, { useEffect, useState, useRef } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -19,6 +19,7 @@ export const Dropdown = ({
     apiEndpoint,
     updateEndpoint,
     placeholder = "Select...",
+    readOnly = false,
     initialValue,
 }: any) => {
     const [selectedItem, setSelectedItem] = useState<any>(initialValue || null);
@@ -31,7 +32,7 @@ export const Dropdown = ({
     useEffect(() => {
         const fetchOptions = async () => {
             try {
-                const { data } = await axios.get(apiEndpoint);
+                const { data } = await apiClient.get(apiEndpoint);
                 setOptions(data);
             } catch (error) {
                 console.error("Error fetching options:", error);
@@ -71,11 +72,11 @@ export const Dropdown = ({
 
     return (
         <div className="position-relative" ref={dropdownRef}>
-            <button className="form-control d-flex justify-content-between align-items-center" onClick={() => setIsOpen(!isOpen)}>
+            <button className="form-control d-flex justify-content-between align-items-center" disabled={readOnly} onClick={() => setIsOpen(!isOpen)}>
                 {selectedItem ? selectedItem[labelKey] : placeholder}
                 {isOpen ? <ChevronUp /> : <ChevronDown />}
             </button>
-            {isOpen && (
+            {!readOnly && isOpen && (
                 <ul className="list-group position-absolute w-100 mt-1 z-3">
                     {options.map((option) => (
                         <li

@@ -1,20 +1,15 @@
 // A mock function to mimic making an async request for data
-import axios from "axios";
-import { Ingredient } from "./slice"; // Adjust the path
+import apiClient from "@/lib/apiClient";
+import { Product } from "./slice"; // Adjust the path
 
 export const getProducts = async () => {
-  const response = await fetch("http://localhost:8080/products", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  const result: { data: Product[] } = await response.json(); // Expect an array of Products
-
-  return result;
+  const { data } = await apiClient.get("/products");
+  return data
 };
 
 export const addProductApi = async (product: Product) => {
   try {
-    await axios.post("http://localhost:8080/products", product);
+    await apiClient.post("/products", product);
   } catch (error: any) {
     throw error.response?.data || error;
   }
@@ -22,7 +17,7 @@ export const addProductApi = async (product: Product) => {
 
 export const deleteProductApi = async (productId: number) => {
   try {
-    await axios.delete(`http://localhost:8080/products/${productId}`);
+    await apiClient.delete(`/products/${productId}`);
   } catch (error: any) {
     throw error.response?.data || error;
   }
@@ -30,10 +25,19 @@ export const deleteProductApi = async (productId: number) => {
 
 export const getProductsApi = async (params: any) => {
   try {
-    const response = await axios.get("http://localhost:8080/products", {
+    const response = await apiClient.get("/products", {
       params,
     });
     return response.data as Product[]; // Type the response data
+  } catch (error: any) {
+    throw error.response?.data || error;
+  }
+};
+
+export const getProductByIdApi = async (id: number): Promise<Product> => {
+  try {
+    const response = await apiClient.get(`/products/${id}`)
+    return response.data as Product;
   } catch (error: any) {
     throw error.response?.data || error;
   }
@@ -44,8 +48,8 @@ export const putProductsApi = async (
   product: any,
 ) => {
   try {
-    const response = await axios.put(
-      `http://localhost:8080/products/${productId}`,
+    const response = await apiClient.put(
+      `/products/${productId}`,
       product,
     );
     return response.data as Product; // Type the response data

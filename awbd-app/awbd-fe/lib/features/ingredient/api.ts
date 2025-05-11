@@ -1,20 +1,15 @@
 // A mock function to mimic making an async request for data
-import axios from "axios";
+import apiClient from "@/lib/apiClient";
 import { Ingredient } from "./slice"; // Adjust the path
 
 export const getIngredients = async () => {
-	const response = await fetch("http://localhost:8080/ingredients", {
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
-	});
-	const result: { data: Ingredient[] } = await response.json(); // Expect an array of Ingredients
-
-	return result;
+	const { data } = await apiClient.get("/ingredients");
+	return data;
 };
 
 export const addIngredientApi = async (ingredient: Ingredient) => {
 	try {
-		await axios.post("http://localhost:8080/ingredients", ingredient);
+		await apiClient.post("/ingredients", ingredient);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -22,7 +17,7 @@ export const addIngredientApi = async (ingredient: Ingredient) => {
 
 export const deleteIngredientApi = async (ingredientId: number) => {
 	try {
-		await axios.delete(`http://localhost:8080/ingredients/${ingredientId}`);
+		await apiClient.delete(`/ingredients/${ingredientId}`);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -30,7 +25,7 @@ export const deleteIngredientApi = async (ingredientId: number) => {
 
 export const getIngredientsApi = async (params: any) => {
 	try {
-		const response = await axios.get("http://localhost:8080/ingredients", {
+		const response = await apiClient.get("/ingredients", {
 			params,
 		});
 		return response.data as Ingredient[]; // Type the response data
@@ -39,13 +34,23 @@ export const getIngredientsApi = async (params: any) => {
 	}
 };
 
+export const getIngredientByIdApi = async (id: number): Promise<Ingredient> => {
+	try {
+		const response = await apiClient.get(`/ingredients/${id}`)
+		return response.data as Ingredient;
+	} catch (error: any) {
+		throw error.response?.data || error;
+	}
+};
+
+
 export const putIngredientsApi = async (
 	ingredientId: number,
 	ingredient: any,
 ) => {
 	try {
-		const response = await axios.put(
-			`http://localhost:8080/ingredients/${ingredientId}`,
+		const response = await apiClient.put(
+			`/ingredients/${ingredientId}`,
 			ingredient,
 		);
 		return response.data as Ingredient; // Type the response data

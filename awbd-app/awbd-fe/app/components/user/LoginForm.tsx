@@ -1,23 +1,41 @@
 // components/LoginForm.js
-
-import React, { useState } from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, selectUserStatus, selectUserError } from '../../../lib/features/user/slice'; // Adjust path
+import { useRouter } from "next/navigation"
+import { login, selectToken } from '../../../lib/features/user/slice'; // Adjust path
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [submitted, setSubmitted] = useState(false);
     const dispatch = useDispatch();
-    const status = useSelector(selectUserStatus);
-    const error = useSelector(selectUserError);
+    const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const token = useSelector(selectToken);
+    console.log(">>>token: ", token)
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(login({ email, password }));
+        await dispatch(login({ email, password }));
+        setSubmitted(true)
     };
 
+    useEffect(() => {
+        if (token && submitted) {
+            // Save token to localStorage
+            // localStorage.clear()
+            localStorage.setItem("token_awbd", token);
+
+            // Redirect to home page
+            router.push("/")
+            setSubmitted(false)
+        }
+    }, [token, router, submitted]);
+
+
     return (
-        <form onSubmit={handleSubmit} className="container">
+        <form onSubmit={async (e) => await handleSubmit(e)} className="container">
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email:</label>
                 <input
@@ -40,10 +58,10 @@ const LoginForm = () => {
                     className="form-control"
                 />
             </div>
-            <button type="submit" className="btn btn-primary" disabled={status === "loading"}>
-                {status === "loading" ? "Logging In..." : "Log In"}
+            <button type="submit" className="btn btn-primary" >
+                {/* {status === "loading" ? "Logging In..." : "Log In"} */}
+                Log In
             </button>
-            {error && <p className="text-danger mt-2">{error}</p>}
         </form>
     );
 };
