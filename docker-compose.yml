@@ -19,8 +19,8 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
-#    depends_on:
-#     - config-server
+    #    depends_on:
+    #     - config-server
     healthcheck:
       test: ["CMD", "curl", "-f", "http://eureka-server:8761/actuator/health"]
       interval: 10s
@@ -28,57 +28,57 @@ services:
     networks:
       - awbd-network
 
-  gateway:
-    build: ./gateway
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-#    ports:
-#      - "3003:8080"
-#    depends_on:
-#      backend:
-#        condition: service_healthy
-#      config-server:
-#        condition: service_healthy
-#      eureka-server:
-#        condition: service_healthy
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://gateway:8092/actuator/health" ]
-#      interval: 10s
-#      retries: 5
-    depends_on:
-      - backend
-#      - config-server
-#      - eureka-server
-    networks:
-      - awbd-network
-#
-##
-#  frontend:
-#    build: ./awbd-app/awbd-fe
-#    ports:
-#      - "3000:3000"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=prod
-#    depends_on:
-#      - backend
-#    networks:
-#      - awbd-network
+  #  gateway:
+  #    build: ./gateway
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=prod
+  ##    ports:
+  ##      - "3003:8080"
+  ##    depends_on:
+  ##      backend:
+  ##        condition: service_healthy
+  ##      config-server:
+  ##        condition: service_healthy
+  ##      eureka-server:
+  ##        condition: service_healthy
+  ##    healthcheck:
+  ##      test: [ "CMD", "curl", "-f", "http://gateway:8092/actuator/health" ]
+  ##      interval: 10s
+  ##      retries: 5
+  #    depends_on:
+  #      - backend
+  ##      - config-server
+  ##      - eureka-server
+  #    networks:
+  #      - awbd-network
+  #
+  ##
+  #  frontend:
+  #    build: ./awbd-app/awbd-fe
+  #    ports:
+  #      - "3000:3000"
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=prod
+  #    depends_on:
+  #      - backend
+  #    networks:
+  #      - awbd-network
 
   postgres-docker:
     container_name: postgres-docker  # Use the name of your existing PostgreSQL container
     image: postgres:latest
     env_file:
       - "./.env.prod"
-#    environment:
-#      POSTGRES_USER: ${POSTGRES_USER}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#      POSTGRES_DB: ${POSTGRES_DB}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+    #    environment:
+    #      POSTGRES_USER: ${POSTGRES_USER}
+    #      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    #      POSTGRES_DB: ${POSTGRES_DB}
+    #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+    #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
       - "5433:5432"
     networks:
@@ -89,18 +89,34 @@ services:
     build: ./awbd-app/awbd-be
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://backend:8082/actuator/health" ]
-#      interval: 10s
-#      retries: 5
-#    ports:
-#      - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://backend:8080/actuator/health" ]
+      interval: 10s
+      retries: 5
+    ports:
+      - "8080:8082"
+    #    ports:
+    #      - "8080:8080"
     #    depends_on:
     #      gateway:
     #        condition: service_healthy
+    #    depends_on:
+    #      config-server:
+    #        condition: eureka-server
+    ##      - postgres-docker
     depends_on:
+      - eureka-server
       - postgres-docker
-#      - gateway
+    networks:
+      - awbd-network
+
+  frontend:
+    build: ./awbd-app/awbd-fe
+    ports:
+      - "3000:3000"
+    #    depends_on:
+    #      backend:
+    #        condition: service_healthy
     networks:
       - awbd-network
 
