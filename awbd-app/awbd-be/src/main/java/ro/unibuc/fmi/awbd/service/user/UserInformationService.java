@@ -36,7 +36,7 @@ public class UserInformationService {
     }
 
     public void ensureCurrentUserIsRestaurantAdminOrClient() {
-        if (isCurrentUserNotRestaurantAdmin() && isCurrentUserNotClient()) {
+        if (isCurrentUserNotRestaurantAdmin() && !isCurrentUserClient()) {
             throw new ForbiddenException(ErrorMessageUtils.USER_NOT_RESTAURANT_ADMIN_OR_CLIENT);
         }
     }
@@ -47,13 +47,13 @@ public class UserInformationService {
 
 
     public void ensureCurrentUserIsClient() {
-        if (isCurrentUserNotClient()) {
+        if (!isCurrentUserClient()) {
             throw new ForbiddenException(ErrorMessageUtils.USER_NOT_CLIENT);
         }
     }
 
-    public boolean isCurrentUserNotClient() {
-        return !Role.CLIENT.name().equals(getCurrentUserType());
+    public boolean isCurrentUserClient() {
+        return Role.CLIENT.name().equals(getCurrentUserType());
     }
 
     private Long getCurrentUserId() {

@@ -12,10 +12,10 @@ paths:
       summary: Get page of Online Orders.
       operationId: getOnlineOrdersPage
       description: |-
-        Returns a page of OnlineOrders according to user permissions ordered by creation date.
-        Clients can see only his Online Orders. Cooks can only see Online Orders in preparation and the Online Orders 
-        they are delivering. Couriers can only see Online Orders that are ready. Restaurant Administrator can see all 
-        Online Orders.
+        Returns a page of OnlineOrders according to user permissions ordered by creation date in descending order.
+        Clients can see only his Online Orders. Cooks can only see Online Orders in preparation. 
+        Couriers can only see Online Orders that are ready and the Online Orders 
+        they are delivering. Restaurant Administrator can see all Online Orders.
       parameters:        
         # pagination
         - name: limit
@@ -49,12 +49,6 @@ paths:
                 $ref: '#/components/schemas/OnlineOrdersPage'
         '400':
           description: Requests parameters are invalid.
-          content:
-            application/json:
-              schema:
-                $ref: 'common.yaml#/components/schemas/GenericApplicationError'
-        '403':
-          description: User is not Restaurant Admin.
           content:
             application/json:
               schema:
@@ -97,6 +91,9 @@ paths:
       operationId: getOnlineOrderDetails
       description: |-
         Returns details of an Online Order.
+        Cooks can see details of Online Orders in preparation.
+        Couriers can see details of Online Orders that are ready or those they are delivering.
+        Restaurant admin can see details of all Online Orders.
       parameters:
         - name: onlineOrderId
           schema:
@@ -155,7 +152,7 @@ paths:
         '200':
           description: Online Order successfully updated.
         '403':
-          description: User is not allowed to update Online Order's status.
+          description: User is not allowed to update the Online Order's status.
           content:
             application/json:
               schema:
@@ -198,6 +195,11 @@ components:
           description: Status of the Online Order.
           type: string
           example: In preparation
+        price:
+          description: Price of the Online Order.
+          type: number
+          format: double
+          example: 100
     OnlineOrderCreation:
       type: object
       required:
@@ -228,9 +230,10 @@ components:
           example: 120
         quantity:
           description: Quantity of the Product.
-          type: number
-          format: double
-          minimum: 0
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
           example: 10
     OnlineOrderDetails:
       type: object
@@ -260,6 +263,11 @@ components:
           description: Address of the Client.
           type: string
           example: Str. Street Nr. 1
+        price:
+          description: Price of the Online Order.
+          type: number
+          format: double
+          example: 100
         products:
           type: array
           description: Products of the Online Order.
@@ -279,6 +287,6 @@ components:
           example: French fries
         quantity:
           description: Quantity of the Product.
-          type: number
-          format: double
+          type: integer
+          format: int32
           example: 10

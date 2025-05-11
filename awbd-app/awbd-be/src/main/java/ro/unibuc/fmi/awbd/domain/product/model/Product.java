@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ro.unibuc.fmi.awbd.domain.ingredient.model.IngredientProductAssociation;
+import ro.unibuc.fmi.awbd.domain.producer.model.ProductOnlineOrderAssociation;
 import ro.unibuc.fmi.awbd.domain.user.model.cook.Cook;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<IngredientProductAssociation> ingredientProductAssociations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ProductOnlineOrderAssociation> productOnlineOrderAssociations;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

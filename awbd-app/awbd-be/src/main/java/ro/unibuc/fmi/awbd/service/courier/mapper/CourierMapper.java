@@ -28,12 +28,14 @@ public interface CourierMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "hashPassword")
     @Mapping(target = "role", ignore = true)
+    @Mapping(target = "onlineOrders", ignore = true)
     Courier mapToCourier(CourierCreationDto courierCreationDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "hashPassword")
     @Mapping(target = "role", ignore = true)
+    @Mapping(target = "onlineOrders", ignore = true)
     void mergeToCourier(@MappingTarget Courier courier, CourierUpdateDto courierUpdateDto);
 
     @Named("hashPassword")

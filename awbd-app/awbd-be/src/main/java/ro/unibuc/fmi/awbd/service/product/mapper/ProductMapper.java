@@ -29,11 +29,13 @@ public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "ingredientProductAssociations", ignore = true)
+    @Mapping(target = "productOnlineOrderAssociations", ignore = true)
     @Mapping(target = "cooks", ignore = true)
     Product mapToProduct(ProductCreationDto productCreationDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "ingredientProductAssociations", ignore = true)
+    @Mapping(target = "productOnlineOrderAssociations", ignore = true)
     @Mapping(target = "cooks", ignore = true)
     void mergeToProduct(@MappingTarget Product product, ProductUpdateDto productUpdateDto);
 

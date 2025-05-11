@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: eureka-server
+  config:
+    import: "optional:configserver:http://config-server:8070/"
+  profiles:
+    active: prod
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,env"
+  endpoint:
+    health:
+      show-details: always

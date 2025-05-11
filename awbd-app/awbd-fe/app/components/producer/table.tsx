@@ -29,7 +29,7 @@ export const ProducersTable = () => {
       removeItemAsync={removeProducerAsync}
       fetchItems={getProducersAsync}
       updateItemAsync={updateProducerAsync}
-      apiEndpoint="http://localhost:8080/producers"
+      apiEndpoint="http://backend:8080/producers"
       title="Producers List"
       headers={["Name", "Address"]}
       fields={[

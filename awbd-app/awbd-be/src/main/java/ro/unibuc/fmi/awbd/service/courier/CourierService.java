@@ -5,6 +5,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.unibuc.fmi.awbd.common.exception.BadRequestException;
+import ro.unibuc.fmi.awbd.common.exception.ForbiddenException;
 import ro.unibuc.fmi.awbd.common.exception.NotFoundException;
 import ro.unibuc.fmi.awbd.common.model.Page;
 import ro.unibuc.fmi.awbd.common.model.PageRequest;
@@ -65,16 +66,15 @@ public class CourierService {
         courierMapper.mergeToCourier(courier, courierUpdateDto);
     }
 
-    // TODO fix dependency checks
     @Transactional
     public void deleteCourier(Long courierId) {
         userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val courier = courierRepository.findById(courierId).orElseThrow(() ->
                 new NotFoundException(String.format(ErrorMessageUtils.COURIER_NOT_FOUND, courierId))
         );
-//        if (!courier.getCourierOnlineOrderAssociations().isEmpty()) {
-//            throw new ForbiddenException(String.format(ErrorMessageUtils.COURIER_HAS_DEPENDENCIES_AND_CANNOT_BE_DELETED, courierId));
-//        }
+        if (!courier.getOnlineOrders().isEmpty()) {
+            throw new ForbiddenException(String.format(ErrorMessageUtils.COURIER_HAS_DEPENDENCIES_AND_CANNOT_BE_DELETED, courierId));
+        }
         courierRepository.delete(courier);
     }
 }

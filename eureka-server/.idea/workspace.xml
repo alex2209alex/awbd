@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7d0d02a3-9771-4c3b-bc97-8a702e111be6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/awbd.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/feign/GatewayClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/feign/GatewayFallback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/service/gateway/GatewayService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application-docker.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-server/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-server/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/eureka-server.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../gateway/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../gateway/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/local/awbd-be.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/local/config-server.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/local/eureka-server.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/local/gateway.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/local/namespace.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/local/postgres.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../loadbalance/src/main/java/com/awbd/loadbalance/RibbonConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/AwbdApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/AwbdApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-fe/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-fe/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-fe/app/components/producer/table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-fe/app/components/producer/table.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-fe/lib/features/producer/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-fe/lib/features/producer/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Zeratul20&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:alex2209alex/awbd.git&quot;,
+    &quot;accountId&quot;: &quot;a184edcc-ca6a-44c6-89c6-c83ee171cdc0&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2wcMICWyj6SK3F4djrLZauxacXL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.eureka-server [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.eureka-server [compile].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.awbd.eurekaserver.EurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.153" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.153" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7d0d02a3-9771-4c3b-bc97-8a702e111be6" name="Changes" comment="" />
+      <created>1746336327270</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1746336327270</updated>
+      <workItem from="1746336328464" duration="328000" />
+      <workItem from="1746537718878" duration="14000" />
+      <workItem from="1746860850030" duration="21000" />
+      <workItem from="1746951360414" duration="11000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
