@@ -183,6 +183,10 @@ components:
           type: integer
           format: int64
           example: 120
+        address:
+          description: Address of the Online Order
+          type: string
+          example: Str. Street Nr. 1
         client:
           description: Email of Client of the Online Order.
           type: string

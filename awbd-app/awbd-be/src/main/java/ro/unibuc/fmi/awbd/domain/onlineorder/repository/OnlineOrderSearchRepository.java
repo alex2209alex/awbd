@@ -47,6 +47,7 @@ public class OnlineOrderSearchRepository {
 
         query.multiselect(
                 root.get(OnlineOrder_.ID),
+                root.get(OnlineOrder_.ADDRESS),
                 clientOnlineOrderAssociationJoin.get(User_.EMAIL),
                 courierOnlineOrderAssociationJoin.get(User_.EMAIL),
                 root.get(OnlineOrder_.ONLINE_ORDER_STATUS),
