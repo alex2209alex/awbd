@@ -80,7 +80,7 @@ services:
       POSTGRES_DB: postgres
     #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
-      - "5433:5432"
+      - "5433:5433"
     networks:
       - awbd-network
     volumes:

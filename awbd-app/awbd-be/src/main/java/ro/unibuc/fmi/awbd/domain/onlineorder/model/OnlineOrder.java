@@ -34,7 +34,7 @@ public class OnlineOrder {
     private Instant creationTime;
 
     @Enumerated(STRING)
-    @Column(name = "online_order_status", nullable = false, insertable = false, updatable = false)
+    @Column(name = "online_order_status", nullable = false)
     private OnlineOrderStatus onlineOrderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
