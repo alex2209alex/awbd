@@ -36,6 +36,11 @@ export const IngredientsTable = () => {
 
       title="Ingredients List"
       headers={["Name", "Price", "Calories", "Producer"]}
+      filterFields={[
+        { name: "name", type: "input" },
+        { name: "producer", type: "dropdown", endpoint: "/producers/search" },
+      ]}
+      filterFieldsLabels={["Name", "Producer"]}
       fields={[
         { name: "name", type: "input" },
         { name: "price", type: "input" },

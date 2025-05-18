@@ -10,6 +10,7 @@ export interface UserSliceState {
 	jti: string | undefined;
 	name: string;
 	email: string;
+	sub: string;
 	isClient: boolean;
 	isCooker: boolean;
 	isCourier: boolean;
@@ -24,6 +25,7 @@ const initialState: UserSliceState = {
 	jti: "",
 	name: "",
 	email: "",
+	sub: "",
 	isClient: false,
 	isCooker: false,
 	isCourier: false,
@@ -43,6 +45,24 @@ export const userSlice = createAppSlice({
 			console.log(">>>HEREEEEEEEEEE")
 			Object.assign(state, { ...initialState });
 			localStorage.removeItem("token_awbd");
+		}),
+		setUserByToken: create.reducer((state, action: PayloadAction<any>) => {
+			// Object.assign(state, { ...initialState });
+			console.log(">>>action. payload: ", action.payload)
+			const token = action.payload.token;
+			const decoded: any = jwtDecode(token);
+			if (token) state.token = token;
+			if (decoded?.email) state.email = decoded.email;
+			if (decoded?.jti) state.jti = decoded.jti;
+			if (decoded?.name) state.name = decoded.name;
+			if (decoded?.sub) {
+				state.sub = decoded.sub;
+				if (decoded.sub === "CLIENT") state.isClient = true;
+				else if (decoded.sub === "COURIER") state.isCourier = true;
+				else if (decoded.sub === "COOK") state.isCooker = true;
+				else if (decoded.sub === "RESTAURANT_ADMIN") state.isAdmin = true;
+			}
+			if (decoded?.exp) state.exp = decoded.exp;
 		}),
 		// setLoggedIn: create.reducer((state, action: PayloadAction<boolean>) => {
 		// 	state.loggedIn = action.payload;
@@ -98,9 +118,10 @@ export const userSlice = createAppSlice({
 					if (decoded?.jti) state.jti = decoded.jti;
 					if (decoded?.name) state.name = decoded.name;
 					if (decoded?.sub) {
+						state.sub = decoded.sub;
 						if (decoded.sub === "CLIENT") state.isClient = true;
 						else if (decoded.sub === "COURIER") state.isCourier = true;
-						else if (decoded.sub === "COOKER") state.isCooker = true;
+						else if (decoded.sub === "COOK") state.isCooker = true;
 						else if (decoded.sub === "RESTAURANT_ADMIN") state.isAdmin = true;
 					}
 					if (decoded?.exp) state.exp = decoded.exp;
@@ -122,7 +143,7 @@ export const userSlice = createAppSlice({
 	},
 });
 
-export const { setUser, clearUser, login } =
+export const { setUser, clearUser, setUserByToken, login } =
 	userSlice.actions;
 export const { selectUser, selectToken } =
 	userSlice.selectors;

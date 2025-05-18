@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser, selectToken, selectUser } from "../../lib/features/user/slice"; // Adjust the path
-import { useEffect } from "react";
+import { clearUser, selectToken, selectUser, setUserByToken } from "../../lib/features/user/slice"; // Adjust the path
+import { useEffect, useState } from "react";
+import { productStorageExtractor } from "@/lib/utils";
+import { ShoppingCart } from "lucide-react";
 
 export const Nav = () => {
   const pathname = usePathname();
@@ -13,12 +15,55 @@ export const Nav = () => {
   const router = useRouter();
   console.log(">>>user: ", user);
   // const loggedIn = true;
-  // useEffect({
-  //   if(!user?.token)
-  // })
+  useEffect(() => {
+    // if (!user?.token) {
+    //   if (localStorage.getItem("token_awbd")) dispatch(setUserByToken({ token: localStorage.getItem("token_awbd") }))
+    // }
+    // else if (user?.token && user.exp < Date.now() / 1000) {
+    //   console.log(">>>HEREEE")
+    //   dispatch(clearUser());
+    //   router.push("/login");
+    // } else dispatch(setUserByToken({ token: user?.token }))
+    const checkAndSetUser = () => {
+      const localToken = localStorage.getItem("token_awbd");
+
+      if (!user?.token && localToken) {
+        dispatch(setUserByToken({ token: localToken }));
+      } else if (user?.token) {
+        if (user.exp < Date.now() / 1000) {
+          dispatch(clearUser());
+          router.push("/login");
+        }
+      }
+    };
+    checkAndSetUser(); // Run once immediately
+    const interval = setInterval(checkAndSetUser, 5000); // Check every 5s
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [user?.token, user?.exp, dispatch, router])
+
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = productStorageExtractor()
+      console.log(">>>crad: ", cart)
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      console.log("totalItems: ", totalItems)
+      setCartCount(totalItems);
+    };
+
+    updateCartCount();
+
+    window.addEventListener('cartUpdated', updateCartCount);
+    const interval = setInterval(updateCartCount, 500); // Check every 5s
+    return () => clearInterval(interval); // Cleanup on unmount
+    // return () => window.removeEventListener('cartUpdated', updateCartCount);
+  }, [localStorage.getItem("products")]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      {/* <nav className="flex justify-between items-center p-4 bg-blue-600 text-black"> */}
       <div className="container-fluid">
         <ul className="navbar-nav d-flex flex-row gap-5">
           {!user?.token ? (
@@ -114,9 +159,24 @@ export const Nav = () => {
                   Orders
                 </Link>
               </li>
+
               <li className="nav-item">
+                <Link
+                  className={`nav-link ${pathname === "/clients" ? "active" : ""}`}
+                  href="/cart"
+                >
+                  <ShoppingCart size={24} />
+                  {cartCount > 0 && (
+                    <span className="badge rounded-pill bg-danger">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+              </li>
+
+              <li className="nav-item" style={{ marginLeft: "800px" }}>
                 <button
-                  className={``}
+                  className={`nav-link`}
                   onClick={() => {
                     dispatch(clearUser());
                     router.push("/login")
@@ -129,6 +189,6 @@ export const Nav = () => {
           )}
         </ul>
       </div>
-    </nav>
+    </nav >
   );
 };

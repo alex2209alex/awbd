@@ -6,6 +6,7 @@ interface ModalProps {
   onClose: () => void;
   onSave: () => void;
   title: string;
+  readOnly: boolean
   children: React.ReactNode;
 }
 
@@ -14,6 +15,7 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   onSave,
   title,
+  readOnly = false,
   children,
 }) => {
   if (!isOpen) return null; // Don't render the modal if it's not open.
@@ -48,9 +50,11 @@ export const Modal: React.FC<ModalProps> = ({
             >
               Close
             </button>
-            <button type="button" className="btn btn-primary" onClick={onSave}>
-              Save changes
-            </button>
+            {!readOnly &&
+              <button type="button" className="btn btn-primary" onClick={onSave}>
+                Save changes
+              </button>
+            }
           </div>
         </div>
       </div>

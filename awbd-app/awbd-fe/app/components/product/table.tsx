@@ -52,6 +52,7 @@ export const ProductsTable = () => {
       fieldLabels={["Name", "Price", "Description", "Ingredients"]}
       editModalTitle="Edit Product"
       addModalTitle="Add Product"
+      addToCart={true}
     />
   );
 };

@@ -1,10 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "./dropdown"; // Assuming you have this
+import apiClient from "@/lib/apiClient";
 
-export const ModalArray = ({ array, fields, onChange, readOnly = false }: any) => {
+export const ModalArray = ({ array, propertyName = "", fields, onChange, readOnly = false }: any) => {
   const [currentArray, setCurrentArray] = useState<any[]>(array || []);
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [showForm, setShowForm] = useState(false);
+
+  const [itemNames, setItemNames] = useState({});
+  useEffect(() => {
+    const fetchItems = async () => {
+      if (!propertyName) return;
+      const uniqueIds = [...new Set(currentArray.map(item => item.id))];
+
+      const promises = uniqueIds.map(id =>
+        apiClient.get(`/${propertyName}/${id}`).then((res: any) => ({ id, name: res.data.name }))
+      );
+
+      const results = await Promise.all(promises);
+
+      const namesMap: any = {};
+      results.forEach(({ id, name }) => {
+        namesMap[id] = name;
+      });
+
+      setItemNames(namesMap);
+    };
+
+    if (currentArray.length > 0) {
+      fetchItems();
+    }
+  }, [currentArray]);
 
   useEffect(() => {
     onChange(currentArray);
@@ -69,86 +95,89 @@ export const ModalArray = ({ array, fields, onChange, readOnly = false }: any) =
   };
 
   return (
-    <div className="container mt-3">
-      <table className="table">
-        <thead>
-          <tr>
-            {fields.map((field: any) => (
-              <th key={field.name}>{field.name}</th>
-            ))}
-            {!readOnly && <th>Actions</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {currentArray.map((item: any) => (
-            <tr key={item._tempKey || item.id}>
+    <div>
+      <span>{propertyName.slice(0, 1).toUpperCase() + propertyName.slice(1)}</span>
+      <div className="container mt-3">
+        <table className="table">
+          <thead>
+            <tr>
               {fields.map((field: any) => (
-                <td key={field.name}>
-                  {item[field.name]?.name || item[field.name]}
-                </td>
+                <th key={field.name}>{field.name}</th>
               ))}
-              {!readOnly && <td>
-                <button
-                  type="button"
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => {
-                    setEditingItem(item);
-                    setShowForm(true);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(item._tempKey)}
-                >
-                  Delete
-                </button>
-              </td>
-              }
+              {!readOnly && <th>Actions</th>}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {currentArray.map((item: any, index) => (
+              <tr key={item._tempKey || item.id}>
+                {fields.map((field: any) => (
+                  <td key={field.name}>
+                    {field.name === "id" ? itemNames[item.id] || `Item ${index}` : item[field.name]}
+                  </td>
+                ))}
+                {!readOnly && <td>
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-sm me-2"
+                    onClick={() => {
+                      setEditingItem(item);
+                      setShowForm(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(item._tempKey)}
+                  >
+                    Delete
+                  </button>
+                </td>
+                }
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {!readOnly && <div className="text-center">
-        <button
-          type="button"
-          onClick={() => {
-            setEditingItem({});
-            setShowForm(true);
-          }}
-          className="btn btn-primary"
-        >
-          + Add
-        </button>
-      </div>
-      }
-
-      {!readOnly && showForm && (
-        <div className="card mt-3 p-3">
-          <h5>{editingItem?._tempKey ? "Edit Item" : "Add Item"}</h5>
-          {fields.map((field: any) => (
-            <div key={field.name}>{renderField(field)}</div>
-          ))}
-          <div className="mt-3">
-            <button type="button" className="btn btn-success me-2" onClick={handleSaveItem}>
-              Save
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                setEditingItem(null);
-                setShowForm(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
+        {!readOnly && <div className="text-center">
+          <button
+            type="button"
+            onClick={() => {
+              setEditingItem({});
+              setShowForm(true);
+            }}
+            className="btn btn-primary"
+          >
+            + Add
+          </button>
         </div>
-      )}
+        }
+
+        {!readOnly && showForm && (
+          <div className="card mt-3 p-3">
+            <h5>{editingItem?._tempKey ? "Edit Item" : "Add Item"}</h5>
+            {fields.map((field: any) => (
+              <div key={field.name}>{renderField(field)}</div>
+            ))}
+            <div className="mt-3">
+              <button type="button" className="btn btn-success me-2" onClick={handleSaveItem}>
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setEditingItem(null);
+                  setShowForm(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

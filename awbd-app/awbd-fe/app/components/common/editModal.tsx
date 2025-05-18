@@ -16,7 +16,11 @@ interface EditModalProps {
   apiEndpoint: string;
   title: string;
   labels: any[];
+  detailsLabels: any;
   properties: any[];
+  detailsProperties: any;
+  readOnly: boolean;
+  isEdit: boolean;
 }
 
 export const EditModal: React.FC<EditModalProps> = ({
@@ -27,17 +31,26 @@ export const EditModal: React.FC<EditModalProps> = ({
   apiEndpoint,
   title,
   labels,
+  detailsLabels,
   properties,
+  isEdit,
+  detailsProperties,
   readOnly = false,
 }) => {
   if (!isOpen) return null;
   const [state, setState] = useState(initialState);
 
+  console.log(">>>detailsProperties: ", detailsProperties)
+  console.log(">>>detailsLabels: ", detailsLabels)
+
+  const props = detailsProperties || properties
+  const lbls = detailsLabels || labels
+
   useEffect(() => {
     (async () => {
       const copy = { ...initialState };
-      for (let i = 0; i < properties.length; i++) {
-        const prop = properties[i];
+      for (let i = 0; i < props.length; i++) {
+        const prop = props[i];
         if (prop.type === "array" && Array.isArray(initialState[prop.name])) {
           copy[prop.name] = await normalizeArrayField(
             initialState[prop.name],
@@ -47,12 +60,12 @@ export const EditModal: React.FC<EditModalProps> = ({
       }
       setState(copy);
     })();
-  }, [initialState, properties]);
+  }, [initialState, props]);
 
   // ➋ On save: denormalize each array before sending
   const handleSave = async () => {
     const payload = { ...state };
-    for (const prop of properties) {
+    for (const prop of props) {
       if (prop.type === "array" && Array.isArray(payload[prop.name])) {
         payload[prop.name] = denormalizeArrayField(
           payload[prop.name],
@@ -66,8 +79,8 @@ export const EditModal: React.FC<EditModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} onSave={async () => await handleSave()} title={title}>
-      {properties.map(
+    <Modal isOpen={isOpen} onClose={onClose} onSave={async () => await handleSave()} title={title} readOnly={readOnly}>
+      {props.map(
         (
           {
             name: propertyName,
@@ -80,6 +93,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           index: number
         ) => {
           const renderInput = () => {
+            // if (isEdit && propertyName === "password") return null;
             if (dataType === "number")
               return (
                 <NumericFormat
@@ -109,8 +123,13 @@ export const EditModal: React.FC<EditModalProps> = ({
           }
           return (
             <div className="mb-3">
+              {/* {(!isEdit || propertyName !== "password") &&
+                <label htmlFor={propertyName} className="form-label">
+                  {lbls[index]}
+                </label>
+              } */}
               <label htmlFor={propertyName} className="form-label">
-                {labels[index]}
+                {lbls[index]}
               </label>
               {propertyType === "input" && renderInput()}
               {propertyType === "searchDropdown" && (
@@ -142,6 +161,7 @@ export const EditModal: React.FC<EditModalProps> = ({
               {propertyType === "array" && (
                 <ModalArray
                   array={state?.[propertyName] || ""}
+                  propertyName={propertyName || ""}
                   fields={propertyFields}
                   readOnly={readOnly}
                   onChange={(propertyNewState: any) => setState({ ...state, [propertyName]: propertyNewState })}

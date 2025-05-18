@@ -52,6 +52,7 @@ export const orderSlice = createAppSlice({
 			);
 		}),
 		addOrderAsync: create.asyncThunk(async (order: Order) => {
+			console.log(">>>orderin addOrderAsync: ", order)
 			return await addOrderApi(order);
 		}),
 		removeOrderAsync: create.asyncThunk(async (orderId: number) => {

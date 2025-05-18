@@ -16,14 +16,15 @@ export interface Order {
 
 // Fetch all orders (GET)
 export const getOrders = async (): Promise<Order[]> => {
-	const { data } = await apiClient.get("/orders");
+	const { data } = await apiClient.get("/online-orders");
 	return data
 };
 
 // Add a new order (POST)
 export const addOrderApi = async (order: Order): Promise<void> => {
+	console.log(">>>order in add api: ", order)
 	try {
-		await apiClient.post("/orders", order, {
+		await apiClient.post("/online-orders", order, {
 			headers: { "Content-Type": "application/json" },
 		});
 	} catch (error: any) {
@@ -34,7 +35,7 @@ export const addOrderApi = async (order: Order): Promise<void> => {
 // Delete an order by ID (DELETE)
 export const deleteOrderApi = async (orderId: number): Promise<void> => {
 	try {
-		await apiClient.delete(`/orders/${orderId}`);
+		await apiClient.delete(`/online-orders/${orderId}`);
 	} catch (error: any) {
 		throw error.response?.data || error;
 	}
@@ -45,7 +46,7 @@ export const getOrdersApi = async (
 	params: any,
 ): Promise<Order[]> => {
 	try {
-		const response = await apiClient.get("/orders", {
+		const response = await apiClient.get("/online-orders", {
 			params,
 		});
 		return response.data as Order[];
@@ -56,7 +57,7 @@ export const getOrdersApi = async (
 
 export const getOrderByIdApi = async (id: number): Promise<Order> => {
 	try {
-		const response = await apiClient.get(`/orders/${id}`)
+		const response = await apiClient.get(`/online-orders/${id}`)
 		return response.data as Order;
 	} catch (error: any) {
 		throw error.response?.data || error;
@@ -70,7 +71,7 @@ export const putOrderApi = async (
 ): Promise<Order> => {
 	try {
 		const response = await apiClient.put(
-			`/orders/${orderId}`,
+			`/online-orders/${orderId}`,
 			order,
 			{ headers: { "Content-Type": "application/json" } },
 		);
