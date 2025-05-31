@@ -131,7 +131,7 @@ class IngredientControllerIT {
     @Test
     @SneakyThrows
     @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
-    void whenUpdateProducer_thenUpdateProducer() {
+    void whenUpdateIngredient_thenUpdateIngredient() {
         val ingredientUpdateDto = IngredientFixtures.getIngredientUpdateDtoFixture();
         ingredientUpdateDto.setProducerId(2L);
 
@@ -140,14 +140,14 @@ class IngredientControllerIT {
                         .content(objectMapper.writeValueAsString(ingredientUpdateDto)))
                 .andExpect(status().isOk());
 
-        val updatedProducerOptional = ingredientRepository.findById(1L);
+        val updatedIngredientOptional = ingredientRepository.findById(1L);
 
-        Assertions.assertTrue(updatedProducerOptional.isPresent());
-        Assertions.assertEquals(1L, updatedProducerOptional.get().getId());
-        Assertions.assertEquals(ingredientUpdateDto.getName(), updatedProducerOptional.get().getName());
-        Assertions.assertEquals(ingredientUpdateDto.getPrice(), updatedProducerOptional.get().getPrice());
-        Assertions.assertEquals(ingredientUpdateDto.getCalories(), updatedProducerOptional.get().getCalories());
-        Assertions.assertEquals(ingredientUpdateDto.getProducerId(), updatedProducerOptional.get().getProducer().getId());
+        Assertions.assertTrue(updatedIngredientOptional.isPresent());
+        Assertions.assertEquals(1L, updatedIngredientOptional.get().getId());
+        Assertions.assertEquals(ingredientUpdateDto.getName(), updatedIngredientOptional.get().getName());
+        Assertions.assertEquals(ingredientUpdateDto.getPrice(), updatedIngredientOptional.get().getPrice());
+        Assertions.assertEquals(ingredientUpdateDto.getCalories(), updatedIngredientOptional.get().getCalories());
+        Assertions.assertEquals(ingredientUpdateDto.getProducerId(), updatedIngredientOptional.get().getProducer().getId());
     }
 
     @Test

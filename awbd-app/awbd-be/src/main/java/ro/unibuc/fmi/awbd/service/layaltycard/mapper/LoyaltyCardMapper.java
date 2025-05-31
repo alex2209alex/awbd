@@ -10,5 +10,5 @@ import ro.unibuc.fmi.awbd.domain.user.model.client.Client;
 public interface LoyaltyCardMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "points", constant = "0L")
-    LoyaltyCard mapLoyaltyCard(Client client);
+    LoyaltyCard mapToLoyaltyCard(Client client);
 }

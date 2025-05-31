@@ -11,14 +11,14 @@ import ro.unibuc.fmi.awbd.domain.user.model.client.Client;
 @NoArgsConstructor
 public class LoyaltyCard {
     @Id
-    @SequenceGenerator(name = "loyalty_cards_gen", sequenceName = "loyalty_cards_seq", allocationSize = 20)
-    @GeneratedValue(generator = "loyalty_cards_gen")
     @Column(name = "id")
     private Long id;
 
     @Column(name = "points", nullable = false)
     private Long points;
 
-    @OneToOne(mappedBy = "loyaltyCard")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
     private Client client;
 }
