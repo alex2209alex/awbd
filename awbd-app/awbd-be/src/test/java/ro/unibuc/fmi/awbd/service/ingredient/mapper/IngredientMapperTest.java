@@ -17,18 +17,34 @@ class IngredientMapperTest {
 
     @Test
     void testMapToIngredientFilter() {
+        Assertions.assertNull(ingredientMapper.mapToIngredientFilter(null, null));
+
         val name = "name";
         val producer = "producer";
 
-        val ingredientFilter = ingredientMapper.mapToIngredientFilter(name, producer);
+        var ingredientFilter = ingredientMapper.mapToIngredientFilter(name, producer);
 
         Assertions.assertNotNull(ingredientFilter);
         Assertions.assertEquals(name, ingredientFilter.getName());
         Assertions.assertEquals(producer, ingredientFilter.getProducer());
+
+        ingredientFilter = ingredientMapper.mapToIngredientFilter(null, producer);
+
+        Assertions.assertNotNull(ingredientFilter);
+        Assertions.assertNull(ingredientFilter.getName());
+        Assertions.assertEquals(producer, ingredientFilter.getProducer());
+
+        ingredientFilter = ingredientMapper.mapToIngredientFilter(name, null);
+
+        Assertions.assertNotNull(ingredientFilter);
+        Assertions.assertEquals(name, ingredientFilter.getName());
+        Assertions.assertNull(ingredientFilter.getProducer());
     }
 
     @Test
     void testMapToIngredientsPageDto() {
+        Assertions.assertNull(ingredientMapper.mapToIngredientsPageDto(null));
+
         val page = IngredientFixtures.getPageOfIngredientPageElementDetailsFixture();
 
         val ingredientsPageDto = ingredientMapper.mapToIngredientsPageDto(page);
@@ -56,6 +72,8 @@ class IngredientMapperTest {
 
     @Test
     void testMapToIngredientSearchDetailsDtos() {
+        Assertions.assertNull(ingredientMapper.mapToIngredientSearchDetailsDtos(null));
+
         val ingredient = IngredientFixtures.getIngredientFixture();
 
         val ingredientSearchDetailsDtos = ingredientMapper.mapToIngredientSearchDetailsDtos(List.of(ingredient));
@@ -68,6 +86,8 @@ class IngredientMapperTest {
 
     @Test
     void testMapToIngredientDetailsDto() {
+        Assertions.assertNull(ingredientMapper.mapToIngredientDetailsDto(null));
+
         val ingredient = IngredientFixtures.getIngredientFixture();
 
         val ingredientDetailsDto = ingredientMapper.mapToIngredientDetailsDto(ingredient);
@@ -83,6 +103,8 @@ class IngredientMapperTest {
 
     @Test
     void testMapToIngredient() {
+        Assertions.assertNull(ingredientMapper.mapToIngredient(null, null));
+
         val ingredientCreationDto = IngredientFixtures.getIngredientCreationDtoFixture();
         val producer = ProducerFixtures.getProducerFixture();
 
@@ -98,6 +120,9 @@ class IngredientMapperTest {
     @Test
     void testMergeToIngredient() {
         val ingredient = IngredientFixtures.getIngredientFixture();
+
+        Assertions.assertDoesNotThrow(() -> ingredientMapper.mergeToIngredient(ingredient, null, null));
+
         ingredient.setName("old");
         ingredient.setPrice(-19.99);
         ingredient.setCalories(-100.);
