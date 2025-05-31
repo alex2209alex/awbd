@@ -5,6 +5,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.unibuc.fmi.awbd.common.exception.BadRequestException;
+import ro.unibuc.fmi.awbd.common.exception.ForbiddenException;
 import ro.unibuc.fmi.awbd.common.utils.ErrorMessageUtils;
 import ro.unibuc.fmi.awbd.controller.models.ClientCreationDto;
 import ro.unibuc.fmi.awbd.controller.models.ClientDetailsDto;
@@ -28,7 +29,7 @@ public class ClientService {
         userInformationService.ensureCurrentUserIsClient();
         val user = userInformationService.getCurrentUser();
         if (!user.getId().equals(clientId)) {
-            throw new BadRequestException(ErrorMessageUtils.CLIENT_NOT_ALLOWED_TO_VIEW_DETAILS_OF_OTHER_USERS);
+            throw new ForbiddenException(ErrorMessageUtils.CLIENT_NOT_ALLOWED_TO_VIEW_DETAILS_OF_OTHER_USERS);
         }
         val client = (Client) user;
         return clientMapper.mapToClientDetailsDto(client);
@@ -48,7 +49,7 @@ public class ClientService {
         userInformationService.ensureCurrentUserIsClient();
         val user = userInformationService.getCurrentUser();
         if (!user.getId().equals(clientId)) {
-            throw new BadRequestException(ErrorMessageUtils.CLIENT_NOT_ALLOWED_TO_UPDATE_OTHER_USERS);
+            throw new ForbiddenException(ErrorMessageUtils.CLIENT_NOT_ALLOWED_TO_UPDATE_OTHER_USERS);
         }
         val client = (Client) user;
         clientMapper.mergeToClient(client, clientUpdateDto);

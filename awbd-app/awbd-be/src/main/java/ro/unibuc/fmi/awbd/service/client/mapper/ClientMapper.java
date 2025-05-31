@@ -18,7 +18,7 @@ public interface ClientMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "hashPassword")
-    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "role", expression = "java(ro.unibuc.fmi.awbd.domain.user.model.Role.CLIENT)")
     @Mapping(target = "loyaltyCard", ignore = true)
     Client mapToClient(ClientCreationDto clientCreationDto);
 

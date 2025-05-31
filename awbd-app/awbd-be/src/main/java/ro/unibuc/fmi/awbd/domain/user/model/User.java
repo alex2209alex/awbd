@@ -29,6 +29,6 @@ public class User {
     private String name;
 
     @Enumerated(STRING)
-    @Column(name = "role", nullable = false, insertable = false, updatable = false)
+    @Column(name = "role", insertable = false, updatable = false)
     private Role role;
 }

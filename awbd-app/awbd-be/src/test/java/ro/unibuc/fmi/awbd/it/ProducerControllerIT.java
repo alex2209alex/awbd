@@ -38,7 +38,7 @@ class ProducerControllerIT {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "restaurant@amin.com", authorities = "RESTAURANT_ADMIN")
+    @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
     void whenGetProducersPage_thenGetProducersPage() {
         val requestParameters = new LinkedMultiValueMap<String, String>();
         requestParameters.set("sort", "+name");
@@ -75,7 +75,7 @@ class ProducerControllerIT {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "restaurant@amin.com", authorities = "RESTAURANT_ADMIN")
+    @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
     void whenGetProducers_thenGetProducers() {
         mockMvc.perform(get("/producers/search"))
                 .andExpect(status().isOk())
@@ -90,7 +90,7 @@ class ProducerControllerIT {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "restaurant@amin.com", authorities = "RESTAURANT_ADMIN")
+    @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
     void whenGetProducerDetails_thenGetProducerDetails() {
         val response = mockMvc.perform(get("/producers/1"))
                 .andExpect(status().isOk())
@@ -106,7 +106,7 @@ class ProducerControllerIT {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "restaurant@amin.com", authorities = "RESTAURANT_ADMIN")
+    @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
     void whenCreateProducer_thenCreateProducer() {
         val producerCreationDto = ProducerFixtures.getProducerCreationDtoFixture();
 
@@ -127,7 +127,7 @@ class ProducerControllerIT {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "restaurant@amin.com", authorities = "RESTAURANT_ADMIN")
+    @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
     void whenUpdateProducer_thenUpdateProducer() {
         val producerUpdateDto = ProducerFixtures.getProducerUpdateDtoFixture();
 
@@ -146,7 +146,7 @@ class ProducerControllerIT {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "restaurant@amin.com", authorities = "RESTAURANT_ADMIN")
+    @WithMockUser(username = "1", authorities = "RESTAURANT_ADMIN")
     void whenDeleteProducer_thenDeleteProducer() {
         mockMvc.perform(delete("/producers/1"))
                 .andExpect(status().isOk());
