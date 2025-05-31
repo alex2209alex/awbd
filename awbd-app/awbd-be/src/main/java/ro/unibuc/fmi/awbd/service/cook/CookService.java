@@ -35,7 +35,7 @@ public class CookService {
     public CooksPageDto getCooksPage(PageRequest<CookFilter> pageRequest) {
         userInformationService.ensureCurrentUserIsRestaurantAdmin();
         Page<CookPageElementDetails> page = cookSearchRepository.getCooksPage(pageRequest);
-        return cookMapper.mapToCookPageDto(page);
+        return cookMapper.mapToCooksPageDto(page);
     }
 
     @Transactional(readOnly = true)

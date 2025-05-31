@@ -21,13 +21,13 @@ public interface CookMapper {
     CookFilter mapToCookFilter(String email, String name);
 
     @Mapping(target = "pagination", source = "paginationInformation")
-    CooksPageDto mapToCookPageDto(Page<CookPageElementDetails> page);
+    CooksPageDto mapToCooksPageDto(Page<CookPageElementDetails> page);
 
     CookDetailsDto mapToCookDetailsDto(Cook cook);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "hashPassword")
-    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "role", expression = "java(ro.unibuc.fmi.awbd.domain.user.model.Role.COOK)")
     @Mapping(target = "products", ignore = true)
     Cook mapToCook(CookCreationDto cookCreationDto);
 
