@@ -35,7 +35,7 @@ public class CourierService {
     public CouriersPageDto getCouriersPage(PageRequest<CourierFilter> pageRequest) {
         userInformationService.ensureCurrentUserIsRestaurantAdmin();
         Page<CourierPageElementDetails> page = courierSearchRepository.getCouriersPage(pageRequest);
-        return courierMapper.mapToCourierPageDto(page);
+        return courierMapper.mapToCouriersPageDto(page);
     }
 
     @Transactional(readOnly = true)

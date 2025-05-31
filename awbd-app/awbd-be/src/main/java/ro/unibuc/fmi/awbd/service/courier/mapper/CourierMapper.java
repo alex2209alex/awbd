@@ -21,7 +21,7 @@ public interface CourierMapper {
     CourierFilter mapToCourierFilter(String email, String name, String phoneNumber);
 
     @Mapping(target = "pagination", source = "paginationInformation")
-    CouriersPageDto mapToCourierPageDto(Page<CourierPageElementDetails> page);
+    CouriersPageDto mapToCouriersPageDto(Page<CourierPageElementDetails> page);
 
     CourierDetailsDto mapToCourierDetailsDto(Courier courier);
 
