@@ -20,6 +20,29 @@ class ProducerSearchRepositoryIT {
     private ProducerSearchRepository producerSearchRepository;
 
     @Test
+    void givenNoSearchParameters_whenGetProducersPage_thenReturnProducersPage() {
+        val paginationRequest = PaginationRequest.builder()
+                .page(1)
+                .pageSize(10)
+                .sort("-address")
+                .build();
+        val filter = new ProducerFilter();
+        val pageRequest = PageRequest.of(filter, paginationRequest);
+
+        val producersPage = producerSearchRepository.getProducersPage(pageRequest);
+
+        Assertions.assertNotNull(producersPage);
+        Assertions.assertNotNull(producersPage.getItems());
+        Assertions.assertEquals(2, producersPage.getItems().size());
+        Assertions.assertEquals(2, producersPage.getItems().getFirst().getId());
+        Assertions.assertEquals("Better Farm", producersPage.getItems().getFirst().getName());
+        Assertions.assertEquals("Str. 1 Nr. 2", producersPage.getItems().getFirst().getAddress());
+        Assertions.assertEquals(1, producersPage.getItems().get(1).getId());
+        Assertions.assertEquals("Good Farm", producersPage.getItems().get(1).getName());
+        Assertions.assertEquals("Str. 1 Nr. 1", producersPage.getItems().get(1).getAddress());
+    }
+
+    @Test
     void givenSearchParameters_whenGetProducersPage_thenReturnProducersPage() {
         val paginationRequest = PaginationRequest.builder()
                 .page(1)

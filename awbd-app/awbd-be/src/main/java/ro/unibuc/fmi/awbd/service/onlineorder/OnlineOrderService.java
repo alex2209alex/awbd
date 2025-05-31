@@ -44,7 +44,7 @@ public class OnlineOrderService {
 
     @Transactional(readOnly = true)
     public OnlineOrdersPageDto getOnlineOrdersPage(PageRequest<Object> pageRequest) {
-        Page<OnlineOrderPageElementDetails> page = onlineOrderSearchRepository.getProductPage(pageRequest);
+        Page<OnlineOrderPageElementDetails> page = onlineOrderSearchRepository.getOnlineOrdersPage(pageRequest);
         return onlineOrderMapper.mapToOnlineOrdersPageDto(page);
     }
 

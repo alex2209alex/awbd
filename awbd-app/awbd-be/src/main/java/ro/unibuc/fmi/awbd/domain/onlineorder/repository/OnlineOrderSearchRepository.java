@@ -29,7 +29,7 @@ public class OnlineOrderSearchRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Page<OnlineOrderPageElementDetails> getProductPage(PageRequest<Object> pageRequest) {
+    public Page<OnlineOrderPageElementDetails> getOnlineOrdersPage(PageRequest<Object> pageRequest) {
         val onlineOrders = fetchOnlineOrders(pageRequest);
         val count = countOnlineOrders();
         return Page.<OnlineOrderPageElementDetails>builder()
