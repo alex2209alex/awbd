@@ -1,9 +1,8 @@
-package ro.unibuc.fmi.awbd.domain.producer.model;
+package ro.unibuc.fmi.awbd.domain.product.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import ro.unibuc.fmi.awbd.domain.onlineorder.model.OnlineOrder;
-import ro.unibuc.fmi.awbd.domain.product.model.Product;
 
 @Entity
 @Table(name = "product_online_order_associations")

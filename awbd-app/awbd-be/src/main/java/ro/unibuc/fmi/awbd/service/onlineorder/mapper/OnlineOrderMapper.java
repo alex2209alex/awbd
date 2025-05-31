@@ -9,7 +9,7 @@ import ro.unibuc.fmi.awbd.controller.models.OnlineOrderDetailsDto;
 import ro.unibuc.fmi.awbd.controller.models.OnlineOrderProductDetailsDto;
 import ro.unibuc.fmi.awbd.controller.models.OnlineOrdersPageDto;
 import ro.unibuc.fmi.awbd.domain.onlineorder.model.OnlineOrder;
-import ro.unibuc.fmi.awbd.domain.producer.model.ProductOnlineOrderAssociation;
+import ro.unibuc.fmi.awbd.domain.product.model.ProductOnlineOrderAssociation;
 import ro.unibuc.fmi.awbd.domain.user.model.client.Client;
 import ro.unibuc.fmi.awbd.service.onlineorder.model.OnlineOrderPageElementDetails;
 

@@ -45,12 +45,12 @@ class ProducerServiceTest {
     void whenGetProducersPage_thenGetProducersPage() {
         val pageRequest = ProducerFixtures.getPageRequestFixture();
         val page = ProducerFixtures.getPageOfProducerPageElementDetailsFixture();
-        val producerPageDto = new ProducersPageDto();
+        val producersPageDto = new ProducersPageDto();
 
         Mockito.when(producerSearchRepository.getProducersPage(pageRequest)).thenReturn(page);
-        Mockito.when(producerMapper.mapToProducersPageDto(page)).thenReturn(producerPageDto);
+        Mockito.when(producerMapper.mapToProducersPageDto(page)).thenReturn(producersPageDto);
 
-        Assertions.assertEquals(producerPageDto, producerService.getProducersPage(pageRequest));
+        Assertions.assertEquals(producersPageDto, producerService.getProducersPage(pageRequest));
     }
 
     @Test
@@ -160,7 +160,7 @@ class ProducerServiceTest {
 
         Mockito.when(producerRepository.findById(id)).thenReturn(Optional.of(producer));
 
-        producerService.deleteProducer(id);
+        Assertions.assertDoesNotThrow(() -> producerService.deleteProducer(id));
 
         Mockito.verify(producerRepository, Mockito.times(1)).delete(producer);
     }

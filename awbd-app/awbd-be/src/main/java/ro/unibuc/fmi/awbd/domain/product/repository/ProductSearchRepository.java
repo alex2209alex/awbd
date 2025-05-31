@@ -29,7 +29,7 @@ public class ProductSearchRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Page<ProductPageElementDetails> getProductPage(PageRequest<ProductFilter> pageRequest) {
+    public Page<ProductPageElementDetails> getProductsPage(PageRequest<ProductFilter> pageRequest) {
         val products = fetchProducts(pageRequest);
         val count = countProducts(pageRequest);
         return Page.<ProductPageElementDetails>builder()

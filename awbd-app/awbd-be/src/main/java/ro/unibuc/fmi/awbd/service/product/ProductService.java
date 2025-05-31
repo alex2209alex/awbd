@@ -38,7 +38,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductsPageDto getProductsPage(PageRequest<ProductFilter> pageRequest) {
         userInformationService.ensureCurrentUserIsRestaurantAdminOrClient();
-        Page<ProductPageElementDetails> page = productSearchRepository.getProductPage(pageRequest);
+        Page<ProductPageElementDetails> page = productSearchRepository.getProductsPage(pageRequest);
         return productMapper.mapToProductsPageDto(page);
     }
 
@@ -104,7 +104,7 @@ public class ProductService {
             throw new NotFoundException(ErrorMessageUtils.INGREDIENTS_NOT_FOUND);
         }
         val product = productRepository.findById(productId).orElseThrow(() ->
-                new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, productId))
+                new NotFoundException(String.format(ErrorMessageUtils.PRODUCT_NOT_FOUND, productId))
         );
         productMapper.mergeToProduct(product, productUpdateDto);
         val oldIngredientProductAssociationsMap = product.getIngredientProductAssociations().stream()
@@ -136,7 +136,7 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         userInformationService.ensureCurrentUserIsRestaurantAdmin();
         val product = productRepository.findById(productId).orElseThrow(() ->
-                new NotFoundException(String.format(ErrorMessageUtils.PRODUCER_NOT_FOUND, productId))
+                new NotFoundException(String.format(ErrorMessageUtils.PRODUCT_NOT_FOUND, productId))
         );
         if (!product.getProductOnlineOrderAssociations().isEmpty()) {
             throw new ForbiddenException(String.format(ErrorMessageUtils.PRODUCT_HAS_DEPENDENCIES_AND_CANNOT_BE_DELETED, productId));

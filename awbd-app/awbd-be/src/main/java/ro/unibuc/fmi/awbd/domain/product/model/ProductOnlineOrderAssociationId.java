@@ -1,4 +1,4 @@
-package ro.unibuc.fmi.awbd.domain.producer.model;
+package ro.unibuc.fmi.awbd.domain.product.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

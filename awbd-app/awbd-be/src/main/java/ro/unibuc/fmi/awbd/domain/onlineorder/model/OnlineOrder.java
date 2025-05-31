@@ -3,7 +3,7 @@ package ro.unibuc.fmi.awbd.domain.onlineorder.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ro.unibuc.fmi.awbd.domain.producer.model.ProductOnlineOrderAssociation;
+import ro.unibuc.fmi.awbd.domain.product.model.ProductOnlineOrderAssociation;
 import ro.unibuc.fmi.awbd.domain.user.model.client.Client;
 import ro.unibuc.fmi.awbd.domain.user.model.courier.Courier;
 
