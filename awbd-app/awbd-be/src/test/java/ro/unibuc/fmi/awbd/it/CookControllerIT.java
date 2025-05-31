@@ -163,6 +163,6 @@ class CookControllerIT {
         mockMvc.perform(delete("/cooks/3"))
                 .andExpect(status().isOk());
 
-        Assertions.assertTrue(cookRepository.findById(1L).isEmpty());
+        Assertions.assertTrue(cookRepository.findById(3L).isEmpty());
     }
 }

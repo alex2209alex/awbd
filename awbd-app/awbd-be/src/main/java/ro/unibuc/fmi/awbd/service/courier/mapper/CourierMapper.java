@@ -27,7 +27,7 @@ public interface CourierMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "hashPassword")
-    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "role", expression = "java(ro.unibuc.fmi.awbd.domain.user.model.Role.COURIER)")
     @Mapping(target = "onlineOrders", ignore = true)
     Courier mapToCourier(CourierCreationDto courierCreationDto);
 
