@@ -16,18 +16,34 @@ class ProducerMapperTest {
 
     @Test
     void testMapToProducerFilter() {
+        Assertions.assertNull(producerMapper.mapToProducerFilter(null, null));
+
         val name = "name";
         val address = "address";
 
-        val producerFilter = producerMapper.mapToProducerFilter(name, address);
+        var producerFilter = producerMapper.mapToProducerFilter(name, address);
 
         Assertions.assertNotNull(producerFilter);
         Assertions.assertEquals(name, producerFilter.getName());
         Assertions.assertEquals(address, producerFilter.getAddress());
+
+        producerFilter = producerMapper.mapToProducerFilter(null, address);
+
+        Assertions.assertNotNull(producerFilter);
+        Assertions.assertNull(producerFilter.getName());
+        Assertions.assertEquals(address, producerFilter.getAddress());
+
+        producerFilter = producerMapper.mapToProducerFilter(name, null);
+
+        Assertions.assertNotNull(producerFilter);
+        Assertions.assertEquals(name, producerFilter.getName());
+        Assertions.assertNull(producerFilter.getAddress());
     }
 
     @Test
     void testMapToProducersPageDto() {
+        Assertions.assertNull(producerMapper.mapToProducersPageDto(null));
+
         val page = ProducerFixtures.getPageOfProducerPageElementDetailsFixture();
 
         val producersPageDto = producerMapper.mapToProducersPageDto(page);
@@ -53,6 +69,8 @@ class ProducerMapperTest {
 
     @Test
     void testMapToProducerSearchDetailsDtos() {
+        Assertions.assertNull(producerMapper.mapToProducerSearchDetailsDtos(null));
+
         val producer = ProducerFixtures.getProducerFixture();
 
         val producerSearchDetailsDtos = producerMapper.mapToProducerSearchDetailsDtos(List.of(producer));
@@ -65,6 +83,8 @@ class ProducerMapperTest {
 
     @Test
     void testMapToProducerDetailsDto() {
+        Assertions.assertNull(producerMapper.mapToProducerDetailsDto(null));
+
         val producer = ProducerFixtures.getProducerFixture();
 
         val producerDetailsDto = producerMapper.mapToProducerDetailsDto(producer);
@@ -77,6 +97,8 @@ class ProducerMapperTest {
 
     @Test
     void testMapToProducer() {
+        Assertions.assertNull(producerMapper.mapToProducer(null));
+
         val producerCreationDto = ProducerFixtures.getProducerCreationDtoFixture();
 
         val producer = producerMapper.mapToProducer(producerCreationDto);
@@ -89,6 +111,9 @@ class ProducerMapperTest {
     @Test
     void testMergeToProducer() {
         val producer = ProducerFixtures.getProducerFixture();
+
+        Assertions.assertDoesNotThrow(() -> producerMapper.mergeToProducer(producer, null));
+
         producer.setName("old");
         producer.setAddress("old");
         val producerUpdateDto = ProducerFixtures.getProducerUpdateDtoFixture();
