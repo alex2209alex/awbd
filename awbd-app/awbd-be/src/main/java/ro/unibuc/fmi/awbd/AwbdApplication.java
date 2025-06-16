@@ -10,9 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableDiscoveryClient
 public class AwbdApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(AwbdApplication.class, args);
 	}
-
 }
