@@ -1,3 +1,5 @@
+import apiClient from "@/lib/apiClient";
+
 export async function normalizeArrayField<T>(
 	items: { [K in keyof T]: any }[],
 	fields: Array<{ name: keyof T; type: string; endpoint?: string }>,
@@ -10,8 +12,8 @@ export async function normalizeArrayField<T>(
 				const raw = item[f.name];
 				if (f.type === "dropdown") {
 					// fetch the full object for that ID:
-					const res = await fetch(`${f.endpoint}/${raw}`);
-					result[f.name] = await res.json();
+					const {data} = await apiClient(`${f.endpoint}/${raw}`);
+					result[f.name] = data;
 				} else {
 					result[f.name] = raw;
 				}

@@ -32,8 +32,6 @@ export const IngredientsTable = () => {
       fetchItems={getIngredientsAsync}
       fetchItemById={getIngredientByIdAsync}
       updateItemAsync={updateIngredientAsync}
-      apiEndpoint="http://localhost:8080/ingredients"
-
       title="Ingredients List"
       headers={["Name", "Price", "Calories", "Producer"]}
       filterFields={[

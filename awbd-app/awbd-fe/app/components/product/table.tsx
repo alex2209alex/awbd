@@ -31,9 +31,13 @@ export const ProductsTable = () => {
       fetchItems={getProductsAsync}
       fetchItemById={getProductByIdAsync}
       updateItemAsync={updateProductAsync}
-      apiEndpoint="http://localhost:8080/products"
       title="Products List"
       headers={["Name", "Price", "Description"]}
+      filterFields={[
+        { name: "name", type: "input" },
+        { name: "description", type: "input" },
+      ]}
+      filterFieldsLabels={["Name", "Description"]}
       fields={[
         { name: "name", type: "input" },
         { name: "price", type: "input" },
@@ -43,7 +47,7 @@ export const ProductsTable = () => {
           type: "array",
           fields: [
             {
-              name: "id", type: "dropdown", endpoint: "http://localhost:8080/ingredients/search"
+              name: "id", type: "dropdown", endpoint: "/ingredients"
             },
             { name: "quantity", type: "input" }
           ]

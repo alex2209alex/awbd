@@ -28,11 +28,13 @@ export const Dropdown = ({
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     console.log(">>>options: ", options)
+    console.log(">>>apiEndpoint in dropdown: ", apiEndpoint)
 
     useEffect(() => {
         const fetchOptions = async () => {
+            let newEndpoint = !apiEndpoint.includes("/search") ? apiEndpoint + "/search" : apiEndpoint
             try {
-                const { data } = await apiClient.get(apiEndpoint);
+                const { data } = await apiClient.get(newEndpoint);
                 setOptions(data);
             } catch (error) {
                 console.error("Error fetching options:", error);

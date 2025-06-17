@@ -30,7 +30,6 @@ export const ClientsTable = () => {
       fetchItems={getClientsAsync}
       fetchItemById={getClientByIdAsync}
       updateItemAsync={updateClientAsync}
-      apiEndpoint="http://localhost:8080/clients"
       title="Clients List"
       headers={["Email", "Password", "Name", "Phone Number"]}
       fields={[

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { StoreProvider } from "./StoreProvider";
 import { Nav } from "./components/Nav";
 import { ThemeProvider } from "@/components/theme-provider"
+import { AppToaster } from "./components/common/Toaster";
 
 import "../globals.css"
 import styles from "./styles/layout.module.css";
@@ -14,18 +15,21 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <StoreProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <section>
-              <Nav />
-              <main>{children}</main>
-            </section>
-          </ThemeProvider>
-        </body>
-      </html>
-    </StoreProvider>
+    <>
+      <StoreProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <section>
+                <Nav />
+                <main>{children}</main>
+              </section>
+            </ThemeProvider>
+          </body>
+        </html>
+      </StoreProvider>
+      <AppToaster />
+    </>
   )
 }
 

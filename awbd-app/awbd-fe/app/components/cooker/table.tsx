@@ -31,10 +31,8 @@ export const CookersTable = () => {
       fetchItems={getCookersAsync}
       fetchItemById={getCookerByIdAsync}
       updateItemAsync={updateCookerAsync}
-      apiEndpoint="http://localhost:8080/cooks"
-
       title="Cookers List"
-      headers={["Email", "Password", "Name", "Salary", "Products"]}
+      headers={["Email", "Password", "Name", "Salary"]}
       fields={[
         { name: "email", type: "input" },
         { name: "password", type: "input", inputType: "password" },
@@ -45,12 +43,17 @@ export const CookersTable = () => {
           type: "array",
           fields: [
             {
-              name: "id", type: "dropdown", endpoint: "http://localhost:8080/products/search"
+              name: "id", type: "dropdown", endpoint: "/products"
             },
           ]
         },
       ]}
-      fieldLabels={["Email", "Password", "Name", "Salary", "Products"]}
+      fieldLabels={["Email", "Password", "Name", "Salary"]}
+      filterFields={[
+        { name: "email", type: "input" },
+        { name: "name", type: "input" },
+      ]}
+      filterFieldsLabels={["Email", "Name"]}
       editModalTitle="Edit Cooker"
       addModalTitle="Add Cooker"
     />

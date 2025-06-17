@@ -221,7 +221,7 @@ export const Table = ({
             <Filter
               fieldName={name}
               fieldLabel={filterFLbls[index]}
-              value={filterF[name] || ""}
+              value={filter[name] || ""}
               onFilterChange={handleFilterChange}
             />
           </div>
@@ -274,7 +274,7 @@ export const Table = ({
                   Details
                 </button>
                 {additionalButton && additionalButtonRender(item.status, item.id)}
-                {addToCart &&
+                {addToCart && user.isClient && 
                   <>
                     {!checkProductInCart(item?.id) ?
                       (<button className="btn btn-primary" onClick={() => handleAddToCart(item)}>
