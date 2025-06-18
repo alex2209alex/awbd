@@ -5,43 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d0d02a3-9771-4c3b-bc97-8a702e111be6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/awbd.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/feign/GatewayClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/feign/GatewayFallback.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/service/gateway/GatewayService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application-docker.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-server/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-server/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/eureka-server.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../gateway/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../gateway/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/local/awbd-be.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/local/config-server.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/local/eureka-server.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/local/gateway.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/local/namespace.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/local/postgres.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../loadbalance/src/main/java/com/awbd/loadbalance/RibbonConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/namespace.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/awbd-be.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/awbd-fe.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/config-server.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/eureka-server.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/gateway.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/namespace.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/postgres.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/zipkin.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/AwbdApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/java/ro/unibuc/fmi/awbd/AwbdApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-fe/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-fe/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-fe/app/components/producer/table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-fe/app/components/producer/table.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-fe/lib/features/producer/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-fe/lib/features/producer/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/bootstrap.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application-docker.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gateway/src/main/java/com/awbd/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/java/com/awbd/gateway/GatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +111,7 @@
       <workItem from="1746537718878" duration="14000" />
       <workItem from="1746860850030" duration="21000" />
       <workItem from="1746951360414" duration="11000" />
+      <workItem from="1750174852491" duration="735000" />
     </task>
     <servers />
   </component>

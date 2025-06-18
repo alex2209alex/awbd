@@ -14,8 +14,6 @@ services:
     build: ./eureka-server
     ports:
       - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       config-server:
         condition: service_healthy
@@ -27,42 +25,31 @@ services:
       retries: 5
     networks:
       - awbd-network
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - awbd-network
 
-  #  gateway:
-  #    build: ./gateway
-  #    environment:
-  #      - SPRING_PROFILES_ACTIVE=prod
-  ##    ports:
-  ##      - "3003:8080"
-  ##    depends_on:
-  ##      backend:
-  ##        condition: service_healthy
-  ##      config-server:
-  ##        condition: service_healthy
-  ##      eureka-server:
-  ##        condition: service_healthy
-  ##    healthcheck:
-  ##      test: [ "CMD", "curl", "-f", "http://gateway:8092/actuator/health" ]
-  ##      interval: 10s
-  ##      retries: 5
-  #    depends_on:
-  #      - backend
-  ##      - config-server
-  ##      - eureka-server
-  #    networks:
-  #      - awbd-network
-  #
-  ##
-  #  frontend:
-  #    build: ./awbd-app/awbd-fe
-  #    ports:
-  #      - "3000:3000"
-  #    environment:
-  #      - SPRING_PROFILES_ACTIVE=prod
-  #    depends_on:
-  #      - backend
-  #    networks:
-  #      - awbd-network
+  gateway:
+    build: ./gateway
+    ports:
+      - "8090:8090"
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+#      eureka-server:
+#        condition: service_healthy
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://gateway:8092/actuator/health" ]
+#      interval: 10s
+#      retries: 5
+    depends_on:
+      - config-server
+      - eureka-server
+    networks:
+      - awbd-network
 
   postgres-docker:
     container_name: postgres-docker  # Use the name of your existing PostgreSQL container
@@ -80,21 +67,19 @@ services:
       POSTGRES_DB: postgres
     #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
-      - "5433:5433"
+      - "5433:5432"
     networks:
       - awbd-network
     volumes:
       - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
   backend:
     build: ./awbd-app/awbd-be
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://backend:8080/actuator/health" ]
-      interval: 10s
-      retries: 5
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://backend:8080/actuator/health" ]
+#      interval: 10s
+#      retries: 5
     ports:
-      - "8080:8082"
+      - "8080:8080"
     #    ports:
     #      - "8080:8080"
     #    depends_on:
@@ -106,6 +91,7 @@ services:
     ##      - postgres-docker
     depends_on:
       - eureka-server
+      - gateway
       - postgres-docker
     networks:
       - awbd-network

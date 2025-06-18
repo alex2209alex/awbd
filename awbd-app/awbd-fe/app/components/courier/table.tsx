@@ -31,7 +31,6 @@ export const CouriersTable = () => {
       fetchItems={getCouriersAsync}
       fetchItemById={getCourierByIdAsync}
       updateItemAsync={updateCourierAsync}
-      apiEndpoint="http://localhost:8080/couriers"
       title="Couriers List"
       headers={["Email", "Password", "Name", "Phone Number", "Salary"]}
       fields={[
@@ -42,6 +41,11 @@ export const CouriersTable = () => {
         { name: "salary", type: "input" },
       ]}
       fieldLabels={["Email", "Password", "Name", "Phone Number", "Salary"]}
+      filterFields={[
+        { name: "email", type: "input" },
+        { name: "name", type: "input" },
+      ]}
+      filterFieldsLabels={["Email", "Name"]}
       editModalTitle="Edit Courier"
       addModalTitle="Add Courier"
     />

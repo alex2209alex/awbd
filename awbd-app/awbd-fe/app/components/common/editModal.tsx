@@ -42,6 +42,7 @@ export const EditModal: React.FC<EditModalProps> = ({
 
   console.log(">>>detailsProperties: ", detailsProperties)
   console.log(">>>detailsLabels: ", detailsLabels)
+  console.log(">>>properties: ", properties)
 
   const props = detailsProperties || properties
   const lbls = detailsLabels || labels
@@ -77,6 +78,8 @@ export const EditModal: React.FC<EditModalProps> = ({
     setState({});
     onClose();
   };
+
+  console.log(">>>state: ", state, props)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} onSave={async () => await handleSave()} title={title} readOnly={readOnly}>
@@ -146,16 +149,12 @@ export const EditModal: React.FC<EditModalProps> = ({
               )}
               {propertyType === "dropdown" && (
                 <Dropdown
-                  onSelect={(selectedOption: any) => {
-                    console.log(">>>selectedOption: ", selectedOption);
-                    setState({ ...state, [propertyName]: selectedOption })
-                  }
-                  }
+                  onSelect={(selectedOption: any) => setState({ ...state, [propertyName]: selectedOption })}
                   labelKey="name"
                   valueKey="id"
                   readOnly={readOnly}
                   apiEndpoint={propertyEndpoint}
-                  placeholder={`Search ${propertyName}`}
+                  placeholder={state?.[`${propertyName}Name`] || `Search ${propertyName}`}
                 />
               )}
               {propertyType === "array" && (

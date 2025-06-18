@@ -3,26 +3,37 @@ import { Dropdown } from "./dropdown"; // Assuming you have this
 import apiClient from "@/lib/apiClient";
 
 export const ModalArray = ({ array, propertyName = "", fields, onChange, readOnly = false }: any) => {
-  const [currentArray, setCurrentArray] = useState<any[]>(array || []);
+  const addTempKeyToArr = (arr: any[]) => arr.map(item => { return { ...item, _tempKey: Math.random().toString(36).substr(2, 9) } })
+
+  const [currentArray, setCurrentArray] = useState<any[]>(addTempKeyToArr(array) || []);
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [showForm, setShowForm] = useState(false);
 
-  const [itemNames, setItemNames] = useState({});
+  const [itemNames, setItemNames] = useState<any>({});
   useEffect(() => {
     const fetchItems = async () => {
       if (!propertyName) return;
       const uniqueIds = [...new Set(currentArray.map(item => item.id))];
+      console.log(">>>uniqueIds: ", uniqueIds)
+      console.log(">>>propertyName: ", propertyName)
 
-      const promises = uniqueIds.map(id =>
-        apiClient.get(`/${propertyName}/${id}`).then((res: any) => ({ id, name: res.data.name }))
+      const promises = uniqueIds.map((id) => {
+        const actId = id?.id ? id.id : id
+        console.log(">>>actId: ", actId)
+        return apiClient.get(`/${propertyName}/${actId}`).then((res: any) => ({ id: actId, name: res.data.name }))
+      }
       );
 
       const results = await Promise.all(promises);
+
+      console.log(">>>results: ", results)
 
       const namesMap: any = {};
       results.forEach(({ id, name }) => {
         namesMap[id] = name;
       });
+
+      console.log(">>>namesMap: ", namesMap)
 
       setItemNames(namesMap);
     };
@@ -43,6 +54,8 @@ export const ModalArray = ({ array, propertyName = "", fields, onChange, readOnl
     const updated = currentArray.filter((item) => item._tempKey !== tempKey);
     setCurrentArray(updated);
   };
+
+  console.log(">>>itemNames: ", itemNames)
 
   const handleSaveItem = () => {
     if (editingItem._tempKey) {
@@ -102,7 +115,7 @@ export const ModalArray = ({ array, propertyName = "", fields, onChange, readOnl
           <thead>
             <tr>
               {fields.map((field: any) => (
-                <th key={field.name}>{field.name}</th>
+                <th key={field.name}>{field.name === "id" ? "Name" : field.name}</th>
               ))}
               {!readOnly && <th>Actions</th>}
             </tr>
@@ -112,7 +125,7 @@ export const ModalArray = ({ array, propertyName = "", fields, onChange, readOnl
               <tr key={item._tempKey || item.id}>
                 {fields.map((field: any) => (
                   <td key={field.name}>
-                    {field.name === "id" ? itemNames[item.id] || `Item ${index}` : item[field.name]}
+                    {field.name === "id" ? itemNames[item.id?.id ? item.id.id : item.id] || `Item ${index}` : item[field.name]}
                   </td>
                 ))}
                 {!readOnly && <td>

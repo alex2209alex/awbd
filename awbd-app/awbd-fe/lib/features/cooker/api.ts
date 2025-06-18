@@ -49,7 +49,7 @@ export const getCookersApi = async (params: any) => {
 
 export const getCookerByIdApi = async (id: number): Promise<Cooker> => {
 	try {
-		const response = await apiClient.get(`/coks/${id}`)
+		const response = await apiClient.get(`/cooks/${id}`)
 		return response.data as Cooker;
 	} catch (error: any) {
 		throw error.response?.data || error;

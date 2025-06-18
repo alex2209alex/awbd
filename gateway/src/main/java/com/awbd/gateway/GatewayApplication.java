@@ -19,51 +19,46 @@ public class GatewayApplication {
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("subscription_route", r -> r
-                        .path("/awbd/subscription/**")
-                        .filters(f -> f.rewritePath("/awbd/subscription/(?<segment>/*)", SEGMENT))
-                        .uri("lb://SUBSCRIPTION")
-                )
                 .route("clients_route", r -> r
-                        .path("/awbd/clients/**")
-                        .filters(f -> f.rewritePath("/awbd/clients/(?<segment>/*)", SEGMENT))
+                        .path("/awbd/**")
+                        .filters(f -> f.rewritePath("/awbd/(?<segment>/*)", SEGMENT))
                         .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
                 )
-                .route("cooks_route", r -> r
-                        .path("/awbd/cooks/**")
-                        .filters(f -> f.rewritePath("/awbd/cooks/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
-                .route("couriers_route", r -> r
-                        .path("/awbd/couriers/**")
-                        .filters(f -> f.rewritePath("/awbd/couriers/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
-                .route("ingredients_route", r -> r
-                        .path("/awbd/ingredients/**")
-                        .filters(f -> f.rewritePath("/awbd/ingredients/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
-                .route("online_orders_route", r -> r
-                        .path("/awbd/online-orders/**")
-                        .filters(f -> f.rewritePath("/awbd/online-orders/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
-                .route("producers_route", r -> r
-                        .path("/awbd/producers/**")
-                        .filters(f -> f.rewritePath("/awbd/producers/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
-                .route("products_route", r -> r
-                        .path("/awbd/products/**")
-                        .filters(f -> f.rewritePath("/awbd/products/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
-                .route("users_route", r -> r
-                        .path("/awbd/users/**")
-                        .filters(f -> f.rewritePath("/awbd/users/(?<segment>/*)", SEGMENT))
-                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
-                )
+//                .route("cooks_route", r -> r
+//                        .path("/awbd/cooks/**")
+//                        .filters(f -> f.rewritePath("/awbd/cooks/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
+//                .route("couriers_route", r -> r
+//                        .path("/awbd/couriers/**")
+//                        .filters(f -> f.rewritePath("/awbd/couriers/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
+//                .route("ingredients_route", r -> r
+//                        .path("/awbd/ingredients/**")
+//                        .filters(f -> f.rewritePath("/awbd/ingredients/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
+//                .route("online_orders_route", r -> r
+//                        .path("/awbd/online-orders/**")
+//                        .filters(f -> f.rewritePath("/awbd/online-orders/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
+//                .route("producers_route", r -> r
+//                        .path("/awbd/producers/**")
+//                        .filters(f -> f.rewritePath("/awbd/producers/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
+//                .route("products_route", r -> r
+//                        .path("/awbd/products/**")
+//                        .filters(f -> f.rewritePath("/awbd/products/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
+//                .route("users_route", r -> r
+//                        .path("/awbd/users/**")
+//                        .filters(f -> f.rewritePath("/awbd/users/(?<segment>/*)", SEGMENT))
+//                        .uri(BE_LOAD_BALANCER) // load balancer for be application from eureka
+//                )
                 .build();
     }
 }

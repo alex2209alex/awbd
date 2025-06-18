@@ -1,0 +1,6 @@
+.sonner-toast-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Or a specific width if you want it smaller than 100% of its container */
+}

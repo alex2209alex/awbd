@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: vladandries/gateway:latest
+          ports:
+            - containerPort: 8092
+            - containerPort: 8090
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: prod
+spec:
+  selector:
+    app: gateway
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8092
+      nodePort: 31017
+      protocol: TCP
+    - name: admin
+      port: 8090
+      targetPort: 8090
+      nodePort: 31018
+      protocol: TCP
+  type: NodePort

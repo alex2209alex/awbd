@@ -7,25 +7,22 @@ import { clearUser, selectToken, selectUser, setUserByToken } from "../../lib/fe
 import { useEffect, useState } from "react";
 import { productStorageExtractor } from "@/lib/utils";
 import { ShoppingCart } from "lucide-react";
+import apiClient from "@/lib/apiClient";
+import { toast } from "sonner";
 
 export const Nav = () => {
   const pathname = usePathname();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(">>>user: ", user);
-  // const loggedIn = true;
+  let prodLocalSt = "";
+  if (typeof window !== 'undefined')
+    prodLocalSt = localStorage.getItem("products");
   useEffect(() => {
-    // if (!user?.token) {
-    //   if (localStorage.getItem("token_awbd")) dispatch(setUserByToken({ token: localStorage.getItem("token_awbd") }))
-    // }
-    // else if (user?.token && user.exp < Date.now() / 1000) {
-    //   console.log(">>>HEREEE")
-    //   dispatch(clearUser());
-    //   router.push("/login");
-    // } else dispatch(setUserByToken({ token: user?.token }))
     const checkAndSetUser = () => {
-      const localToken = localStorage.getItem("token_awbd");
+      let localToken = "";
+      if (typeof window !== 'undefined')
+        localToken = localStorage.getItem("token_awbd");
 
       if (!user?.token && localToken) {
         dispatch(setUserByToken({ token: localToken }));
@@ -47,9 +44,7 @@ export const Nav = () => {
   useEffect(() => {
     const updateCartCount = () => {
       const cart = productStorageExtractor()
-      console.log(">>>crad: ", cart)
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      console.log("totalItems: ", totalItems)
       setCartCount(totalItems);
     };
 
@@ -59,13 +54,23 @@ export const Nav = () => {
     const interval = setInterval(updateCartCount, 500); // Check every 5s
     return () => clearInterval(interval); // Cleanup on unmount
     // return () => window.removeEventListener('cartUpdated', updateCartCount);
-  }, [localStorage.getItem("products")]);
+  }, [prodLocalSt]);
+
+  const handleLoyaltyCard = async () => {
+    try {
+      const resp = await apiClient.post("/loyalty-cards");
+      console.log("resp: ", resp)
+      toast.success("Loyalty card created!", { duration: 0 })
+    } catch (e) {
+      console.log(">>>e: ", e)
+    }
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {/* <nav className="flex justify-between items-center p-4 bg-blue-600 text-black"> */}
       <div className="container-fluid">
-        <ul className="navbar-nav d-flex flex-row gap-5">
+        <ul className="navbar-nav d-flex flex-row gap-5 flex items-center">
           {!user?.token ? (
             <>
               <li className="nav-item">
@@ -141,45 +146,46 @@ export const Nav = () => {
                       Cookers
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${pathname === "/clients" ? "active" : ""}`}
-                      href="/clients"
-                    >
-                      Clients
-                    </Link>
-                  </li>
                 </>
               }
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${pathname === "/clients" ? "active" : ""}`}
+                  className={`nav-link ${pathname === "/orders" ? "active" : ""}`}
                   href="/orders"
                 >
                   Orders
                 </Link>
               </li>
 
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${pathname === "/clients" ? "active" : ""}`}
-                  href="/cart"
-                >
-                  <ShoppingCart size={24} />
-                  {cartCount > 0 && (
-                    <span className="badge rounded-pill bg-danger">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-              </li>
 
-              <li className="nav-item" style={{ marginLeft: "800px" }}>
+              {user.isClient &&
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link ${pathname === "/clients" ? "active" : ""}`}
+                    href="/cart"
+                  >
+                    <ShoppingCart size={24} />
+                    {cartCount > 0 && (
+                      <span className="badge rounded-pill bg-danger">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              }
+
+              <li className="nav-item">
+              </li>
+              <li className="nav-item ml-auto flex flex-row gap-2">
+                {user?.isClient && <button className="btn btn-secondary" onClick={async () => await handleLoyaltyCard()}>
+                  Loyalty Card
+                </button>
+                }
                 <button
-                  className={`nav-link`}
+                  className="nav-link"
                   onClick={() => {
                     dispatch(clearUser());
-                    router.push("/login")
+                    router.push("/login");
                   }}
                 >
                   Log out

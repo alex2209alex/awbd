@@ -33,7 +33,6 @@ export const OrdersTable = () => {
       fetchItems={getOrdersAsync}
       fetchItemById={getOrderByIdAsync}
       updateItemAsync={updateOrderAsync}
-      apiEndpoint="http://localhost:8080/online-orders"
       title="Orders List"
       headers={["Address", "Client", "Courier", "Price", "Status"]}
       roles={[]}
@@ -73,6 +72,9 @@ export const OrdersTable = () => {
           ]
         },
       ]}
+      filterFields={[
+      ]}
+      filterFieldsLabels={[]}
       detailsFieldLabels={["Address", "Client Email", "Client Phone Number", "Courier Email", "Courier Phone Number", "Price"]}
       editModalTitle="Edit Order"
       addModalTitle="Add Order"
