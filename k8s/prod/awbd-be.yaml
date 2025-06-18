@@ -1,0 +1,38 @@
+# awbd-be Deployment (prod profile, port 8082)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awbd-be
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: awbd-be
+  template:
+    metadata:
+      labels:
+        app: awbd-be
+    spec:
+      containers:
+        - name: backend
+          image: vladandries/awbd-be:latest
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+---
+# Service name is "backend" for compatibility with internal service URLs
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: prod
+spec:
+  selector:
+    app: awbd-be
+  ports:
+    - port: 8082
+      targetPort: 8082
+  type: LoadBalancer
