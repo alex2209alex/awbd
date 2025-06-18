@@ -66,26 +66,26 @@ class ProducerServiceTest {
 
     @Test
     void givenNonExistentProducer_whenGetProducerDetails_thenNotFoundException() {
-        val id = 1L;
+        val producerId = 1L;
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.empty());
 
-        val exc = Assertions.assertThrows(NotFoundException.class, () -> producerService.getProducerDetails(id));
+        val exc = Assertions.assertThrows(NotFoundException.class, () -> producerService.getProducerDetails(producerId));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Producer with ID " + id + " not found", exc.getMessage());
+        Assertions.assertEquals("Producer with ID " + producerId + " not found", exc.getMessage());
     }
 
     @Test
     void whenGetProducerDetails_thenGetProducerDetails() {
-        val id = 1L;
+        val producerId = 1L;
         val producer = new Producer();
         val producerDetailsDto = new ProducerDetailsDto();
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.of(producer));
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.of(producer));
         Mockito.when(producerMapper.mapToProducerDetailsDto(producer)).thenReturn(producerDetailsDto);
 
-        Assertions.assertEquals(producerDetailsDto, producerService.getProducerDetails(id));
+        Assertions.assertEquals(producerDetailsDto, producerService.getProducerDetails(producerId));
     }
 
     @Test
@@ -102,65 +102,65 @@ class ProducerServiceTest {
 
     @Test
     void givenNonExistentProducer_whenUpdateProducer_thenNotFoundException() {
-        val id = 1L;
+        val producerId = 1L;
         val producerUpdateDto = ProducerFixtures.getProducerUpdateDtoFixture();
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.empty());
 
-        val exc = Assertions.assertThrows(NotFoundException.class, () -> producerService.updateProducer(id, producerUpdateDto));
+        val exc = Assertions.assertThrows(NotFoundException.class, () -> producerService.updateProducer(producerId, producerUpdateDto));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Producer with ID " + id + " not found", exc.getMessage());
+        Assertions.assertEquals("Producer with ID " + producerId + " not found", exc.getMessage());
     }
 
     @Test
     void whenUpdateProducer_thenUpdateProducer() {
-        val id = 1L;
+        val producerId = 1L;
         val producerUpdateDto = ProducerFixtures.getProducerUpdateDtoFixture();
         val producer = new Producer();
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.of(producer));
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.of(producer));
 
-        producerService.updateProducer(id, producerUpdateDto);
+        producerService.updateProducer(producerId, producerUpdateDto);
 
         Mockito.verify(producerMapper, Mockito.times(1)).mergeToProducer(producer, producerUpdateDto);
     }
 
     @Test
     void givenNonExistentProducer_whenDeleteProducer_thenNotFoundException() {
-        val id = 1L;
+        val producerId = 1L;
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.empty());
 
-        val exc = Assertions.assertThrows(NotFoundException.class, () -> producerService.deleteProducer(id));
+        val exc = Assertions.assertThrows(NotFoundException.class, () -> producerService.deleteProducer(producerId));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Producer with ID " + id + " not found", exc.getMessage());
+        Assertions.assertEquals("Producer with ID " + producerId + " not found", exc.getMessage());
     }
 
     @Test
     void givenProducerWithIngredients_whenDeleteProducer_thenForbiddenException() {
-        val id = 1L;
+        val producerId = 1L;
         val producer = new Producer();
         producer.setIngredients(List.of(new Ingredient()));
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.of(producer));
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.of(producer));
 
-        val exc = Assertions.assertThrows(ForbiddenException.class, () -> producerService.deleteProducer(id));
+        val exc = Assertions.assertThrows(ForbiddenException.class, () -> producerService.deleteProducer(producerId));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Producer with ID " + id + " has dependencies and cannot be deleted", exc.getMessage());
+        Assertions.assertEquals("Producer with ID " + producerId + " has dependencies and cannot be deleted", exc.getMessage());
     }
 
     @Test
     void whenDeleteProducer_thenDeleteProducer() {
-        val id = 1L;
+        val producerId = 1L;
         val producer = new Producer();
         producer.setIngredients(List.of());
 
-        Mockito.when(producerRepository.findById(id)).thenReturn(Optional.of(producer));
+        Mockito.when(producerRepository.findById(producerId)).thenReturn(Optional.of(producer));
 
-        Assertions.assertDoesNotThrow(() -> producerService.deleteProducer(id));
+        Assertions.assertDoesNotThrow(() -> producerService.deleteProducer(producerId));
 
         Mockito.verify(producerRepository, Mockito.times(1)).delete(producer);
     }

@@ -75,26 +75,26 @@ class ProductServiceTest {
 
     @Test
     void givenNonExistentProduct_whenGetProductDetails_thenNotFoundException() {
-        val id = 1L;
+        val productId = 1L;
 
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
-        val exc = Assertions.assertThrows(NotFoundException.class, () -> productService.getProductDetails(id));
+        val exc = Assertions.assertThrows(NotFoundException.class, () -> productService.getProductDetails(productId));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Product with ID " + id + " not found", exc.getMessage());
+        Assertions.assertEquals("Product with ID " + productId + " not found", exc.getMessage());
     }
 
     @Test
     void whenGetProductDetails_thenGetProductDetails() {
-        val id = 1L;
+        val productId = 1L;
         val product = new Product();
         val productDetailsDto = new ProductDetailsDto();
 
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         Mockito.when(productMapper.mapToProductDetailsDto(product)).thenReturn(productDetailsDto);
 
-        Assertions.assertEquals(productDetailsDto, productService.getProductDetails(id));
+        Assertions.assertEquals(productDetailsDto, productService.getProductDetails(productId));
     }
 
     @Test
@@ -224,39 +224,39 @@ class ProductServiceTest {
 
     @Test
     void givenNonExistentProduct_whenDeleteProduct_thenNotFoundException() {
-        val id = 1L;
+        val productId = 1L;
 
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
-        val exc = Assertions.assertThrows(NotFoundException.class, () -> productService.deleteProduct(id));
+        val exc = Assertions.assertThrows(NotFoundException.class, () -> productService.deleteProduct(productId));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Product with ID " + id + " not found", exc.getMessage());
+        Assertions.assertEquals("Product with ID " + productId + " not found", exc.getMessage());
     }
 
     @Test
     void givenProductWithOnlineOrders_whenDeleteProduct_thenForbiddenException() {
-        val id = 1L;
+        val productId = 1L;
         val product = new Product();
         product.setProductOnlineOrderAssociations(List.of(new ProductOnlineOrderAssociation()));
 
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
-        val exc = Assertions.assertThrows(ForbiddenException.class, () -> productService.deleteProduct(id));
+        val exc = Assertions.assertThrows(ForbiddenException.class, () -> productService.deleteProduct(productId));
 
         Assertions.assertNotNull(exc);
-        Assertions.assertEquals("Product with ID " + id + " has dependencies and cannot be deleted", exc.getMessage());
+        Assertions.assertEquals("Product with ID " + productId + " has dependencies and cannot be deleted", exc.getMessage());
     }
 
     @Test
     void whenDeleteProduct_thenDeleteProduct() {
-        val id = 1L;
+        val productId = 1L;
         val product = new Product();
         product.setProductOnlineOrderAssociations(List.of());
 
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
-        Assertions.assertDoesNotThrow(() -> productService.deleteProduct(id));
+        Assertions.assertDoesNotThrow(() -> productService.deleteProduct(productId));
 
         Mockito.verify(productRepository, Mockito.times(1)).delete(product);
     }
