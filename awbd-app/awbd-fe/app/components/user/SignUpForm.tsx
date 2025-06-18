@@ -2,7 +2,6 @@
 "use client"
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../../../lib/features/user/slice'; // Adjust the path to your userSlice
 import { addClientAsync } from '@/lib/features/client/slice';
 import { useRouter } from 'next/navigation';
 
@@ -65,7 +64,7 @@ const SignUpForm = () => {
           className="form-control"
         />
       </div>
-      <button type="submit" className="btn btn-primary" disabled={status === "loading"}>
+      <button type="submit" className="btn btn-primary">
         {/* {status === "loading" ? "Signing Up..." : "Sign Up"} */}
         Sign Up
       </button>

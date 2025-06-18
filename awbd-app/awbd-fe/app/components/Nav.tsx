@@ -15,19 +15,14 @@ export const Nav = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(">>>user: ", user);
-  // const loggedIn = true;
+  let prodLocalSt = "";
+  if (typeof window !== 'undefined')
+    prodLocalSt = localStorage.getItem("products");
   useEffect(() => {
-    // if (!user?.token) {
-    //   if (localStorage.getItem("token_awbd")) dispatch(setUserByToken({ token: localStorage.getItem("token_awbd") }))
-    // }
-    // else if (user?.token && user.exp < Date.now() / 1000) {
-    //   console.log(">>>HEREEE")
-    //   dispatch(clearUser());
-    //   router.push("/login");
-    // } else dispatch(setUserByToken({ token: user?.token }))
     const checkAndSetUser = () => {
-      const localToken = localStorage.getItem("token_awbd");
+      let localToken = "";
+      if (typeof window !== 'undefined')
+        localToken = localStorage.getItem("token_awbd");
 
       if (!user?.token && localToken) {
         dispatch(setUserByToken({ token: localToken }));
@@ -59,7 +54,7 @@ export const Nav = () => {
     const interval = setInterval(updateCartCount, 500); // Check every 5s
     return () => clearInterval(interval); // Cleanup on unmount
     // return () => window.removeEventListener('cartUpdated', updateCartCount);
-  }, [localStorage.getItem("products")]);
+  }, [prodLocalSt]);
 
   const handleLoyaltyCard = async () => {
     try {

@@ -42,11 +42,10 @@ export const userSlice = createAppSlice({
 			Object.assign(state, action.payload);
 		}),
 		clearUser: create.reducer((state) => {
-			console.log(">>>HEREEEEEEEEEE")
 			Object.assign(state, { ...initialState });
 			localStorage.removeItem("token_awbd");
 		}),
-		setUserByToken: create.reducer((state, action: PayloadAction<any>) => {
+		setUserByToken: create.reducer((state, action: PayloadAction<{ token: string }>) => {
 			// Object.assign(state, { ...initialState });
 			console.log(">>>action. payload: ", action.payload)
 			const token = action.payload.token;
