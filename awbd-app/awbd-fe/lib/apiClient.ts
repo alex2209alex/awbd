@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from 'sonner';
 
 const apiClient = axios.create({
-    baseURL: "http://localhost:8090/awbd",
+    baseURL: "http://localhost:8080",
 });
 
 // Add token to headers automatically
