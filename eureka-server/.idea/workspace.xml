@@ -5,24 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d0d02a3-9771-4c3b-bc97-8a702e111be6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../k8s/namespace.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/awbd-be.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/awbd-fe.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/config-server.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/eureka-server.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/gateway.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/namespace.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/postgres.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../k8s/prod/zipkin.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../k8s/prod/pvc.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/bootstrap.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application-docker.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application-secrets.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application-secrets.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../awbd-app/awbd-be/src/main/resources/config/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/awbd/eurekaserver/EurekaServerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/awbd/eurekaserver/EurekaServerApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../gateway/src/main/java/com/awbd/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/java/com/awbd/gateway/GatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gateway/src/main/java/com/awbd/gateway/common/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/java/com/awbd/gateway/common/security/SecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../k8s/prod/postgres.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../k8s/prod/postgres.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +39,10 @@
     &quot;url&quot;: &quot;git@github.com:alex2209alex/awbd.git&quot;,
     &quot;accountId&quot;: &quot;a184edcc-ca6a-44c6-89c6-c83ee171cdc0&quot;
   }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
 }</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -73,6 +73,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Vlad Andries/Desktop/AWBD/awbd/eureka-server/src/main/java/com/awbd/eurekaserver&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,6 +82,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Vlad Andries\Desktop\AWBD\awbd\eureka-server\src\main\java\com\awbd\eurekaserver" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -112,6 +118,7 @@
       <workItem from="1746860850030" duration="21000" />
       <workItem from="1746951360414" duration="11000" />
       <workItem from="1750174852491" duration="735000" />
+      <workItem from="1750273636577" duration="6579000" />
     </task>
     <servers />
   </component>

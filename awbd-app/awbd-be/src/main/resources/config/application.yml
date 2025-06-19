@@ -8,7 +8,7 @@ spring:
       uri: http://config-server:8070/
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://postgres-docker:5432/postgres
+    url: jdbc:postgresql://postgres:5432/postgres
     username: postgres
     password: postgres
   jpa:

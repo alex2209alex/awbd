@@ -33,11 +33,11 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
-              value: awbd
+              value: postgres
             - name: POSTGRES_USER
-              value: root
+              value: postgres
             - name: POSTGRES_PASSWORD
-              value: root
+              value: postgres
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
@@ -55,5 +55,7 @@ spec:
   selector:
     app: postgres
   ports:
-    - port: 5434
-      targetPort: 5434
+    - port: 5432          # This is the port other services use (service port)
+      targetPort: 5432    # This is the port the pod/container listens on (container port)
+      protocol: TCP
+

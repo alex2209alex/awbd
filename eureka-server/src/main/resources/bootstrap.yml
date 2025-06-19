@@ -1,8 +1,8 @@
 spring:
-    application:
-        name: eureka-server
-    cloud:
-        config:
-            uri: http://config-server:8070/
-    profiles:
-        active: prod
+  application:
+    name: eureka-server
+  cloud:
+    config:
+      uri: http://config-server:8070/
+  profiles:
+    active: prod

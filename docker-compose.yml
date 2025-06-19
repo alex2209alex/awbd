@@ -51,8 +51,8 @@ services:
     networks:
       - awbd-network
 
-  postgres-docker:
-    container_name: postgres-docker  # Use the name of your existing PostgreSQL container
+  postgres:
+    container_name: postgres  # Use the name of your existing PostgreSQL container
     image: postgres:latest
     env_file:
       - "./.env.prod"
@@ -67,7 +67,7 @@ services:
       POSTGRES_DB: postgres
     #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
-      - "5433:5432"
+      - "5432:5432"
     networks:
       - awbd-network
     volumes:
@@ -92,7 +92,7 @@ services:
     depends_on:
       - eureka-server
       - gateway
-      - postgres-docker
+      - postgres
     networks:
       - awbd-network
 
@@ -113,3 +113,4 @@ networks:
 volumes:
   a481bcd2e1b88c845a18d01941b67ea252f80eccb9eb4d5a99d530c99b09065f: {}
   52091b3a3ce82fd40571c479fdc267c598050243a948410060fb70255d849d00: {}
+  c173f50e68fd5ce16a5ceb5a386442476c2a44ab2954358fb635b7398246eec3: {}

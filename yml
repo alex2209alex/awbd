@@ -1,0 +1,22 @@
+eureka:
+  client:
+    register-with-eureka: 'true'
+    fetch-registry: 'true'
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    prefer-ip-address: 'true'
+server:
+  port: '8082'
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-docker:5433/postgres
+management:
+  info:
+    env:
+      enabled: 'true'
+info:
+  app:
+    name: awbd-be
+    description: AWBD Backend Service
+    version: '1'
