@@ -2,9 +2,12 @@ package ro.unibuc.fmi.awbd.fixtures;
 
 import lombok.val;
 import ro.unibuc.fmi.awbd.common.model.Page;
+import ro.unibuc.fmi.awbd.common.model.PageRequest;
+import ro.unibuc.fmi.awbd.common.model.PaginationRequest;
 import ro.unibuc.fmi.awbd.controller.models.CourierCreationDto;
 import ro.unibuc.fmi.awbd.controller.models.CourierUpdateDto;
 import ro.unibuc.fmi.awbd.domain.user.model.courier.Courier;
+import ro.unibuc.fmi.awbd.service.courier.model.CourierFilter;
 import ro.unibuc.fmi.awbd.service.courier.model.CourierPageElementDetails;
 
 import java.util.List;
@@ -36,7 +39,14 @@ public class CourierFixtures {
         courier.setPassword("password");
         courier.setPhoneNumber("0712345678");
         courier.setSalary(2000.);
+        courier.setOnlineOrders(List.of());
         return courier;
+    }
+
+    public static PageRequest<CourierFilter> getPageRequestFixture() {
+        val courierFilter = new CourierFilter("email", "name", "phoneNumber");
+        val paginationRequest = new PaginationRequest(1, 1, "+name");
+        return PageRequest.of(courierFilter, paginationRequest);
     }
 
     private static CourierPageElementDetails getCourierPageElementDetailsFixture() {
