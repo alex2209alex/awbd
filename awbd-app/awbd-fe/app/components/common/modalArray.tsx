@@ -3,8 +3,8 @@ import { Dropdown } from "./dropdown"; // Assuming you have this
 import apiClient from "@/lib/apiClient";
 
 export const ModalArray = ({ array, propertyName = "", fields, onChange, readOnly = false }: any) => {
-  const addTempKeyToArr = (arr: any[]) => arr.map(item => { return { ...item, _tempKey: Math.random().toString(36).substr(2, 9) } })
-
+  const addTempKeyToArr = (arr: any[]) => arr?.length ? arr.map(item => { return { ...item, _tempKey: Math.random().toString(36).substr(2, 9) } }) : []
+  console.log(">>>arr: ", array)
   const [currentArray, setCurrentArray] = useState<any[]>(addTempKeyToArr(array) || []);
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [showForm, setShowForm] = useState(false);

@@ -45,8 +45,9 @@ const SignUpForm = () => {
       </div>
       <div className="mb-3">
         <label htmlFor="password" className="form-label">Password:</label>
-        <textarea
+        <input
           id="password"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required

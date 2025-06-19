@@ -110,7 +110,7 @@ export const Nav = () => {
                   </Link>
                 </li>
               }
-              {(user.isAdmin || user.isCooker) &&
+              {(user.isAdmin) &&
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${pathname === "/ingredients" ? "active" : ""}`}
